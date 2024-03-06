@@ -1,0 +1,120 @@
+* {
+  text-decoration: none !important;
+  font-family: "Open Sans", sans-serif;
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --mainBlue: #1f2666;
+  --mainWhite: #ffffff;
+  --offWhite: #8f92b3;
+  --offBlack: #747474;
+  --offBlue: #f3f9ff;
+  --deepBlack: #292929;
+  --mainGreen: #589a15;
+  --mainRed: #e00017;
+  --lightBlue: #0266f4;
+  --mainBlack: #1e1e1e;
+  --greyLight: #cfcfd0;
+}
+
+a {
+  font-weight: 500;
+  text-decoration: inherit;
+}
+
+a:hover * {
+  transition: 0.3s ease all;
+  color: var(--mainWhite);
+  filter: brightness(80%);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: "Open Sans", sans-serif;
+}
+
+button {
+  transition: border-color 0.25s !important;
+}
+button:hover {
+  filter: brightness(90%) !important;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.sidebar {
+  width: 100px;
+  background-color: var(--mainBlue);
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  z-index: 5;
+}
+.outlet {
+  width: calc(100% - 100px);
+  margin: 0 0 0 100px;
+}
+
+.activeLink {
+  color: var(--mainWhite);
+}
+.no_activeLink {
+  color: var(--offWhite);
+}
+
+::placeholder {
+  color: var(--offBlack) !important;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.dropdown-toggle {
+  background-color: var(--offBlue) !important;
+  color: var(--mainBlue) !important;
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+  color: var(--mainBlue) !important;
+  background-color: white !important;
+  border: none;
+  border-bottom: 2px solid var(--lightBlue) !important;
+}
+
+.nav-tabs {
+  border-bottom: 2px solid var(--greyLight) !important;
+}
+
+.nav-tabs .nav-link {
+  color: var(--offBlack);
+}
+.nav-tabs .nav-link:hover {
+  color: gray;
+}
+
+@media (min-width: 768px) {
+  form {
+    width: 300px;
+  }
+}
+@media (min-width: 1024px) {
+  form {
+    width: 400px;
+  }
+}
