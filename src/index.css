@@ -24,6 +24,20 @@
   --mainBlack: #1e1e1e;
   --greyLight: #cfcfd0;
 }
+/* Nav styles */
+nav {
+  background-color: var(--mainBlue);
+  min-height: 10rem;
+}
+/* heading */
+h2 {
+  font-weight: 700;
+}
+
+/* form */
+form {
+  font-weight: 600;
+}
 
 a {
   font-weight: 500;
@@ -107,6 +121,33 @@ button:focus-visible {
 .nav-tabs .nav-link:hover {
   color: gray;
 }
+/* hr */
+.horizontal-rule{
+  background-color: rgba(255, 255, 255, 0.4);
+  width: .5px;
+  height: .5px;
+}
+/* footer */
+footer {
+  background-color: var(--mainBlue);
+  min-height: 10rem;
+  margin-top: 4rem;
+}
+
+.footer-inner {
+  height: 10rem;
+}
+.footer-inner h4 {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--mainWhite);
+}
+.footer-inner p {
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--greyLight);
+}
+
 
 @media (min-width: 768px) {
   form {

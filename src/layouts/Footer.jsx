@@ -1,0 +1,18 @@
+import React from "react";
+
+const Footer = () => {
+    const currentYear = new Date().getFullYear()
+  return (
+    <>
+      <footer className="text-white">
+        <div className="footer-inner d-flex flex-column align-items-center justify-content-center">
+          <h6 className="mb-3">See the main website</h6>
+          <div className="horizontal-rule  w-100"></div>
+          <p className="mt-4">Copyright {currentYear}, TSA Product Team.</p>
+        </div>
+      </footer>
+    </>
+  );
+};
+
+export default Footer;
