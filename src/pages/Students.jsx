@@ -22,9 +22,7 @@ export default function Students() {
               }
               type="button"
             >
-              <h1 className="fs-6" onClick={() => setCurrent(index)}>
-                {item}
-              </h1>
+              <h1 className="fs-6">{item}</h1>
             </div>
           ))}
         </div>
@@ -39,8 +37,8 @@ export default function Students() {
         header={tableLinks.headers}
         extra="my-3"
         data={tableLinks.data}
-        // current={current}
-        // setCurrent={setCurrent}
+        current={current}
+        setCurrent={setCurrent}
       />
     </>
   );

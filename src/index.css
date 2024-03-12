@@ -30,8 +30,9 @@ nav {
   min-height: 10rem;
 }
 /* heading */
+h1,
 h2 {
-  font-weight: 700;
+  font-weight: 700 !important;
 }
 
 /* form */
@@ -90,6 +91,10 @@ button:focus-visible {
 .dropdown-toggle {
   background-color: var(--offBlue) !important;
   color: var(--mainBlue) !important;
+}
+
+.dropdown-toggle::after {
+  display: none !important;
 }
 
 .nav-tabs .nav-item.show .nav-link,

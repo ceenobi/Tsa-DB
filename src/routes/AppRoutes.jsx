@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { Dashboard, Students, Payments, Auth } from "@pages";
+import { Dashboard, Students, Payments, Auth, DownloadDocket } from "@pages";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 const Root = lazy(() => import("@components/Root"));
 
@@ -28,6 +28,13 @@ export default function AppRoutes() {
               path: "students",
               name: "Students",
               element: <Students />,
+              children: [
+                {
+                  path: "download-docket/:id",
+                  name: "Students Docket",
+                  element: <DownloadDocket />,
+                },
+              ],
             },
             {
               path: "payments",

@@ -45,9 +45,7 @@ export default function Dashboard() {
                     </p>
                     <Headings
                       title={
-                        id === 2 || id === 3
-                          ? formatCurrency(number).slice(0, 10)
-                          : number
+                        id === 2 || id === 3 ? formatCurrency(number) : number
                       }
                       size="1.625rem"
                       color={

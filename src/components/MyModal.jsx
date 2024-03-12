@@ -1,19 +1,23 @@
 import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
-import { IoClose } from "react-icons/io5";
 
 export default function MyModal({
   show,
   handleClose,
   title,
   children,
+  backIcon,
+  Menu,
   ...props
 }) {
   return (
-    <Modal show={show} onHide={handleClose} centered {...props}>
-      <div className="d-flex justify-content-between w-100 mb-4">
-        <Modal.Title>{title}</Modal.Title>
-        <IoClose size="20px" onClick={handleClose} className="cursor" />
+    <Modal show={show} onHide={handleClose} centered {...props} size="md">
+      <div className="d-flex justify-content-between align-items-center p-3">
+        {backIcon}
+        <Modal.Title style={{ color: "var(--mainBlue)" }} className="fw-bold">
+          {title}
+        </Modal.Title>
+        {Menu}
       </div>
       <Modal.Body>{children}</Modal.Body>
     </Modal>
@@ -26,4 +30,6 @@ MyModal.propTypes = {
   handleClose: PropTypes.func,
   show: PropTypes.bool,
   props: PropTypes.any,
+  backIcon: PropTypes.any,
+  Menu: PropTypes.any,
 };
