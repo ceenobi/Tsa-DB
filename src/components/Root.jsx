@@ -1,15 +1,17 @@
-import { useOutlet, useLocation } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import { Outlet, useLocation } from "react-router-dom";
+import { Sidebar } from "@components";
 
 export default function Root() {
-  const currentOutlet = useOutlet();
-  const location = useLocation() 
-  
+  const location = useLocation();
+  const isRootPath = location.pathname === "/";
+
   return (
     <>
-      <div className="d-flex min-vh-100">
-       {!location.pathname.includes("/") && <Sidebar />} 
-        <main className="outlet">{currentOutlet}</main>
+      <div className={!isRootPath ? "d-flex" : ""}>
+        {!isRootPath && <Sidebar />}
+        <main className={!isRootPath ? "outlet" : "w-100"}>
+          <Outlet />
+        </main>
       </div>
     </>
   );

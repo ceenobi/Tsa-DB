@@ -11,8 +11,7 @@ import {
 import { FiSearch } from "react-icons/fi";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import { avatar } from "@assets";
-import Headings from "./Headings";
-import MyButton from "./MyButton";
+import { Headings, MyButton } from "@components";
 
 export default function PageLayout({ children }) {
   const location = useLocation();
@@ -31,7 +30,7 @@ export default function PageLayout({ children }) {
           className="text-capitalize fw-bold"
         />
         <Stack direction="horizontal" gap={2} className="d-none d-md-flex">
-          <Form>
+          <Form className="searchBox">
             <InputGroup className="rounded-1 border bg-light">
               <Form.Control
                 placeholder="Search for courses, classes, students and more..."

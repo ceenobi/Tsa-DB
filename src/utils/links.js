@@ -8,14 +8,14 @@ const navlinks = [
     id: 1,
     Icon: MdDashboard,
     name: "Dashboard",
-    path: "/",
+    path: "dashboard",
   },
-  { id: 2, Icon: IoIosPeople, name: "Students", path: "/students" },
+  { id: 2, Icon: IoIosPeople, name: "Students", path: "dashboard/students" },
   {
     id: 3,
     Icon: MdPayment,
     name: "Payment",
-    path: "/payments",
+    path: "dashboard/payments",
   },
 ];
 

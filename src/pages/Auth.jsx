@@ -1,17 +1,17 @@
-import Footer from "../layouts/Footer";
-import Navbar from "../layouts/Navbar";
-import React from "react";
-import Form from "react-bootstrap/Form";
+import { Navbar, Footer } from "@layouts";
+import { useTitle } from "@hooks";
+import { Container, Form } from "react-bootstrap";
 
 const Auth = () => {
+  useTitle("Welcome To Techstudio");
+
   return (
     <>
-    <Navbar/>
-     
-      <main className="container mt-5">
-        <Form className="">
+      <Navbar />
+      <Container className="mt-5">
+        <Form>
           <div className="row justify-content-between">
-            <h2 className="my-5">Student's Details</h2>
+            <h2 className="my-5">Student&apos;s Details</h2>
             {/* fullname */}
             <Form.Group
               className="mb-5 col-sm-12 col-md-5"
@@ -102,7 +102,7 @@ const Auth = () => {
               className="mb-5 col-sm-12 col-md-5"
               controlId="formBasicEmail"
             >
-              <Form.Label>Referral's Student ID</Form.Label>
+              <Form.Label>Referral&apos;s Student ID</Form.Label>
               <Form.Control
                 placeholder="Enter your referral student ID"
                 type="number"
@@ -113,7 +113,7 @@ const Auth = () => {
               className="mb-5 col-sm-12 col-md-5"
               controlId="formBasicEmail"
             >
-              <Form.Label>Referral's Name</Form.Label>
+              <Form.Label>Referral&apos;s Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Referral's Name"
@@ -125,7 +125,7 @@ const Auth = () => {
               className="mb-5 col-sm-12 col-md-5"
               controlId="formBasicEmail"
             >
-              <Form.Label>Emergency Contact's Name</Form.Label>
+              <Form.Label>Emergency Contact&apos;s Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter ICE  contact's name"
@@ -136,7 +136,7 @@ const Auth = () => {
               className="mb-5 col-sm-12 col-md-5"
               controlId="formBasicEmail"
             >
-              <Form.Label>Emergency Contact's Number</Form.Label>
+              <Form.Label>Emergency Contact&apos;s Number</Form.Label>
               <Form.Control
                 type="tel"
                 placeholder="Enter ICE  contact's number"
@@ -147,7 +147,7 @@ const Auth = () => {
               className="mb-5 col-sm-12 col-md-5"
               controlId="formBasicEmail"
             >
-              <Form.Label>Emergency Contact's Location</Form.Label>
+              <Form.Label>Emergency Contact&apos;s Location</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter ICE  contact's location"
@@ -183,18 +183,16 @@ const Auth = () => {
             </section> */}
             <section className="my-4 container row gap-2">
               <div className="col-sm-12 col-md-3">
-
-              <button className="btn btn-primary w-100">Upload</button>
+                <button className="btn btn-primary w-100">Upload</button>
               </div>
               <div className="col-sm-12 col-md-3">
-
-              <button className="btn btn-outline-danger w-100">CANCEL</button>
+                <button className="btn btn-outline-danger w-100">CANCEL</button>
               </div>
             </section>
           </div>
         </Form>
-      </main>
-      <Footer/>
+      </Container>
+      <Footer />
     </>
   );
 };

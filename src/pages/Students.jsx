@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { PageLayout } from "@components";
 import { useTitle } from "@hooks";
 import { TableData } from "@components";
 import { tableLinks } from "@utils";
@@ -10,7 +9,7 @@ export default function Students() {
   const [current, setCurrent] = useState(0);
 
   return (
-    <PageLayout>
+    <>
       <div className="mt-5 d-flex justify-content-between align-items-center border-bottom">
         <div className="d-flex gap-4 justify-content-between align-items-center">
           {["All Students", ...tableLinks.courses].map((item, index) => (
@@ -43,6 +42,6 @@ export default function Students() {
         // current={current}
         // setCurrent={setCurrent}
       />
-    </PageLayout>
+    </>
   );
 }

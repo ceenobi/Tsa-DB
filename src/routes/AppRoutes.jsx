@@ -7,39 +7,40 @@ export default function AppRoutes() {
   const routes = [
     {
       path: "/",
-      name: "Auth",
-      element: <Auth />,
-    },
-    {
-      path: "/dashboard",
-      name: "Dashboard",
-      element: <Dashboard />,
-    },
-    {
-      path: "students",
-      name: "Students",
-      element: <Students />,
-    },
-    {
-      path: "payments",
-      name: "Payments",
-      element: <Payments />,
-    },
-  ];
-  const router = createBrowserRouter([
-    {
-      path: "/",
+      name: "Root",
       element: (
         <Suspense fallback={<div>loading...</div>}>
-          <Root routes={routes} />
+          <Root />
         </Suspense>
       ),
-      children: routes.map((route) => ({
-        index: route.path === "/",
-        path: route.path === "/" ? undefined : route.path,
-        element: route.element,
-      })),
+      children: [
+        {
+          path: "/",
+          name: "Auth",
+          element: <Auth />,
+        },
+        {
+          path: "dashboard",
+          name: "Dashboard",
+          element: <Dashboard />,
+          children: [
+            {
+              path: "students",
+              name: "Students",
+              element: <Students />,
+            },
+            {
+              path: "payments",
+              name: "Payments",
+              element: <Payments />,
+            },
+          ],
+        },
+      ],
     },
-  ]);
+  ];
+
+  const router = createBrowserRouter(routes);
+
   return <RouterProvider router={router} />;
 }
