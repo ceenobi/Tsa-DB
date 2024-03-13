@@ -3,7 +3,7 @@ import { useTitle } from "@hooks";
 import { Container, Form } from "react-bootstrap";
 
 const Auth = () => {
-  useTitle("Welcome To Techstudio");
+  useTitle("Welcome to Techstudio");
 
   return (
     <>
