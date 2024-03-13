@@ -1,17 +1,11 @@
+import { useState } from "react";
 import { Image } from "react-bootstrap";
 import { logo } from "@assets";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { navlinks } from "@utils";
-import classNames from "classnames";
-import { useState } from "react";
 
 export default function Sidebar() {
-  const location = useLocation();
   const [current, setCurrent] = useState(0);
-  const paths = ["dashboard", "/dashboard/students", "/dashboard/payments"];
-  const matchPaths = paths.map((path) => path);
-
-  console.log(location.pathname.split("dashboard/").pop());
 
   return (
     <div className="sidebar d-none d-md-flex flex-column justify-content-start align-items-center py-4">

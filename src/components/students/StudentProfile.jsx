@@ -6,6 +6,7 @@ import { Dropdown, Image, Stack, Form } from "react-bootstrap";
 import { CiMenuKebab } from "react-icons/ci";
 import { formatCurrency } from "@utils";
 import { receipt } from "@assets";
+import "./student.module.css"
 
 export default function StudentProfile({
   setShowPicModal,
@@ -40,7 +41,7 @@ export default function StudentProfile({
         Menu={
           <Dropdown title="Dropdown items">
             <Dropdown.Toggle variant="none" id="dropdown-basic">
-              <CiMenuKebab size="30px" className="cursor" color="#1f2666" />
+              <CiMenuKebab size="25px" className="cursor" color="#1f2666" />
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item>Edit Profile</Dropdown.Item>
