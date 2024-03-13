@@ -1,12 +1,11 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 import { MyModal, MyButton, ConfirmDeposit } from "@components";
 import { MdArrowLeft } from "react-icons/md";
-import { Dropdown, Image, Stack, Form } from "react-bootstrap";
+import { Image, Stack, Form, Dropdown } from "react-bootstrap";
 import { CiMenuKebab } from "react-icons/ci";
 import { formatCurrency } from "@utils";
 import { receipt } from "@assets";
-import "./student.module.css"
+import styles from "./student.module.css";
 
 export default function StudentProfile({
   setShowPicModal,
@@ -40,7 +39,11 @@ export default function StudentProfile({
         }
         Menu={
           <Dropdown title="Dropdown items">
-            <Dropdown.Toggle variant="none" id="dropdown-basic">
+            <Dropdown.Toggle
+              variant="none"
+              id="dropdown-basic"
+              className={styles.d}
+            >
               <CiMenuKebab size="25px" className="cursor" color="#1f2666" />
             </Dropdown.Toggle>
             <Dropdown.Menu>
@@ -267,12 +270,12 @@ export default function StudentProfile({
                       style={{
                         color: "var(--deepBlack)",
                         fontWeight: "600",
-                        fontSize: "1.25rem",
+                        fontSize: "1.2rem",
                       }}
                     >
                       Discount
                     </Form.Label>
-                    <Form.Select size="lg" className="mb-4 text-secondary">
+                    <Form.Select className="mb-4 text-secondary">
                       <option>Select Discount</option>
                       <option>5% Discount</option>
                       <option>10% Discount</option>
@@ -297,7 +300,6 @@ export default function StudentProfile({
         <ConfirmDeposit
           setOpenModal={setOpenModal}
           openModal={openModal}
-          setShowPicModal={setShowPicModal}
           data={data}
           current={current}
         />
@@ -306,9 +308,3 @@ export default function StudentProfile({
   );
 }
 
-StudentProfile.propTypes = {
-  showPicModal: PropTypes.bool,
-  setShowPicModal: PropTypes.bool,
-  current: PropTypes.number,
-  data: PropTypes.array,
-};

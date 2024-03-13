@@ -1,0 +1,25 @@
+.bg {
+  background-color: var(--lightGrey);
+}
+
+.pStyle {
+  font-weight: 600;
+  color: var(--offBlack);
+  font-size: 1.125rem;
+}
+
+.boxSize {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .boxSize {
+    width: 45%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .boxSize {
+    width: 50%;
+  }
+}

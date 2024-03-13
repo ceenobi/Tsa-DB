@@ -28,7 +28,7 @@ MyModal.propTypes = {
   children: PropTypes.node.isRequired,
   title: PropTypes.string,
   handleClose: PropTypes.func,
-  show: PropTypes.bool,
+  show: PropTypes.any,
   props: PropTypes.any,
   backIcon: PropTypes.any,
   Menu: PropTypes.any,

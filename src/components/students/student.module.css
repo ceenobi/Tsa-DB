@@ -1,3 +1,13 @@
-.dropdown-toggle::after {
+.d::after {
   display: none !important;
+  background-color: #ffffff !important;
+}
+
+.bg {
+  position: absolute;
+  top: -5%;
+  left: 0;
+  z-index: 2;
+  height: 100%;
+  width: 100%;
 }

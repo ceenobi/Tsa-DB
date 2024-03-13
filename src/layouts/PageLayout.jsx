@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 import {
   Container,
@@ -15,16 +14,21 @@ import { Headings, MyButton } from "@components";
 
 export default function PageLayout({ children }) {
   const location = useLocation();
+  const isDashboard = location.pathname === "/";
+  const isStudent = location.pathname.startsWith(
+    "/dashboard/students/generate-docket/"
+  );
+  const title = isDashboard
+    ? "Dashboard"
+    : isStudent
+    ? location.pathname.split("/")[2]
+    : location.pathname.split("/").pop();
 
   return (
     <Container fluid className="p-4">
       <div className="d-flex justify-content-between align-items-center">
         <Headings
-          title={
-            location.pathname === "/"
-              ? "Dashboard"
-              : location.pathname.split("/").pop()
-          }
+          title={title}
           size="24px"
           color="var(--mainBlue)"
           className="text-capitalize fw-bold"
@@ -42,9 +46,11 @@ export default function PageLayout({ children }) {
               </Button>
             </InputGroup>
           </Form>
-          <Button variant="primary" style={{ minWidth: "fit-content" }}>
-            Enroll New Student
-          </Button>
+          <MyButton
+            variant="primary"
+            text="Enroll New Student"
+            className="fw-bold"
+          />
         </Stack>
         <Image src={avatar} roundedCircle />
       </div>
@@ -85,7 +91,3 @@ export default function PageLayout({ children }) {
     </Container>
   );
 }
-
-PageLayout.propTypes = {
-  children: PropTypes.node.isRequired,
-};

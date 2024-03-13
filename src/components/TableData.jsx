@@ -1,5 +1,4 @@
 import { Table, Image, Stack } from "react-bootstrap";
-import PropTypes from "prop-types";
 import { useState } from "react";
 import { StudentProfile } from "@components";
 
@@ -28,10 +27,10 @@ export default function TableData({
     fontSize: "0.884rem",
   };
 
-  const openModal = (index) => {
-    setCurrent(index);
-    setShowPicModal(true);
-  };
+  // const openModal = (index) => {
+  //   setCurrent(index);
+  //   setShowPicModal(true);
+  // };
 
   return (
     <Table hover responsive className={extra}>
@@ -52,12 +51,13 @@ export default function TableData({
         </tr>
       </thead>
       {data.map((item, i) => (
-        <tbody
-          key={item.id}
-          className="border cursor"
-          onClick={() => openModal(i)}
-        >
-          <tr>
+        <tbody key={item.id} className="border cursor">
+          <tr
+            onClick={() => {
+              setCurrent(i);
+              setShowPicModal(true);
+            }}
+          >
             <td style={tNamestyle}>
               <Stack direction="horizontal" gap={2}>
                 <Image
@@ -107,11 +107,3 @@ export default function TableData({
     </Table>
   );
 }
-
-TableData.propTypes = {
-  header: PropTypes.arrayOf(PropTypes.string),
-  data: PropTypes.any,
-  extra: PropTypes.string,
-  current: PropTypes.number,
-  setCurrent: PropTypes.any,
-};

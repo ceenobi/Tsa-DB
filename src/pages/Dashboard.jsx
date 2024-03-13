@@ -1,5 +1,5 @@
 import { DropdownButton, Dropdown, Row, Col, Image } from "react-bootstrap";
-import { useLocation, Outlet } from "react-router-dom";
+import { useLocation, Outlet, useParams } from "react-router-dom";
 import { Headings, TableData } from "@components";
 import { dashboardLinks, formatCurrency, tableLinks } from "@utils";
 import { useTitle } from "@hooks";
@@ -8,7 +8,12 @@ import { PageLayout } from "@layouts";
 export default function Dashboard() {
   useTitle("Dashboard");
   const location = useLocation();
-  const isPath = ["/dashboard/payments", "/dashboard/students"];
+  const { studentId } = useParams();
+  const isPath = [
+    "/dashboard/payments",
+    "/dashboard/students",
+    `/dashboard/students/generate-docket/${studentId}`,
+  ];
   const matchPaths = isPath.map((path) => path);
 
   return (

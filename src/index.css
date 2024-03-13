@@ -23,6 +23,7 @@
   --lightBlue: #0266f4;
   --mainBlack: #1e1e1e;
   --greyLight: #cfcfd0;
+  --lightGrey: #f1efef;
 }
 /* Nav styles */
 nav {
@@ -92,10 +93,6 @@ button:focus-visible {
   background-color: var(--offBlue) !important;
   color: var(--mainBlue) !important;
 }
-
-/* .dropdown-toggle::after {
-  display: none !important;
-} */
 
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
