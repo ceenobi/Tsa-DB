@@ -1,15 +1,12 @@
 import { Table, Image, Stack } from "react-bootstrap";
 import { useState } from "react";
 import { StudentProfile } from "@components";
+import { useCurrent } from "@store";
 
-export default function TableData({
-  header,
-  extra,
-  data,
-  current,
-  setCurrent,
-}) {
+
+export default function TableData({ header, extra, data, current }) {
   const [showPicModal, setShowPicModal] = useState(false);
+  const getCurrent = useCurrent((state) => state.addCurrent);
 
   const tNamestyle = {
     color: "var(--mainBlue)",
@@ -27,10 +24,10 @@ export default function TableData({
     fontSize: "0.884rem",
   };
 
-  // const openModal = (index) => {
-  //   setCurrent(index);
-  //   setShowPicModal(true);
-  // };
+  const openModal = (index) => {
+    getCurrent(index);
+    setShowPicModal(true);
+  };
 
   return (
     <Table hover responsive className={extra}>
@@ -52,12 +49,7 @@ export default function TableData({
       </thead>
       {data.map((item, i) => (
         <tbody key={item.id} className="border cursor">
-          <tr
-            onClick={() => {
-              setCurrent(i);
-              setShowPicModal(true);
-            }}
-          >
+          <tr onClick={() => openModal(i)}>
             <td style={tNamestyle}>
               <Stack direction="horizontal" gap={2}>
                 <Image

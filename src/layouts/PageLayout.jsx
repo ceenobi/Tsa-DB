@@ -25,7 +25,7 @@ export default function PageLayout({ children }) {
     : location.pathname.split("/").pop();
 
   return (
-    <Container fluid className="p-4">
+    <Container fluid className="p-3 p-lg-4">
       <div className="d-flex justify-content-between align-items-center">
         <Headings
           title={title}
@@ -56,7 +56,7 @@ export default function PageLayout({ children }) {
       </div>
       {children}
       <div
-        className="d-flex justify-content-between align-items-center"
+        className="d-flex justify-content-between align-items-center mt-5"
         style={{ color: "var(--offBlack)" }}
       >
         <p>20 Entries Per Page</p>

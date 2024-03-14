@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 export default function Headings({ title, size, color, ...props }) {
   return (
     <h1
@@ -10,10 +8,3 @@ export default function Headings({ title, size, color, ...props }) {
     </h1>
   );
 }
-
-Headings.propTypes = {
-  title: PropTypes.any,
-  size: PropTypes.string,
-  color: PropTypes.string,
-  props: PropTypes.func,
-};

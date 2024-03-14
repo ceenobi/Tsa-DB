@@ -2,24 +2,45 @@
   background-color: var(--lightGrey);
 }
 
-.pStyle {
+.pStyle,
+.pStyleMini {
   font-weight: 600;
   color: var(--offBlack);
-  font-size: 1.125rem;
+}
+
+.pStyle {
+  font-size: 1.1rem;
+}
+.pStyleMini {
+  font-size: 0.884rem;
 }
 
 .boxSize {
   width: 100%;
 }
 
+.headers {
+  background-color: var(--mainBlue);
+  width: 100%;
+  font-size: 1.2rem;
+}
+
 @media (min-width: 768px) {
   .boxSize {
-    width: 45%;
+    width: 50%;
+  }
+  .headers {
+    width: 70%;
+    font-size: 1.3rem;
+  }
+  .pStyle {
+    font-size: 1.125rem;
   }
 }
 
-@media (min-width: 1200px) {
-  .boxSize {
+@media (min-width: 1024px) {
+  .headers {
+    font-size: 1.375rem;
     width: 50%;
   }
 }

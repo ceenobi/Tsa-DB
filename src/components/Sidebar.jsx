@@ -15,7 +15,6 @@ export default function Sidebar() {
             to={`/${path}`}
             key={id}
             end
-            exact={true}
             className={({ isActive }) =>
               isActive ? "activeLink" : "no_activeLink"
             }

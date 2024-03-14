@@ -1,13 +1,14 @@
-import { useState } from "react";
 import { useTitle } from "@hooks";
 import { TableData } from "@components";
 import { tableLinks } from "@utils";
 import { Outlet, useLocation, useParams } from "react-router-dom";
+import { shallow } from "zustand/shallow";
+import { useCurrent } from "@store";
 import styles from "../pages.module.css";
 
 export default function Students() {
   useTitle("Student records");
-  const [current, setCurrent] = useState(0);
+  const current = useCurrent((state) => state.current, shallow);
   const location = useLocation();
   const { studentId } = useParams();
   const isPath = [`/dashboard/students/generate-docket/${studentId}`];
@@ -45,7 +46,6 @@ export default function Students() {
             extra="my-3"
             data={tableLinks.data}
             current={current}
-            setCurrent={setCurrent}
           />
         </div>
       ) : (

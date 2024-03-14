@@ -6,6 +6,8 @@ import navBranding from "./logo_white_text_new 2.svg";
 import receipt from "./Transfer Receipt.png";
 import success from "./success.gif";
 import vector4 from "./Vector4.png";
+import tsLogo from "./tslogoLg.png";
+import divider from "./divider.png";
 
 export {
   logo,
@@ -16,4 +18,6 @@ export {
   receipt,
   success,
   vector4,
+  tsLogo,
+  divider,
 };
