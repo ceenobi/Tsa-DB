@@ -4,6 +4,7 @@ import { MdArrowLeft } from "react-icons/md";
 import { Headings, FormInputs, FormSelect, MyButton } from "@components";
 import { Stack, Row, Col, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { TiAttachment } from "react-icons/ti";
 import { registerOptions, classTypeValues, classCohortValues } from "@utils";
 import styles from "./student.module.css";
 
@@ -15,6 +16,10 @@ export default function EnrollStudent() {
     register,
     formState: { errors, isSubmitting },
   } = useForm();
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+  };
 
   return (
     <div className="mt-5">
@@ -33,7 +38,7 @@ export default function EnrollStudent() {
         />
       </Stack>
       <div className="mt-4 p-3">
-        <Form>
+        <Form onSubmit={handleSubmit(onSubmitHandler)}>
           <p className={styles.pStyle2}>Student’s Details</p>
           <Row>
             <Col md={4}>
@@ -49,7 +54,7 @@ export default function EnrollStudent() {
                 placeholder="Enter your full name"
               />
             </Col>
-            <Col md={4}>
+            <Col md={4} className="mt-3">
               <FormInputs
                 register={register}
                 errors={errors?.popularlyKnownAs}
@@ -62,7 +67,7 @@ export default function EnrollStudent() {
                 placeholder="Enter name"
               />
             </Col>
-            <Col md={4}>
+            <Col md={4} className="mt-3">
               <FormInputs
                 register={register}
                 className="my-1 text-black"
@@ -125,7 +130,7 @@ export default function EnrollStudent() {
               />
             </Col>
           </Row>
-          <hr className="my-5 w-75 mx-auto" />
+          <hr className="my-5" />
           <p className={styles.pStyle2}>Other Details</p>
           <Row>
             <Col md={4}>
@@ -141,7 +146,7 @@ export default function EnrollStudent() {
                 placeholder="Enter your whatsapp number"
               />
             </Col>
-            <Col md={4}>
+            <Col md={4} className="mt-3">
               <FormInputs
                 register={register}
                 className="my-1 text-black"
@@ -152,7 +157,7 @@ export default function EnrollStudent() {
                 placeholder="Enter Student ID"
               />
             </Col>
-            <Col md={4}>
+            <Col md={4} className="mt-3">
               <FormInputs
                 register={register}
                 className="my-1 text-black"
@@ -198,10 +203,10 @@ export default function EnrollStudent() {
               />
             </Col>
           </Row>
-          <hr className="my-5 w-75 mx-auto" />
+          <hr className="my-5" />
           <p className={styles.pStyle2}>Payment Details</p>
           <Row>
-            <Col md={4}>
+            <Col md={6} lg={4} className="mb-md-3 mb-lg-0">
               <FormInputs
                 register={register}
                 errors={errors?.depositPaid}
@@ -214,21 +219,86 @@ export default function EnrollStudent() {
                 placeholder="0.00"
               />
             </Col>
+            <Col md={6} lg={4} className="mt-3 mt-md-0">
+              <div className="position-relative">
+                <Form.Label className="mt-2 mt-md-1">
+                  Payment Receipt
+                </Form.Label>
+                <div
+                  className={`${styles.fileUpload} rounded-2 d-flex align-items-center justify-content-between cursor`}
+                >
+                  <Stack direction="horizontal" gap={2}>
+                    <TiAttachment className="ms-2" color="#0266f4" />
+                    <span style={{ fontSize: "10px", fontWeight: "400" }}>
+                      Browse files or drag and drop here
+                    </span>
+                  </Stack>
+                  <MyButton
+                    variant="primary"
+                    text="Add"
+                    className={`fw-medium border border-start-0`}
+                  />
+                </div>
+                <FormInputs
+                  register={register}
+                  errors={errors?.paymentReceipt}
+                  registerOptions={registerOptions?.paymentReceipt}
+                  className="my-1 w-100 position-absolute top-0 end-0 opacity-0"
+                  id="paymentReceipt"
+                  label="Payment Receipt"
+                  name="paymentReceipt"
+                  type="file"
+                  accept="image/*"
+                />
+              </div>
+            </Col>
+            <Col md={6} lg={4} className="mt-3 mt-md-0">
+              <div className="position-relative">
+                <Form.Label className="mt-2 mt-md-1">Upload Photo</Form.Label>
+                <div
+                  className={`${styles.fileUpload} rounded-2 d-flex align-items-center justify-content-between cursor`}
+                >
+                  <Stack direction="horizontal" gap={2}>
+                    <TiAttachment className="ms-2" color="#0266f4" />
+                    <span style={{ fontSize: "10px", fontWeight: "400" }}>
+                      Browse files or drag and drop here
+                    </span>
+                  </Stack>
+                  <MyButton
+                    variant="primary"
+                    text="Add"
+                    className={`fw-medium border border-start-0`}
+                  />
+                </div>
+                <FormInputs
+                  register={register}
+                  errors={errors?.uploadPhoto}
+                  registerOptions={registerOptions?.uploadPhoto}
+                  className="my-1 w-100 position-absolute top-0 end-0 opacity-0"
+                  id="uploadPhoto"
+                  label="Upload Photo"
+                  name="uploadPhoto"
+                  type="file"
+                  accept="image/*"
+                />
+              </div>
+            </Col>
           </Row>
-          <hr className="my-5 w-75 mx-auto" />
-          <Stack direction="horizontal" gap={4} className="align-items-start">
+          <hr className="my-5" />
+          <div className="d-flex flex-column flex-md-row gap-3 gap-md-4 justify-content-center justify-content-md-start ">
             <MyButton
               variant="primary"
               text="Save Changes"
               className={`${styles.btnSize} fw-bold`}
               type="submit"
+              disabled={isSubmitting}
             />
             <MyButton
               variant="outline-danger"
               text="Cancel"
               className={`${styles.btnSize} fw-bold`}
             />
-          </Stack>
+          </div>
         </Form>
       </div>
     </div>

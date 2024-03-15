@@ -1,4 +1,4 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useParams } from "react-router-dom";
 import {
   Container,
   Stack,
@@ -14,6 +14,7 @@ import { Headings, MyButton } from "@components";
 
 export default function PageLayout({ children }) {
   const location = useLocation();
+  const { studentId } = useParams();
   const isDashboard = location.pathname === "/";
   const isStudent = location.pathname.startsWith(
     "/dashboard/students/generate-docket/"
@@ -28,6 +29,12 @@ export default function PageLayout({ children }) {
     : AddStudent
     ? location.pathname.split("/")[3]
     : location.pathname.split("/").pop();
+
+  const isPath = [
+    `/dashboard/students/generate-docket/${studentId}`,
+    "/dashboard/students/new-student",
+  ];
+  const matchPaths = isPath.map((path) => path);
 
   return (
     <Container fluid className="p-3">
@@ -65,39 +72,43 @@ export default function PageLayout({ children }) {
         <Image src={avatar} roundedCircle />
       </div>
       {children}
-      <div
-        className="d-flex justify-content-between align-items-center mt-5"
-        style={{ color: "var(--offBlack)" }}
-      >
-        <span className="d-none d-md-block">20 Entries Per Page</span>
-        <Stack direction="horizontal" gap={2}>
-          <span>
-            Page {1} of {50}
-          </span>
-        </Stack>
-        <div className="d-flex gap-3">
-          <MyButton
-            text="Previous"
-            iconA={<GrFormPrevious size="24px" />}
-            variant="none"
-            className="border"
-            style={{
-              borderColor: "var(--greyLight)",
-              color: "var(--offBlack)",
-            }}
-          />
-          <MyButton
-            text="Next"
-            iconB={<GrFormNext size="24px" />}
-            variant="solid"
-            className="border"
-            style={{
-              borderColor: "var(--greyLight)",
-              color: "var(--offBlack)",
-            }}
-          />
+      {!matchPaths.includes(location.pathname) && (
+        <div
+          className="d-flex justify-content-between align-items-center mt-5"
+          style={{ color: "var(--offBlack)" }}
+        >
+          <span className="d-none d-md-block">20 Entries Per Page</span>
+          <Stack direction="horizontal" gap={2}>
+            <span>
+              Page {1} of {50}
+            </span>
+          </Stack>
+          <div className="d-flex gap-3">
+            <MyButton
+              text="Previous"
+              iconA={
+                <GrFormPrevious size="24px" className="d-none d-md-flex" />
+              }
+              variant="none"
+              className="border"
+              style={{
+                borderColor: "var(--greyLight)",
+                color: "var(--offBlack)",
+              }}
+            />
+            <MyButton
+              text="Next"
+              iconB={<GrFormNext size="24px" className="d-none d-md-flex" />}
+              variant="none"
+              className="border"
+              style={{
+                borderColor: "var(--greyLight)",
+                color: "var(--offBlack)",
+              }}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </Container>
   );
 }

@@ -48,6 +48,12 @@ const registerOptions = {
   depositPaid: {
     required: "This field is required",
   },
+  paymentReceipt: {
+    required: "Please upload proof of payment",
+  },
+  uploadPhoto: {
+    required: "Please upload",
+  },
 };
 
 export default registerOptions;

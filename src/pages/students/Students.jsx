@@ -1,14 +1,24 @@
+import { useEffect } from "react";
 import { useTitle } from "@hooks";
 import { TableData } from "@components";
 import { tableLinks } from "@utils";
 import { Outlet, useLocation, useParams } from "react-router-dom";
 import { shallow } from "zustand/shallow";
-import { useCurrent } from "@store";
+import { useCurrent, useFetchData } from "@store";
 import styles from "../pages.module.css";
 
 export default function Students() {
   useTitle("Student records");
   const current = useCurrent((state) => state.current, shallow);
+  const fetchData = useFetchData((state) => state.fetchAndSetData);
+  const data = useFetchData((state) => state.data);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  console.log(data);
+
   const location = useLocation();
   const { studentId } = useParams();
   const isPath = [
@@ -21,8 +31,8 @@ export default function Students() {
     <>
       {!matchPaths.includes(location.pathname) ? (
         <div>
-          <div className="mt-5 d-flex justify-content-between align-items-center border-bottom">
-            <div className="d-flex gap-4 justify-content-between align-items-center">
+          <div className="mt-5 d-flex justify-content-between align-items-center gap-3 border-bottom">
+            <div className="d-flex gap-4 overflow-x-scroll justify-content-between align-items-center">
               {["All Students", ...tableLinks.courses].map((item, index) => (
                 <div
                   key={index}
@@ -38,8 +48,8 @@ export default function Students() {
               ))}
             </div>
             <p
-              className="text-decoration-underline cursor fw-medium"
-              style={{ fontSize: "1.125rem", color: "var(  --lightBlue)" }}
+              className={`${styles.pStyle} text-decoration-underline cursor fw-medium`}
+              style={{ color: "var(  --lightBlue)", minWidth: "fit-content" }}
             >
               Download list
             </p>
@@ -47,7 +57,7 @@ export default function Students() {
           <TableData
             header={tableLinks.headers}
             extra="my-3"
-            data={tableLinks.data}
+            data={data}
             current={current}
           />
         </div>

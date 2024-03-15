@@ -1,3 +1,7 @@
+h1 {
+  font-size: clamp(1.25rem, 4vw, 1.375rem) !important;
+}
+
 .bg {
   background-color: var(--lightGrey);
 }
@@ -10,7 +14,7 @@
 
 .pStyle,
 .pStyle2 {
-  font-size: 1.1rem;
+  font-size: clamp(0.8rem, 4vw, 1.1rem);
 }
 .pStyleMini {
   font-size: 0.884rem;
@@ -29,17 +33,19 @@
 .headers {
   background-color: var(--mainBlue);
   width: 100%;
-  font-size: 1.1rem;
+}
+
+.divider {
+  width: 65%;
 }
 
 .btnSize {
-  min-width: fit-content;
+  min-width: 202px;
 }
 
-@media (min-width: 375px) {
-  .btnSize {
-    min-width: 150px;
-  }
+.fileUpload {
+  border: 1px dotted !important;
+  background-color: var(--paleBlue);
 }
 
 @media (min-width: 768px) {
@@ -48,25 +54,23 @@
   }
   .headers {
     width: 70%;
-    font-size: 1.3rem;
   }
   .pStyle {
     font-size: 1.125rem;
   }
+  .divider {
+    width: auto;
+  }
   .btnSize {
-    min-width: 200px;
+    min-width: 232px;
   }
 }
 
 @media (min-width: 1024px) {
   .headers {
-    font-size: 1.375rem;
     width: 50%;
   }
   .pSize {
     width: 50%;
-  }
-  .btnSize {
-    min-width: 232px;
   }
 }

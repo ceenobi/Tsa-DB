@@ -8,7 +8,7 @@ const Auth = () => {
   return (
     <>
       <Navbar />
-      <Container className="mt-5">
+      <Container className="mt-5 p-3">
         <Form>
           <div className="row justify-content-between">
             <h2 className="my-5">Student&apos;s Details</h2>

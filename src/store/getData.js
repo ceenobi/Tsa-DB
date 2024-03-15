@@ -1,14 +1,13 @@
-// import { tableLinks } from "@utils";
-import axios from "axios";
+import { tableLinks } from "@utils";
+// import axios from "axios";
 import { create } from "zustand";
 
-const fetchData = (tableLinks) =>
-  create((set) => {
+const useFetchData = create((set) => {
     return {
       data: [],
-      fetchAndSetData: async () => {
+      fetchAndSetData: () => {
         try {
-          const res = await axios.get(tableLinks.data);
+          const res = tableLinks;
           set({
             data: res.data,
           });
@@ -19,4 +18,4 @@ const fetchData = (tableLinks) =>
     };
   });
 
-export { fetchData };
+export { useFetchData };

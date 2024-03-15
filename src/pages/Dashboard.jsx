@@ -71,19 +71,19 @@ export default function Dashboard() {
               </Col>
             ))}
           </Row>
-          <div className="mt-5 d-flex justify-content-between align-items-center">
+          <div className="mt-5 d-flex justify-content-between gap-4 gap-md-0 align-items-center">
             <Headings
               title="Recently Enrolled Students"
               size="1.25rem"
-              color="var( --mainBlue)"
+              color="var(--mainBlue)"
               className="fw-bold"
             />
-            <p
-              className="text-decoration-underline cursor fw-medium"
-              style={{ fontSize: "1.125rem", color: "var(  --lightBlue)" }}
+            <span
+              className="text-decoration-underline cursor fw-medium text-end "
+              style={{ fontSize: "1.125rem", color: "var(--lightBlue)" }}
             >
               View All Students
-            </p>
+            </span>
           </div>
           <TableData
             header={tableLinks.headers}
