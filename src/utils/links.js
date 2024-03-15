@@ -40,6 +40,29 @@ const dashboardLinks = [
   },
 ];
 
+const classCohortValues = [
+  {
+    id: 1,
+    name: "Select Class Cohort",
+  },
+];
+
+const classTypeValues = [
+  {
+    id: 1,
+    name: "Select Class Type",
+  },
+  {
+    id: 2,
+    name: "weekday",
+  },
+  { id: 3, name: "weekend" },
+  {
+    id: 4,
+    name: "online",
+  },
+];
+
 const tableLinks = {
   headers: [
     "Full Name (As written on certificate)",
@@ -203,4 +226,10 @@ const tableLinks = {
   ],
 };
 
-export { navlinks, dashboardLinks, tableLinks };
+export {
+  navlinks,
+  dashboardLinks,
+  tableLinks,
+  classTypeValues,
+  classCohortValues,
+};

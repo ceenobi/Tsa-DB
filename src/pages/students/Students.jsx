@@ -11,7 +11,10 @@ export default function Students() {
   const current = useCurrent((state) => state.current, shallow);
   const location = useLocation();
   const { studentId } = useParams();
-  const isPath = [`/dashboard/students/generate-docket/${studentId}`];
+  const isPath = [
+    `/dashboard/students/generate-docket/${studentId}`,
+    "/dashboard/students/new-student",
+  ];
   const matchPaths = isPath.map((path) => path);
 
   return (

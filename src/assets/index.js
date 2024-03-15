@@ -8,6 +8,7 @@ import success from "./success.gif";
 import vector4 from "./Vector4.png";
 import tsLogo from "./tslogoLg.png";
 import divider from "./divider.png";
+import divider2 from "./divider2.png";
 
 export {
   logo,
@@ -20,4 +21,5 @@ export {
   vector4,
   tsLogo,
   divider,
+  divider2,
 };

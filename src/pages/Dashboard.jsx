@@ -13,6 +13,7 @@ export default function Dashboard() {
     "/dashboard/payments",
     "/dashboard/students",
     `/dashboard/students/generate-docket/${studentId}`,
+    "/dashboard/students/new-student",
   ];
   const matchPaths = isPath.map((path) => path);
 
@@ -63,7 +64,7 @@ export default function Dashboard() {
                   <Image
                     src={img}
                     style={{ height: "7.678rem" }}
-                    className="img-fluid"
+                    fluid
                     alt="illustration"
                   />
                 </div>

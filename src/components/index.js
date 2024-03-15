@@ -7,6 +7,8 @@ import MyModal from "./MyModal";
 import Sidebar from "./Sidebar";
 import StudentProfile from "./students/StudentProfile";
 import ConfirmDeposit from "./students/ConfirmDeposit";
+import DocketModal from "./students/DocketModal";
+import { FormInputs, FormSelect } from "./FormFields";
 
 export {
   Dashboard,
@@ -18,4 +20,7 @@ export {
   Sidebar,
   StudentProfile,
   ConfirmDeposit,
+  DocketModal,
+  FormInputs,
+  FormSelect,
 };

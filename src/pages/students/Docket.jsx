@@ -1,7 +1,7 @@
 import { useTitle } from "@hooks";
 import { useParams, useNavigate } from "react-router-dom";
 import { MdArrowLeft } from "react-icons/md";
-import { Headings, MyButton } from "@components";
+import { Headings, MyButton, DocketModal } from "@components";
 import { HiOutlinePhone } from "react-icons/hi";
 import { CiMail } from "react-icons/ci";
 import { PiGoogleChromeLogoThin } from "react-icons/pi";
@@ -17,28 +17,28 @@ export default function Docket() {
   return (
     <>
       <div className="mt-5 d-lg-flex justify-content-between align-items-start">
-        <div className="d-flex gap-1 mb-2 mb-lg-0">
+        <Stack
+          direction="horizontal"
+          className="mb-2 mb-lg-0 align-items-start"
+        >
           <MdArrowLeft
-            size="50px"
+            size="30px"
             className="cursor"
             color="#1f2666"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/dashboard/students")}
           />
           <div>
             <Headings
               title="Student Docket"
               color="var(--mainBlue)"
               size="1.375rem"
+              className="mt-1"
             />
             <p className={styles.pStyle}>Bakare Mariam Oyelola - 24030105WD</p>
           </div>
-        </div>
-        <div className="d-flex justify-content-between gap-3">
-          <MyButton
-            variant="primary"
-            text="Download Docket"
-            className="fw-bold"
-          />
+        </Stack>
+        <div className="d-flex justify-content-between gap-3 mt-1">
+          <DocketModal />
           <MyButton
             variant="outline-primary"
             text="Share Via Email"
@@ -91,7 +91,7 @@ export default function Docket() {
         </div>
         <div className="d-flex flex-wrap justify-content-between align-items-center gap-4 p-3 p-lg-4">
           <div>
-            <div className="mb-4">
+            <div className="mb-3 mb-lg-4">
               <p className={`${styles.pStyleMini} mb-0`}>Full Name</p>
               <Headings
                 title="Bakare Mariam Oyelola"
@@ -99,7 +99,7 @@ export default function Docket() {
                 size="1.2rem"
               />
             </div>
-            <div className="mb-4 d-flex text-wrap flex-column">
+            <div className="mb-3 mb-lg-4 d-flex text-wrap flex-column">
               <p className={`${styles.pStyleMini} mb-0`}>Email Address</p>
               <Headings
                 title="oyelolaifeoluwa@gmail.com"
@@ -107,7 +107,7 @@ export default function Docket() {
                 size="1.2rem"
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-3 mb-lg-4">
               <p className={`${styles.pStyleMini} mb-0`}>Course Duration</p>
               <Headings
                 title="16 Weeks"
@@ -117,11 +117,11 @@ export default function Docket() {
             </div>
           </div>
           <div>
-            <div className="mb-4">
+            <div className="mb-3 mb-lg-4">
               <p className={`${styles.pStyleMini} mb-0`}>Popularly Known As</p>
               <Headings title="Mimi" color="var(--mainBlue)" size="1.25rem" />
             </div>
-            <div className="mb-4">
+            <div className="mb-3 mb-lg-4">
               <p className={`${styles.pStyleMini} mb-0`}>Phone Number</p>
               <Headings
                 title="08130000000"
@@ -129,13 +129,13 @@ export default function Docket() {
                 size="1.2rem"
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-3 mb-lg-4">
               <p className={`${styles.pStyleMini} mb-0`}>Class Type</p>
               <Headings title="Weekend" color="var(--mainBlue)" size="1.2rem" />
             </div>
           </div>
           <div>
-            <div className="mb-4">
+            <div className="mb-3 mb-lg-4">
               <p className={`${styles.pStyleMini} mb-0`}>Student ID</p>
               <Headings
                 title="24030105WD"
@@ -143,7 +143,7 @@ export default function Docket() {
                 size="1.2rem"
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-3 mb-lg-4">
               <p className={`${styles.pStyleMini} mb-0`}>Course-Cohort</p>
               <Headings
                 title="Fullstack March 2024"
@@ -151,7 +151,7 @@ export default function Docket() {
                 size="1.2rem"
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-3 mb-lg-4">
               <p className={`${styles.pStyleMini} mb-0`}>Valid Till</p>
               <Headings
                 title="02-10-2025"
@@ -168,13 +168,14 @@ export default function Docket() {
               fluid
               className="rounded-4"
               style={{ height: "300px" }}
+              loading="lazy"
             />
           </div>
         </div>
-        <div className="mt-5 text-center">
+        <div className="mt-5">
           <Stack
             direction="horizontal"
-            className="w-100 justify-content-center mb-3 position-relative"
+            className="justify-content-center mb-5 position-relative"
           >
             <Image
               src={divider}
@@ -184,14 +185,18 @@ export default function Docket() {
               title="IMPORTANT INFORMATION"
               color="var(--offBlack)"
               size="1.2rem"
-              className="position-absolute top-50 start-50 translate-middle"
+              className="position-absolute top-50 start-50 translate-middle text-center"
             />
           </Stack>
-          <p className={`${styles.pStyleMini} ${styles.boxSize} mb-4`}>
+          <p
+            className={`${styles.pStyleMini} ${styles.pSize} mb-4 mx-auto text-center`}
+          >
             Please note the following as they guide the usage of the enrollment
             docket;
           </p>
-          <p className={`${styles.pStyleMini} ${styles.boxSize} mb-4  `}>
+          <p
+            className={`${styles.pStyleMini} ${styles.pSize} mb-4 mx-auto text-center`}
+          >
             Lorem ipsum dolor sit amet consectetur. Est amet lorem mauris ipsum
             mi pharetra elementum. Nec augue integer facilisi mi ultrices
             malesuada tristique. Mattis mauris placerat sit iaculis at pretium

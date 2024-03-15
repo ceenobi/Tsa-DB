@@ -157,13 +157,13 @@ footer {
     top: 0;
     z-index: 5;
   }
+}
+
+@media (min-width: 1024px) {
   .outlet {
     width: calc(100% - 100px);
     margin: 0 0 0 100px;
   }
-}
-
-@media (min-width: 1024px) {
   .searchBox {
     width: 400px;
   }

@@ -5,7 +5,7 @@ import {
   Payments,
   Auth,
   Docket,
-  DownloadDocket,
+  EnrollStudent,
 } from "@pages";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 const Root = lazy(() => import("@components/Root"));
@@ -42,9 +42,9 @@ export default function AppRoutes() {
                   element: <Docket />,
                 },
                 {
-                  path: "download-docket/:id",
-                  name: "Download Docket",
-                  element: <DownloadDocket />,
+                  path: "new-student",
+                  name: "Enroll Student",
+                  element: <EnrollStudent />,
                 },
               ],
             },

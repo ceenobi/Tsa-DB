@@ -5,7 +5,7 @@ import { navlinks } from "@utils";
 
 export default function Sidebar() {
   return (
-    <div className="sidebar d-none d-md-flex flex-column justify-content-start align-items-center py-4">
+    <div className="sidebar d-none d-lg-flex flex-column justify-content-start align-items-center py-4">
       <NavLink to="/">
         <Image src={logo} />
       </NavLink>
@@ -14,7 +14,6 @@ export default function Sidebar() {
           <NavLink
             to={`/${path}`}
             key={id}
-            end
             className={({ isActive }) =>
               isActive ? "activeLink" : "no_activeLink"
             }

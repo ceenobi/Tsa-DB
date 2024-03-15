@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { MyModal, MyButton, ConfirmDeposit } from "@components";
+import { MyModal, MyButton, ConfirmDeposit, Headings } from "@components";
 import { MdArrowLeft } from "react-icons/md";
 import { Image, Stack, Form, Dropdown } from "react-bootstrap";
 import { CiMenuKebab } from "react-icons/ci";
 import { formatCurrency } from "@utils";
-import { receipt } from "@assets";
+import { receipt, divider2 } from "@assets";
 import styles from "./student.module.css";
 
 export default function StudentProfile({
@@ -58,13 +58,19 @@ export default function StudentProfile({
           <div key={item.id}>
             {i === current && (
               <>
-                <div className="d-md-flex align-items-center gap-3 text-center text-md-start">
-                  <Image
-                    src={item.img}
-                    alt={item.title}
-                    style={{ height: "330px", width: "190px" }}
-                    className="rounded-4 object-fit-cover mb-3 mb-lg-0"
-                  />
+                <div className="d-lg-flex align-items-center gap-3 text-center text-lg-start">
+                  <div
+                    style={{ height: "300px", width: "190px" }}
+                    className="mb-3 mb-lg-0"
+                  >
+                    <Image
+                      src={item.img}
+                      alt={item.title}
+                      fluid
+                      className="rounded-4 object-fit-cover w-100 h-100"
+                      loading="lazy"
+                    />
+                  </div>
                   <div className="flex-grow-1">
                     <div>
                       <p style={pStyle} className="small mb-0">
@@ -151,19 +157,21 @@ export default function StudentProfile({
                 </div>
                 <div className="mt-5">
                   <Stack
-                    gap={2}
                     direction="horizontal"
-                    className="justify-content-center mb-3"
+                    className="justify-content-center my-4 position-relative"
                   >
-                    <hr style={{ width: "60px", border: ".9px solid" }} />
-                    <h1
-                      style={{ color: "var(--mainBlue)", fontSize: "1.25rem" }}
-                    >
-                      Other Details
-                    </h1>
-                    <hr style={{ width: "60px", border: ".9px solid" }} />
+                    <Image
+                      src={divider2}
+                      className="position-absolute top-50 start-50 translate-middle"
+                    />
+                    <Headings
+                      title="Other Details"
+                      color="var(--mainBlue)"
+                      size="1.25rem"
+                      className="position-absolute top-50 start-50 translate-middle"
+                    />
                   </Stack>
-                  <div className="d-flex justify-content-between gap-2 w-100">
+                  <div className="d-flex flex-wrap justify-content-between gap-2 w-100">
                     <div>
                       <p style={pStyle} className="small mb-0">
                         WhatsApp
@@ -198,7 +206,7 @@ export default function StudentProfile({
                       </p>
                     </div>
                   </div>
-                  <div className="d-flex justify-content-between gap-2 w-100 my-3">
+                  <div className="d-flex flex-wrap justify-content-between gap-2 w-100 my-3">
                     <div>
                       <p style={pStyle} className="small mb-0">
                         Emergency Name
@@ -234,19 +242,21 @@ export default function StudentProfile({
                     </div>
                   </div>
                   <Stack
-                    gap={2}
                     direction="horizontal"
-                    className="justify-content-center mb-3"
+                    className="justify-content-center my-4 position-relative"
                   >
-                    <hr style={{ width: "60px", border: ".9px solid" }} />
-                    <h1
-                      style={{ color: "var(--mainBlue)", fontSize: "1.25rem" }}
-                    >
-                      Payment Details
-                    </h1>
-                    <hr style={{ width: "60px", border: ".9px solid" }} />
+                    <Image
+                      src={divider2}
+                      className="position-absolute top-50 start-50 translate-middle"
+                    />
+                    <Headings
+                      title="Payment Details"
+                      color="var(--mainBlue)"
+                      size="1.25rem"
+                      className="position-absolute top-50 start-50 translate-middle"
+                    />
                   </Stack>
-                  <div className="d-flex justify-content-center  gap-2 w-100 my-3 text-center">
+                  <div className="d-flex flex-wrap justify-content-center gap-2 w-100 my-3 text-center">
                     <div>
                       <p style={pStyle} className="small mb-1">
                         Deposit Paid Upon Enrollment

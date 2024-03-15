@@ -1,5 +1,4 @@
 import { Button } from "react-bootstrap";
-import PropTypes from "prop-types";
 
 export default function MyButton({
   text,
@@ -13,7 +12,6 @@ export default function MyButton({
     <Button
       variant={variant}
       className={`${className}`}
-      style={{ minWidth: "fit-content" }}
       {...props}
     >
       {iconA}
@@ -23,11 +21,3 @@ export default function MyButton({
   );
 }
 
-MyButton.propTypes = {
-  text: PropTypes.any,
-  iconA: PropTypes.any,
-  iconB: PropTypes.any,
-  className: PropTypes.string,
-  variant: PropTypes.string,
-  props: PropTypes.any,
-};

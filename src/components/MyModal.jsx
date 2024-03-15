@@ -1,5 +1,4 @@
 import { Modal } from "react-bootstrap";
-import PropTypes from "prop-types";
 
 export default function MyModal({
   show,
@@ -24,12 +23,3 @@ export default function MyModal({
   );
 }
 
-MyModal.propTypes = {
-  children: PropTypes.node.isRequired,
-  title: PropTypes.string,
-  handleClose: PropTypes.func,
-  show: PropTypes.any,
-  props: PropTypes.any,
-  backIcon: PropTypes.any,
-  Menu: PropTypes.any,
-};

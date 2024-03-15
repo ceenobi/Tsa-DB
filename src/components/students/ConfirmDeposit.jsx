@@ -18,6 +18,12 @@ export default function ConfirmDeposit({
     handleClose();
   };
 
+  const pStyle = {
+    fontWeight: "600",
+    color: "var(--offBlack)",
+    fontSize: "1.063rem",
+  };
+
   return (
     <MyModal
       show={openModal}
@@ -64,15 +70,7 @@ export default function ConfirmDeposit({
                       }
                     />
                   </div>
-                  <p
-                    style={{
-                      color: "var(--lightBlue)",
-                      fontSize: "1.220rem",
-                      fontWeight: "600",
-                    }}
-                    className="cursor"
-                    onClick={closeModal}
-                  >
+                  <p style={pStyle} className="cursor" onClick={closeModal}>
                     Go Back
                   </p>
                 </>

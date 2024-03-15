@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import {
   Container,
   Stack,
@@ -18,20 +18,25 @@ export default function PageLayout({ children }) {
   const isStudent = location.pathname.startsWith(
     "/dashboard/students/generate-docket/"
   );
+  const AddStudent = location.pathname.startsWith(
+    "/dashboard/students/new-student"
+  );
   const title = isDashboard
     ? "Dashboard"
     : isStudent
     ? location.pathname.split("/")[2]
+    : AddStudent
+    ? location.pathname.split("/")[3]
     : location.pathname.split("/").pop();
 
   return (
-    <Container fluid className="p-3 p-lg-4">
+    <Container fluid className="p-3">
       <div className="d-flex justify-content-between align-items-center">
         <Headings
           title={title}
           size="24px"
           color="var(--mainBlue)"
-          className="text-capitalize fw-bold"
+          className="text-capitalize mt-2 fw-bold"
         />
         <Stack direction="horizontal" gap={2} className="d-none d-md-flex">
           <Form className="searchBox">
@@ -46,11 +51,16 @@ export default function PageLayout({ children }) {
               </Button>
             </InputGroup>
           </Form>
-          <MyButton
-            variant="primary"
-            text="Enroll New Student"
-            className="fw-bold"
-          />
+          {!AddStudent && (
+            <MyButton
+              variant="primary"
+              text="Enroll New Student"
+              className="fw-bold"
+              style={{ minWidth: "fit-content" }}
+              as={Link}
+              to="/dashboard/students/new-student"
+            />
+          )}
         </Stack>
         <Image src={avatar} roundedCircle />
       </div>
@@ -59,13 +69,13 @@ export default function PageLayout({ children }) {
         className="d-flex justify-content-between align-items-center mt-5"
         style={{ color: "var(--offBlack)" }}
       >
-        <p>20 Entries Per Page</p>
+        <span className="d-none d-md-block">20 Entries Per Page</span>
         <Stack direction="horizontal" gap={2}>
-          <p>
+          <span>
             Page {1} of {50}
-          </p>
+          </span>
         </Stack>
-        <Stack direction="horizontal" gap={3}>
+        <div className="d-flex gap-3">
           <MyButton
             text="Previous"
             iconA={<GrFormPrevious size="24px" />}
@@ -86,7 +96,7 @@ export default function PageLayout({ children }) {
               color: "var(--offBlack)",
             }}
           />
-        </Stack>
+        </div>
       </div>
     </Container>
   );
