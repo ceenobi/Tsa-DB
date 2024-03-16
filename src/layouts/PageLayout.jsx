@@ -78,32 +78,34 @@ export default function PageLayout({ children }) {
           style={{ color: "var(--offBlack)" }}
         >
           <span className="d-none d-md-block">20 Entries Per Page</span>
-          <Stack direction="horizontal" gap={2}>
-            <span>
-              Page {1} of {50}
-            </span>
-          </Stack>
+
+          <span>
+            Page {1} of {50}
+          </span>
+
           <div className="d-flex gap-3">
             <MyButton
               text="Previous"
               iconA={
-                <GrFormPrevious size="24px" className="d-none d-md-flex" />
+                <GrFormPrevious size="24px" className="d-none d-lg-flex" />
               }
               variant="none"
               className="border"
               style={{
                 borderColor: "var(--greyLight)",
                 color: "var(--offBlack)",
+                // minWidth: "200px",
               }}
             />
             <MyButton
               text="Next"
-              iconB={<GrFormNext size="24px" className="d-none d-md-flex" />}
+              iconB={<GrFormNext size="24px" className="d-none d-lg-flex" />}
               variant="none"
               className="border"
               style={{
                 borderColor: "var(--greyLight)",
                 color: "var(--offBlack)",
+                minWidth: "fit-content",
               }}
             />
           </div>

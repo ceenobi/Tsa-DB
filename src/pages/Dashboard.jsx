@@ -28,7 +28,7 @@ export default function Dashboard() {
           <DropdownButton
             id="dropdown-basic-button"
             title="All Courses"
-            className="mt-5"
+            className="mt-3 mt-md-5"
             variant="solid"
           >
             <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
@@ -79,8 +79,12 @@ export default function Dashboard() {
               className="fw-bold"
             />
             <span
-              className="text-decoration-underline cursor fw-medium text-end "
-              style={{ fontSize: "1.125rem", color: "var(--lightBlue)" }}
+              className="text-decoration-underline cursor fw-medium text-end"
+              style={{
+                fontSize: "1.12rem",
+                color: "var(--lightBlue)",
+                minWidth: "fit-content",
+              }}
             >
               View All Students
             </span>

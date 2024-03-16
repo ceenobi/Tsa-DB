@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useTitle } from "@hooks";
 import { useParams, useNavigate } from "react-router-dom";
 import { MdArrowLeft } from "react-icons/md";
@@ -7,9 +8,8 @@ import { CiMail } from "react-icons/ci";
 import { PiGoogleChromeLogoThin } from "react-icons/pi";
 import { Image, Stack } from "react-bootstrap";
 import { useFetchData } from "@store";
-import styles from "./student.module.css";
 import { tsLogo, divider } from "@assets";
-import { useEffect } from "react";
+import styles from "./student.module.css";
 
 export default function Docket() {
   const { studentId } = useParams();
@@ -18,17 +18,17 @@ export default function Docket() {
   const fetchData = useFetchData((state) => state.fetchAndSetData);
   const data = useFetchData((state) => state.data);
 
-   useEffect(() => {
-     fetchData();
-   }, [fetchData]);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-   const student = data.filter((item) => item.id == studentId);
+  const student = data.filter((item) => item.id == studentId);
 
   return (
     <>
       {student.map((item) => (
         <>
-          <div className="mt-5 d-lg-flex justify-content-between align-items-start">
+          <div className="mt-5 d-md-flex justify-content-between align-items-start">
             <Stack
               direction="horizontal"
               className="mb-2 mb-lg-0 align-items-start"
@@ -43,7 +43,7 @@ export default function Docket() {
                 <Headings
                   title="Student Docket"
                   color="var(--mainBlue)"
-                  className="mt-1"
+                  className={`mt-1 ${styles.h1}`}
                 />
                 <p className={styles.pStyle}>{item.title}</p>
               </div>
@@ -53,8 +53,7 @@ export default function Docket() {
               <MyButton
                 variant="outline-primary"
                 text="Share Via Email"
-                className="fw-bold"
-                style={{minWidth:"fit-content"}}
+                className={`fw-bold ${styles.btnWidth}`}
               />
             </div>
           </div>
@@ -64,6 +63,7 @@ export default function Docket() {
                 <Headings
                   title="TechStudio Academy"
                   color="var(--mainBlue)"
+                  className={`${styles.h1}`}
                 />
                 <p className={styles.pStyle}>
                   1, Ogunlesi Street, Off Bode Thomas, Awoyokun Bus Stop,
@@ -98,17 +98,17 @@ export default function Docket() {
               <Headings
                 title="STUDENT ENROLLMENT DOCKET"
                 color="var(--mainWhite)"
-                className={`${styles.headers} p-2 rounded-2 text-center mx-auto`}
+                className={`${styles.headers} ${styles.h1} p-2 rounded-2 text-center mx-auto`}
               />
             </div>
-            <div className="d-flex flex-wrap flex-xl-nowrap justify-content-between align-items-center gap-2 gap-lg-4 p-3 p-lg-4">
+            <div className="d-flex flex-wrap flex-xl-nowrap gap-4 gap-xl-0 justify-content-between p-3 p-lg-4">
               <div>
                 <div className="mb-3 mb-lg-4">
                   <p className={`${styles.pStyleMini} mb-0`}>Full Name</p>
                   <Headings
                     title={item.title}
                     color="var(--mainBlue)"
-                    size="1.1rem"
+                    className={`${styles.h1Mini}`}
                   />
                 </div>
                 <div className="mb-3 mb-lg-4">
@@ -116,7 +116,7 @@ export default function Docket() {
                   <Headings
                     title={item.email}
                     color="var(--mainBlue)"
-                    size="1.1rem"
+                    className={`${styles.h1Mini}`}
                   />
                 </div>
                 <div className="mb-3 mb-lg-4">
@@ -124,7 +124,7 @@ export default function Docket() {
                   <Headings
                     title="16 Weeks"
                     color="var(--mainBlue)"
-                    size="1.1rem"
+                    className={`${styles.h1Mini}`}
                   />
                 </div>
               </div>
@@ -136,7 +136,7 @@ export default function Docket() {
                   <Headings
                     title={item.pka}
                     color="var(--mainBlue)"
-                    size="1.1rem"
+                    className={`${styles.h1Mini}`}
                   />
                 </div>
                 <div className="mb-3 mb-lg-4">
@@ -144,7 +144,7 @@ export default function Docket() {
                   <Headings
                     title={item.phone}
                     color="var(--mainBlue)"
-                    size="1.1rem"
+                    className={`${styles.h1Mini}`}
                   />
                 </div>
                 <div className="mb-3 mb-lg-4">
@@ -152,7 +152,7 @@ export default function Docket() {
                   <Headings
                     title={item.classType}
                     color="var(--mainBlue)"
-                    size="1.1rem"
+                    className={`${styles.h1Mini}`}
                   />
                 </div>
               </div>
@@ -162,7 +162,7 @@ export default function Docket() {
                   <Headings
                     title={item.id}
                     color="var(--mainBlue)"
-                    size="1.1rem"
+                    className={`${styles.h1Mini}`}
                   />
                 </div>
                 <div className="mb-3 mb-lg-4">
@@ -170,7 +170,7 @@ export default function Docket() {
                   <Headings
                     title={item.courseCohort}
                     color="var(--mainBlue)"
-                    size="1.1rem"
+                    className={`${styles.h1Mini}`}
                   />
                 </div>
                 <div className="mb-3 mb-lg-4">
@@ -178,7 +178,7 @@ export default function Docket() {
                   <Headings
                     title="02-10-2025"
                     color="var(--mainRed)"
-                    size="1.1rem"
+                    className={`${styles.h1Mini}`}
                   />
                 </div>
               </div>
@@ -204,7 +204,7 @@ export default function Docket() {
                 <Headings
                   title="IMPORTANT INFORMATION"
                   color="var(--offBlack)"
-                  className="position-absolute top-50 start-50 translate-middle text-center"
+                  className={`${styles.h1} position-absolute top-50 start-50 translate-middle text-center`}
                 />
               </Stack>
               <p

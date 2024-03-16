@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { MyButton, MyModal, Headings } from "@components";
+import styles from "./student.module.css";
 
 export default function DocketModal() {
   const [showModal, setShowModal] = useState(false);
@@ -17,7 +18,7 @@ export default function DocketModal() {
       <MyButton
         variant="primary"
         text="Download Docket"
-        className="fw-bold"
+        className={`fw-bold ${styles.btnWidth}`}
         onClick={handleOpen}
       />
       <MyModal show={showModal} handleClose={handleClose} backdrop="static">

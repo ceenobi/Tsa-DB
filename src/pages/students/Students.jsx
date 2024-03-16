@@ -5,6 +5,7 @@ import { tableLinks } from "@utils";
 import { Outlet, useLocation, useParams } from "react-router-dom";
 import { shallow } from "zustand/shallow";
 import { useCurrent, useFetchData } from "@store";
+import { DropdownButton, Dropdown } from "react-bootstrap";
 import styles from "../pages.module.css";
 
 export default function Students() {
@@ -16,8 +17,6 @@ export default function Students() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  console.log(data);
 
   const location = useLocation();
   const { studentId } = useParams();
@@ -31,8 +30,22 @@ export default function Students() {
     <>
       {!matchPaths.includes(location.pathname) ? (
         <div>
-          <div className="mt-5 d-flex justify-content-between align-items-center gap-3 border-bottom">
-            <div className="d-flex gap-4 overflow-x-scroll justify-content-between align-items-center">
+          <div
+            className={`mt-4 mt-md-5 d-flex justify-content-between align-items-center gap-3 ${styles.border}`}
+          >
+            <DropdownButton
+              id="dropdown-basic-button"
+              title="All Courses"
+              className="d-md-none"
+              variant="solid"
+            >
+              {["All Students", ...tableLinks.courses].map((item, index) => (
+                <Dropdown.Item href="#/action-1" key={index}>
+                  {item}
+                </Dropdown.Item>
+              ))}
+            </DropdownButton>
+            <div className="d-none d-md-flex gap-4 justify-content-between align-items-center">
               {["All Students", ...tableLinks.courses].map((item, index) => (
                 <div
                   key={index}
@@ -47,12 +60,12 @@ export default function Students() {
                 </div>
               ))}
             </div>
-            <p
+            <span
               className={`${styles.pStyle} text-decoration-underline cursor fw-medium`}
-              style={{ color: "var(  --lightBlue)", minWidth: "fit-content" }}
+              style={{ color: "var(--lightBlue)", minWidth: "fit-content" }}
             >
               Download list
-            </p>
+            </span>
           </div>
           <TableData
             header={tableLinks.headers}

@@ -13,3 +13,9 @@
   color: var(--mainBlue);
   transition: 0.3s ease-in;
 }
+
+@media (min-width: 768px) {
+  .border {
+    border-bottom: 1px solid #cfcfd0;
+  }
+}
