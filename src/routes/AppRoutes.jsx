@@ -6,6 +6,8 @@ import {
   Auth,
   Docket,
   EnrollStudent,
+  EditProfile,
+  Login,
 } from "@pages";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 const Root = lazy(() => import("@components/Root"));
@@ -46,6 +48,11 @@ export default function AppRoutes() {
                   name: "Enroll Student",
                   element: <EnrollStudent />,
                 },
+                {
+                  path: "edit-profile/:studentId",
+                  name: "EditProfile ",
+                  element: <EditProfile />,
+                },
               ],
             },
             {
@@ -54,6 +61,11 @@ export default function AppRoutes() {
               element: <Payments />,
             },
           ],
+        },
+        {
+          path: "login",
+          name: "Login",
+          element: <Login />,
         },
       ],
     },

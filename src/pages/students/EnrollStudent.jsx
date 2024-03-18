@@ -22,7 +22,7 @@ export default function EnrollStudent() {
   };
 
   return (
-    <div className="mt-5">
+    <div className="mt-4 mt-md-5">
       <Stack direction="horizontal" className="mb-2 mb-lg-0 align-items-start">
         <MdArrowLeft
           size="30px"
@@ -33,11 +33,10 @@ export default function EnrollStudent() {
         <Headings
           title="Add New Student"
           color="var(--mainBlue)"
-          size="1.375rem"
-          className="mt-1"
+          className={`mt-1 ${styles.h1}`}
         />
       </Stack>
-      <div className="mt-4 p-3">
+      <div className="p-3 p-md-4">
         <Form onSubmit={handleSubmit(onSubmitHandler)}>
           <p className={styles.pStyle2}>Student’s Details</p>
           <Row>
@@ -54,7 +53,7 @@ export default function EnrollStudent() {
                 placeholder="Enter your full name"
               />
             </Col>
-            <Col md={4} className="mt-3">
+            <Col md={4} className="mt-3 mt-md-0">
               <FormInputs
                 register={register}
                 errors={errors?.popularlyKnownAs}
@@ -67,7 +66,7 @@ export default function EnrollStudent() {
                 placeholder="Enter name"
               />
             </Col>
-            <Col md={4} className="mt-3">
+            <Col md={4} className="mt-3 mt-md-0">
               <FormInputs
                 register={register}
                 className="my-1 text-black"
@@ -79,7 +78,7 @@ export default function EnrollStudent() {
                 disabled
               />
             </Col>
-            <Col md={4} className="mt-3">
+            <Col md={4} className="mt-3 mt-md-4">
               <FormSelect
                 register={register}
                 errors={errors?.classCohort}
@@ -91,7 +90,7 @@ export default function EnrollStudent() {
                 data={classCohortValues}
               />
             </Col>
-            <Col md={4} className="mt-3">
+            <Col md={4} className="mt-3 mt-md-4">
               <FormInputs
                 register={register}
                 errors={errors?.email}
@@ -104,7 +103,7 @@ export default function EnrollStudent() {
                 placeholder="Enter email"
               />
             </Col>
-            <Col md={4} className="mt-3">
+            <Col md={4} className="mt-3 mt-md-4">
               <FormInputs
                 register={register}
                 errors={errors?.phoneNumber}
@@ -117,7 +116,7 @@ export default function EnrollStudent() {
                 placeholder="Enter phone number"
               />
             </Col>
-            <Col md={4} className="mt-3">
+            <Col md={4} className="mt-3 mt-md-4">
               <FormSelect
                 register={register}
                 errors={errors?.classType}
@@ -146,7 +145,7 @@ export default function EnrollStudent() {
                 placeholder="Enter your whatsapp number"
               />
             </Col>
-            <Col md={4} className="mt-3">
+            <Col md={4} className="mt-3 mt-md-0">
               <FormInputs
                 register={register}
                 className="my-1 text-black"
@@ -157,7 +156,7 @@ export default function EnrollStudent() {
                 placeholder="Enter Student ID"
               />
             </Col>
-            <Col md={4} className="mt-3">
+            <Col md={4} className="mt-3 mt-md-0">
               <FormInputs
                 register={register}
                 className="my-1 text-black"
@@ -169,7 +168,7 @@ export default function EnrollStudent() {
                 disabled
               />
             </Col>
-            <Col md={4} className="mt-3">
+            <Col md={4} className="mt-3 mt-md-4">
               <FormInputs
                 register={register}
                 className="my-1 text-black"
@@ -180,18 +179,18 @@ export default function EnrollStudent() {
                 placeholder="Enter your next of kin"
               />
             </Col>
-            <Col md={4} className="mt-3">
+            <Col md={4} className="mt-3 mt-md-4">
               <FormInputs
                 register={register}
                 className="my-1 text-black"
-                id="iceContactName"
+                id="iceContactNumber"
                 label="ICE Contact’s Number"
-                name="iceContactName"
+                name="iceContactNumber"
                 type="text"
                 placeholder="Enter your next of kin’s contact"
               />
             </Col>
-            <Col md={4} className="mt-3">
+            <Col md={4} className="mt-3 mt-md-4">
               <FormInputs
                 register={register}
                 className="my-1 text-black"
@@ -215,7 +214,7 @@ export default function EnrollStudent() {
                 id="depositPaid"
                 label="Deposit Paid Upon Enrolment"
                 name="depositPaid"
-                type="text"
+                type="number"
                 placeholder="0.00"
               />
             </Col>

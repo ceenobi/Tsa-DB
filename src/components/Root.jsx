@@ -3,7 +3,8 @@ import { Sidebar } from "@components";
 
 export default function Root() {
   const location = useLocation();
-  const isRootPath = location.pathname === "/";
+  const isRootPath =
+    location.pathname === "/" || location.pathname === "/login";
 
   return (
     <>

@@ -1,10 +1,11 @@
 import Dashboard from "./Dashboard";
 import Students from "./students/Students";
-import Payments from "./Payments";
+import Payments from "./payments/Payments";
 import Auth from "./Auth";
-import DownloadDocket from "./students/DownloadDocket";
 import Docket from "./students/Docket";
 import EnrollStudent from "./students/EnrollStudent";
+import EditProfile from "./students/EditProfile";
+import Login from "./Login";
 
 export {
   Dashboard,
@@ -12,6 +13,7 @@ export {
   Payments,
   Auth,
   Docket,
-  DownloadDocket,
   EnrollStudent,
+  EditProfile,
+  Login,
 };

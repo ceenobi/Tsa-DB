@@ -9,6 +9,7 @@ import vector4 from "./Vector4.png";
 import tsLogo from "./tslogoLg.png";
 import divider from "./divider.png";
 import divider2 from "./divider2.png";
+import focusedStudent from "./portrait-focused-student.png";
 
 export {
   logo,
@@ -22,4 +23,5 @@ export {
   tsLogo,
   divider,
   divider2,
+  focusedStudent,
 };

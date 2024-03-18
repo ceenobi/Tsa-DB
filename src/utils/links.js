@@ -54,12 +54,12 @@ const classTypeValues = [
   },
   {
     id: 2,
-    name: "weekday",
+    name: "Weekday",
   },
-  { id: 3, name: "weekend" },
+  { id: 3, name: "Weekend" },
   {
     id: 4,
-    name: "online",
+    name: "Online",
   },
 ];
 

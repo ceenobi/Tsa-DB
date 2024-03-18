@@ -16,12 +16,12 @@ export default function PageLayout({ children }) {
   const location = useLocation();
   const { studentId } = useParams();
   const isDashboard = location.pathname === "/";
-  const isStudent = location.pathname.startsWith(
-    "/dashboard/students/generate-docket/"
-  );
-  const AddStudent = location.pathname.startsWith(
-    "/dashboard/students/new-student"
-  );
+  const isStudent =
+    location.pathname.startsWith("/dashboard/students/generate-docket/") ||
+    location.pathname.startsWith("/dashboard/students/edit-profile/");
+  const AddStudent =
+    location.pathname.startsWith("/dashboard/students/new-student") ||
+    location.pathname.startsWith("/dashboard/students/edit-profile/");
   const title = isDashboard
     ? "Dashboard"
     : isStudent
@@ -32,6 +32,7 @@ export default function PageLayout({ children }) {
 
   const isPath = [
     `/dashboard/students/generate-docket/${studentId}`,
+    `/dashboard/students/edit-profile/${studentId}`,
     "/dashboard/students/new-student",
   ];
   const matchPaths = isPath.map((path) => path);
@@ -83,23 +84,8 @@ export default function PageLayout({ children }) {
             Page {1} of {50}
           </span>
 
-          <div className="d-flex gap-3">
-            <MyButton
-              text="Previous"
-              iconA={
-                <GrFormPrevious size="24px" className="d-none d-lg-flex" />
-              }
-              variant="none"
-              className="border"
-              style={{
-                borderColor: "var(--greyLight)",
-                color: "var(--offBlack)",
-                // minWidth: "200px",
-              }}
-            />
-            <MyButton
-              text="Next"
-              iconB={<GrFormNext size="24px" className="d-none d-lg-flex" />}
+          <div className="d-flex gap-3 align-items-center">
+            <Button
               variant="none"
               className="border"
               style={{
@@ -107,7 +93,25 @@ export default function PageLayout({ children }) {
                 color: "var(--offBlack)",
                 minWidth: "fit-content",
               }}
-            />
+            >
+              <Stack direction="horizontal" gap={2}>
+                <GrFormPrevious />
+                Previous
+              </Stack>
+            </Button>
+            <Button
+              variant="none"
+              style={{
+                borderColor: "var(--greyLight)",
+                color: "var(--offBlack)",
+                minWidth: "fit-content",
+              }}
+            >
+              <Stack direction="horizontal" gap={2}>
+                Next
+                <GrFormNext />
+              </Stack>
+            </Button>
           </div>
         </div>
       )}

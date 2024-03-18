@@ -23,6 +23,7 @@ export default function Students() {
   const isPath = [
     `/dashboard/students/generate-docket/${studentId}`,
     "/dashboard/students/new-student",
+    `/dashboard/students/edit-profile/${studentId}`,
   ];
   const matchPaths = isPath.map((path) => path);
 

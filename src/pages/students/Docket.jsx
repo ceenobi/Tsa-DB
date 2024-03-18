@@ -28,7 +28,7 @@ export default function Docket() {
     <>
       {student.map((item) => (
         <>
-          <div className="mt-5 d-md-flex justify-content-between align-items-start">
+          <div className="mt-3 mt-md-5 d-md-flex justify-content-between align-items-start">
             <Stack
               direction="horizontal"
               className="mb-2 mb-lg-0 align-items-start"

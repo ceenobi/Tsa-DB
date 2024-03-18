@@ -4,6 +4,7 @@ import { Headings, TableData } from "@components";
 import { dashboardLinks, formatCurrency, tableLinks } from "@utils";
 import { useTitle } from "@hooks";
 import { PageLayout } from "@layouts";
+import styles from "./pages.module.css";
 
 export default function Dashboard() {
   useTitle("Dashboard");
@@ -14,6 +15,7 @@ export default function Dashboard() {
     "/dashboard/students",
     `/dashboard/students/generate-docket/${studentId}`,
     "/dashboard/students/new-student",
+    `/dashboard/students/edit-profile/${studentId}`,
   ];
   const matchPaths = isPath.map((path) => path);
 
@@ -39,21 +41,19 @@ export default function Dashboard() {
             {dashboardLinks.map(({ id, title, number, img }) => (
               <Col key={id} md={6} lg={4} style={{ height: "175px" }}>
                 <div
-                  className="d-flex justify-content-between align-items-center rounded-2 border p-4"
-                  style={{ minWidth: "fit-content" }}
+                  className="d-flex justify-content-between align-items-center rounded-2 border p-4
+                  "
+                  style={{ minWidth: "100%" }}
                 >
                   <div>
-                    <p
-                      className="mb-3 small"
-                      style={{ color: "var(--mainBlue)" }}
-                    >
+                    <p className="mb-3" style={{ color: "var(--mainBlue)" }}>
                       {title}
                     </p>
                     <Headings
                       title={
                         id === 2 || id === 3 ? formatCurrency(number) : number
                       }
-                      size="1.625rem"
+                      className={styles.h1}
                       color={
                         (id === 2 && "var( --mainGreen)") ||
                         (id === 3 && "var( --mainRed)") ||
@@ -63,8 +63,7 @@ export default function Dashboard() {
                   </div>
                   <Image
                     src={img}
-                    style={{ height: "7.678rem" }}
-                    fluid
+                    className={styles.dashboardImg}
                     alt="illustration"
                   />
                 </div>

@@ -13,7 +13,10 @@ export default function MyModal({
     <Modal show={show} onHide={handleClose} centered {...props} size="md">
       <div className="d-flex justify-content-between align-items-center p-3">
         {backIcon}
-        <Modal.Title style={{ color: "var(--mainBlue)" }} className="fw-bold">
+        <Modal.Title
+          style={{ color: "var(--mainBlue)", fontSize: "22px" }}
+          className="fw-bold"
+        >
           {title}
         </Modal.Title>
         {Menu}
@@ -22,4 +25,3 @@ export default function MyModal({
     </Modal>
   );
 }
-

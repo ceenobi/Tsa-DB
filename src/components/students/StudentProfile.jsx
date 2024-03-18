@@ -2,6 +2,7 @@ import { useState } from "react";
 import { MyModal, MyButton, ConfirmDeposit, Headings } from "@components";
 import { MdArrowLeft } from "react-icons/md";
 import { Image, Stack, Form, Dropdown } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { CiMenuKebab } from "react-icons/ci";
 import { formatCurrency } from "@utils";
 import { receipt, divider2 } from "@assets";
@@ -47,7 +48,19 @@ export default function StudentProfile({
               <CiMenuKebab size="25px" className="cursor" color="#1f2666" />
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item>Edit Profile</Dropdown.Item>
+              {data.map((item, i) => (
+                <>
+                  {i === current && (
+                    <Dropdown.Item
+                      as={Link}
+                      to={`/dashboard/students/edit-profile/${item.id}`}
+                      key={item.id}
+                    >
+                      Edit Profile
+                    </Dropdown.Item>
+                  )}
+                </>
+              ))}
               <Dropdown.Item>Generate Docket</Dropdown.Item>
               <Dropdown.Item>View Payment History</Dropdown.Item>
             </Dropdown.Menu>
@@ -61,7 +74,7 @@ export default function StudentProfile({
                 <div className="d-lg-flex align-items-center gap-3 text-center text-lg-start">
                   <div
                     style={{ height: "300px", width: "190px" }}
-                    className="mb-3 mb-lg-0"
+                    className="mb-3 mb-lg-0 mx-auto"
                   >
                     <Image
                       src={item.img}
