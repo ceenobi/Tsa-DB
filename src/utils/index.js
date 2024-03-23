@@ -1,19 +1,19 @@
 import {
   navlinks,
-  dashboardLinks,
   tableLinks,
   classTypeValues,
   classCohortValues,
 } from "./links";
 import formatCurrency from "./formatCurrency";
 import registerOptions from "./formValidate";
+import Spinner from "./Spinner";
 
 export {
   navlinks,
-  dashboardLinks,
   formatCurrency,
   tableLinks,
   registerOptions,
   classTypeValues,
   classCohortValues,
+  Spinner
 };

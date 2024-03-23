@@ -47,18 +47,18 @@ export default function TableData({ header, extra, data, current }) {
           ))}
         </tr>
       </thead>
-      {data.map((item, i) => (
-        <tbody key={item.id} className="border cursor">
+      {data?.students?.map((item, i) => (
+        <tbody key={item._id} className="border cursor">
           <tr onClick={() => openModal(i)}>
             <td style={tNamestyle}>
               <Stack direction="horizontal" gap={2}>
                 <Image
-                  src={item.img}
+                  src={item.image}
                   style={{ height: "40px", width: "40px" }}
                   className="object-fit-cover"
                   roundedCircle
                 />
-                {item.title}
+                {item.fullName}
               </Stack>
             </td>
             <td style={tstyle} className="text-capitalize">
@@ -74,7 +74,7 @@ export default function TableData({ header, extra, data, current }) {
             </td>
             <td style={tFstyle}>
               {" "}
-              <div className="mt-2">{item.phone}</div>
+              <div className="mt-2">{item.phoneNumber}</div>
             </td>
             <td
               style={{
@@ -92,7 +92,7 @@ export default function TableData({ header, extra, data, current }) {
             showPicModal={showPicModal}
             setShowPicModal={setShowPicModal}
             current={current}
-            data={data}
+            data={data.students}
           />
         </>
       )}

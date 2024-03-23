@@ -30,6 +30,7 @@ export default function StudentProfile({
         handleClose={handleClose}
         backdrop="static"
         title="STUDENT PROFILE"
+        size={"lg"}
         backIcon={
           <MdArrowLeft
             size="40px"
@@ -38,7 +39,7 @@ export default function StudentProfile({
             color="#1f2666"
           />
         }
-        Menu={
+        menu={
           <Dropdown title="Dropdown items">
             <Dropdown.Toggle
               variant="none"
@@ -53,8 +54,8 @@ export default function StudentProfile({
                   {i === current && (
                     <Dropdown.Item
                       as={Link}
-                      to={`/dashboard/students/edit-profile/${item.id}`}
-                      key={item.id}
+                      to={`/dashboard/students/edit-profile/${item._id}`}
+                      key={item._id}
                     >
                       Edit Profile
                     </Dropdown.Item>
@@ -68,17 +69,17 @@ export default function StudentProfile({
         }
       >
         {data.map((item, i) => (
-          <div key={item.id}>
+          <div key={item._id}>
             {i === current && (
               <>
                 <div className="d-lg-flex align-items-center gap-3 text-center text-lg-start">
                   <div
-                    style={{ height: "300px", width: "190px" }}
+                    style={{ height: "300px", width: "40%" }}
                     className="mb-3 mb-lg-0 mx-auto"
                   >
                     <Image
-                      src={item.img}
-                      alt={item.title}
+                      src={item.image}
+                      alt={item.fullName}
                       fluid
                       className="rounded-4 object-fit-cover w-100 h-100"
                       loading="lazy"
@@ -93,7 +94,7 @@ export default function StudentProfile({
                         style={{ color: "var(--mainBlue)" }}
                         className="fw-bold"
                       >
-                        {item.title}
+                        {item.fullName}
                       </p>
                     </div>
                     <div className="d-flex justify-content-between w-100">
@@ -116,7 +117,7 @@ export default function StudentProfile({
                           style={{ color: "var(--mainBlue)" }}
                           className="fw-bold"
                         >
-                          24030105WD
+                          {item.studentId}
                         </p>
                       </div>
                     </div>
@@ -151,7 +152,7 @@ export default function StudentProfile({
                           style={{ color: "var(--mainBlue)" }}
                           className="fw-bold"
                         >
-                          {item.phone}
+                          {item.phoneNumber}
                         </p>
                       </div>
                       <div>
@@ -193,7 +194,7 @@ export default function StudentProfile({
                         style={{ color: "var(--mainBlue)" }}
                         className="fw-bold"
                       >
-                        {item.whatsApp}
+                        {item.whatsappNumber}
                       </p>
                     </div>
                     <div>
@@ -204,7 +205,7 @@ export default function StudentProfile({
                         style={{ color: "var(--mainBlue)" }}
                         className="fw-bold"
                       >
-                        Emmanuella Anyanwu
+                        {item.referralStudentName}
                       </p>
                     </div>
                     <div>

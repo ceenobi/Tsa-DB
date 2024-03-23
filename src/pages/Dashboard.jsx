@@ -1,15 +1,36 @@
 import { DropdownButton, Dropdown, Row, Col, Image } from "react-bootstrap";
 import { useLocation, Outlet, useParams } from "react-router-dom";
 import { Headings, TableData } from "@components";
-import { dashboardLinks, formatCurrency, tableLinks } from "@utils";
+import { formatCurrency, tableLinks, Spinner } from "@utils";
 import { useTitle } from "@hooks";
+import { useEffect } from "react";
 import { PageLayout } from "@layouts";
+import { useGetStudentsData } from "@store";
+import { useQuery } from "@tanstack/react-query";
+import { studentsService } from "@services";
+import { studentspic, coins } from "@assets";
 import styles from "./pages.module.css";
 
 export default function Dashboard() {
   useTitle("Dashboard");
   const location = useLocation();
   const { studentId } = useParams();
+  const { students, setStudents } = useGetStudentsData();
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["studentsData"],
+    queryFn: studentsService.getAllStudents,
+  });
+
+  console.log("sss", data?.data);
+
+  useEffect(() => {
+    if (data) {
+      setStudents(data?.data);
+    }
+  }, [data, setStudents]);
+
+  console.log("stud", students);
+
   const isPath = [
     "/dashboard/payments",
     "/dashboard/students",
@@ -38,37 +59,75 @@ export default function Dashboard() {
             <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
           </DropdownButton>
           <Row className="mt-3 gy-2">
-            {dashboardLinks.map(({ id, title, number, img }) => (
-              <Col key={id} md={6} lg={4} style={{ height: "175px" }}>
-                <div
-                  className="d-flex justify-content-between align-items-center rounded-2 border p-4
+            <Col md={6} lg={4} style={{ height: "175px" }}>
+              <div
+                className="d-flex justify-content-between align-items-center rounded-2 border p-4
                   "
-                  style={{ minWidth: "100%" }}
-                >
-                  <div>
-                    <p className="mb-3" style={{ color: "var(--mainBlue)" }}>
-                      {title}
-                    </p>
-                    <Headings
-                      title={
-                        id === 2 || id === 3 ? formatCurrency(number) : number
-                      }
-                      className={styles.h1}
-                      color={
-                        (id === 2 && "var( --mainGreen)") ||
-                        (id === 3 && "var( --mainRed)") ||
-                        "var( --deepBlack)"
-                      }
-                    />
-                  </div>
-                  <Image
-                    src={img}
-                    className={styles.dashboardImg}
-                    alt="illustration"
+                style={{ minWidth: "100%" }}
+              >
+                <div>
+                  <p className="mb-3" style={{ color: "var(--mainBlue)" }}>
+                    Enrolled Students
+                  </p>
+                  <Headings
+                    title={students.numOfStudents}
+                    className={styles.h1}
+                    color={"var( --deepBlack)"}
                   />
                 </div>
-              </Col>
-            ))}
+                <Image
+                  src={studentspic}
+                  className={styles.dashboardImg}
+                  alt="illustration"
+                />
+              </div>
+            </Col>
+            <Col md={6} lg={4} style={{ height: "175px" }}>
+              <div
+                className="d-flex justify-content-between align-items-center rounded-2 border p-4
+                  "
+                style={{ minWidth: "100%" }}
+              >
+                <div>
+                  <p className="mb-3" style={{ color: "var(--mainBlue)" }}>
+                    Total Revenue
+                  </p>
+                  <Headings
+                    title={formatCurrency(students.revenue)}
+                    className={styles.h1}
+                    color={"var( --mainGreen)"}
+                  />
+                </div>
+                <Image
+                  src={coins}
+                  className={styles.dashboardImg}
+                  alt="illustration"
+                />
+              </div>
+            </Col>
+            <Col md={6} lg={4} style={{ height: "175px" }}>
+              <div
+                className="d-flex justify-content-between align-items-center rounded-2 border p-4
+                  "
+                style={{ minWidth: "100%" }}
+              >
+                <div>
+                  <p className="mb-3" style={{ color: "var(--mainBlue)" }}>
+                    Total Outstanding
+                  </p>
+                  <Headings
+                    title={formatCurrency(students.balance)}
+                    className={styles.h1}
+                    color={"var( --mainRed)"}
+                  />
+                </div>
+                <Image
+                  src={coins}
+                  className={styles.dashboardImg}
+                  alt="illustration"
+                />
+              </div>
+            </Col>
           </Row>
           <div className="mt-5 d-flex justify-content-between gap-4 gap-md-0 align-items-center">
             <Headings
@@ -88,11 +147,24 @@ export default function Dashboard() {
               View All Students
             </span>
           </div>
-          <TableData
-            header={tableLinks.headers}
-            extra="my-3"
-            data={tableLinks.data}
-          />
+          {isError && (
+            <span className="text-danger">
+              {error.message ? error.message : error}
+            </span>
+          )}
+          {isLoading && <Spinner />}
+          {!isLoading && !isError && students && !students.students?.length && (
+            <span className="text-red-400">
+              You have no students data to display
+            </span>
+          )}
+          {students.students && students.students.length > 0 && (
+            <TableData
+              header={tableLinks.headers}
+              extra="my-3"
+              data={students}
+            />
+          )}
         </>
       )}
     </PageLayout>

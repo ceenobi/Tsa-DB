@@ -1,4 +1,4 @@
 import { useCurrent } from "./getCurrent";
-import { useFetchData } from "./getData";
+import { useFetchData, useGetStudentsData } from "./getData";
 
-export { useCurrent, useFetchData };
+export { useCurrent, useFetchData, useGetStudentsData };

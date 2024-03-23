@@ -1,22 +1,16 @@
-import { useEffect } from "react";
 import { useTitle } from "@hooks";
 import { TableData } from "@components";
 import { tableLinks } from "@utils";
 import { Outlet, useLocation, useParams } from "react-router-dom";
 import { shallow } from "zustand/shallow";
-import { useCurrent, useFetchData } from "@store";
+import { useCurrent, useGetStudentsData } from "@store";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 import styles from "../pages.module.css";
 
 export default function Students() {
   useTitle("Student records");
   const current = useCurrent((state) => state.current, shallow);
-  const fetchData = useFetchData((state) => state.fetchAndSetData);
-  const data = useFetchData((state) => state.data);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const { students } = useGetStudentsData();
 
   const location = useLocation();
   const { studentId } = useParams();
@@ -71,7 +65,7 @@ export default function Students() {
           <TableData
             header={tableLinks.headers}
             extra="my-3"
-            data={data}
+            data={students}
             current={current}
           />
         </div>

@@ -6,11 +6,12 @@ export default function MyModal({
   title,
   children,
   backIcon,
-  Menu,
+  menu,
+  size,
   ...props
 }) {
   return (
-    <Modal show={show} onHide={handleClose} centered {...props} size="md">
+    <Modal show={show} onHide={handleClose} centered {...props} size={size}>
       <div className="d-flex justify-content-between align-items-center p-3">
         {backIcon}
         <Modal.Title
@@ -19,7 +20,7 @@ export default function MyModal({
         >
           {title}
         </Modal.Title>
-        {Menu}
+        {menu}
       </div>
       <Modal.Body>{children}</Modal.Body>
     </Modal>

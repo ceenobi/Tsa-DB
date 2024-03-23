@@ -1,7 +1,7 @@
 import { MdDashboard } from "react-icons/md";
 import { IoIosPeople } from "react-icons/io";
 import { MdPayment } from "react-icons/md";
-import { students, coins, avatar } from "@assets";
+import { studentspic, coins, avatar } from "@assets";
 
 const navlinks = [
   {
@@ -16,27 +16,6 @@ const navlinks = [
     Icon: MdPayment,
     name: "Payment",
     path: "dashboard/payments",
-  },
-];
-
-const dashboardLinks = [
-  {
-    id: 1,
-    title: "Enrolled Students",
-    number: 1350234,
-    img: students,
-  },
-  {
-    id: 2,
-    title: "Total Revenue",
-    number: 1350234,
-    img: coins,
-  },
-  {
-    id: 3,
-    title: "Total Outstanding",
-    number: 1350234,
-    img: coins,
   },
 ];
 
@@ -228,7 +207,6 @@ const tableLinks = {
 
 export {
   navlinks,
-  dashboardLinks,
   tableLinks,
   classTypeValues,
   classCohortValues,
