@@ -10,26 +10,22 @@ import {
   Login,
 } from "@pages";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Spinner } from "@utils";
 const Root = lazy(() => import("@components/Root"));
 
 export default function AppRoutes() {
   const routes = [
     {
-      path: "/",
+      path: "/dashboard",
       name: "Root",
       element: (
-        <Suspense fallback={<div>loading...</div>}>
+        <Suspense fallback={<Spinner />}>
           <Root />
         </Suspense>
       ),
       children: [
         {
-          path: "/",
-          name: "Auth",
-          element: <Auth />,
-        },
-        {
-          path: "dashboard",
+          path: "/dashboard",
           name: "Dashboard",
           element: <Dashboard />,
           children: [
@@ -62,12 +58,25 @@ export default function AppRoutes() {
             },
           ],
         },
-        {
-          path: "login",
-          name: "Login",
-          element: <Login />,
-        },
       ],
+    },
+    {
+      path: "/",
+      name: "StudentFormUpload",
+      element: (
+        <Suspense fallback={<Spinner />}>
+          <Auth />
+        </Suspense>
+      ),
+    },
+    {
+      path: "login",
+      name: "Login",
+      element: (
+        <Suspense fallback={<Spinner />}>
+          <Login />
+        </Suspense>
+      ),
     },
   ];
 

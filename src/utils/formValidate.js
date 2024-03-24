@@ -22,7 +22,7 @@ const registerOptions = {
   fullName: {
     required: "This field is required",
   },
-  popularlyKnownAs: {
+  pka: {
     required: "This field is required",
   },
   phoneNumber: {
@@ -38,7 +38,7 @@ const registerOptions = {
   classType: {
     required: "Please select an option",
   },
-  whatsAppNumber: {
+  whatsappNumber: {
     required: "You missed this",
     validate: {
       minLength: (v) =>

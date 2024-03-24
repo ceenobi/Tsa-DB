@@ -7,7 +7,7 @@ import { HiOutlinePhone } from "react-icons/hi";
 import { CiMail } from "react-icons/ci";
 import { PiGoogleChromeLogoThin } from "react-icons/pi";
 import { Image, Stack } from "react-bootstrap";
-import { useFetchData } from "@store";
+// import { useFetchData } from "@store";
 import { tsLogo, divider } from "@assets";
 import styles from "./student.module.css";
 
@@ -15,18 +15,18 @@ export default function Docket() {
   const { studentId } = useParams();
   const navigate = useNavigate();
   useTitle(`StudentId ${studentId}`);
-  const fetchData = useFetchData((state) => state.fetchAndSetData);
-  const data = useFetchData((state) => state.data);
+  // const fetchData = useFetchData((state) => state.fetchAndSetData);
+  // const data = useFetchData((state) => state.data);
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [fetchData]);
 
-  const student = data.filter((item) => item.id == studentId);
+  // const student = data.filter((item) => item.id == studentId);
 
   return (
     <>
-      {student.map((item) => (
+      {/* {student.map((item) => (
         <>
           <div className="mt-3 mt-md-5 d-md-flex justify-content-between align-items-start">
             <Stack
@@ -225,7 +225,7 @@ export default function Docket() {
             </div>
           </div>
         </>
-      ))}
+      ))} */}
     </>
   );
 }

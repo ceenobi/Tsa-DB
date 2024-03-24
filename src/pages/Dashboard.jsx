@@ -19,17 +19,19 @@ export default function Dashboard() {
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["studentsData"],
     queryFn: studentsService.getAllStudents,
+    onError: (error) => {
+      console.error("Error fetching students data:", error);
+    },
+    onLoading: () => {
+      <Spinner />;
+    },
   });
-
-  console.log("sss", data?.data);
 
   useEffect(() => {
     if (data) {
       setStudents(data?.data);
     }
   }, [data, setStudents]);
-
-  console.log("stud", students);
 
   const isPath = [
     "/dashboard/payments",

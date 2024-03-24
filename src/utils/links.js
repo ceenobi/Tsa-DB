@@ -24,6 +24,14 @@ const classCohortValues = [
     id: 1,
     name: "Select Class Cohort",
   },
+  {
+    id: 2,
+    name: "Fullstack",
+  },
+  {
+    id: 3,
+    name: "Data Analysis",
+  },
 ];
 
 const classTypeValues = [
@@ -205,9 +213,4 @@ const tableLinks = {
   ],
 };
 
-export {
-  navlinks,
-  tableLinks,
-  classTypeValues,
-  classCohortValues,
-};
+export { navlinks, tableLinks, classTypeValues, classCohortValues };

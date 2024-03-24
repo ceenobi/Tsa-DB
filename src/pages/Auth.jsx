@@ -181,7 +181,7 @@ const Auth = () => {
                 <button className="btn btn-payment btn-outline-danger">CANCEL</button>
               </div>
             </section> */}
-            <section className="my-4 container row gap-2">
+            <section className="my-4 container row gap-2 mx-auto">
               <div className="col-sm-12 col-md-3">
                 <button className="btn btn-primary w-100">Upload</button>
               </div>

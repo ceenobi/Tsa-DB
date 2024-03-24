@@ -5,7 +5,7 @@ import { useCurrent } from "@store";
 
 
 export default function TableData({ header, extra, data, current }) {
-  const [showPicModal, setShowPicModal] = useState(false);
+  const [showStudentModal, setShowStudentModal] = useState(false);
   const getCurrent = useCurrent((state) => state.addCurrent);
 
   const tNamestyle = {
@@ -26,7 +26,7 @@ export default function TableData({ header, extra, data, current }) {
 
   const openModal = (index) => {
     getCurrent(index);
-    setShowPicModal(true);
+    setShowStudentModal(true);
   };
 
   return (
@@ -86,11 +86,11 @@ export default function TableData({ header, extra, data, current }) {
           </tr>
         </tbody>
       ))}
-      {showPicModal && (
+      {showStudentModal && (
         <>
           <StudentProfile
-            showPicModal={showPicModal}
-            setShowPicModal={setShowPicModal}
+            showStudentModal={showStudentModal}
+            setShowStudentModal={setShowStudentModal}
             current={current}
             data={data.students}
           />

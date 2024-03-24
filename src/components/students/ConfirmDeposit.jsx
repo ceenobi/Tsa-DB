@@ -43,7 +43,7 @@ export default function ConfirmDeposit({
             Deposit Confirmed Successfully!!!
           </h1>
           {data.map((item, i) => (
-            <div key={item.id}>
+            <div key={item._id}>
               {i === current && (
                 <>
                   <p
@@ -54,7 +54,7 @@ export default function ConfirmDeposit({
                     }}
                   >
                     Initial Deposit for{" "}
-                    <span className="text-danger">{item.title}</span> was
+                    <span className="text-danger">{item.fullName}</span> was
                     confirmed successfully. Kindly click the button below to
                     generate docket{" "}
                   </p>
@@ -65,7 +65,7 @@ export default function ConfirmDeposit({
                       className="fw-bold mb-3"
                       onClick={() =>
                         navigate(
-                          `/dashboard/students/generate-docket/${item.id}`
+                          `/dashboard/students/generate-docket/${item._id}`
                         )
                       }
                     />

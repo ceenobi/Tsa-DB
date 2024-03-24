@@ -11,6 +11,7 @@ export default function Students() {
   useTitle("Student records");
   const current = useCurrent((state) => state.current, shallow);
   const { students } = useGetStudentsData();
+  console.log('ko', students);
 
   const location = useLocation();
   const { studentId } = useParams();
