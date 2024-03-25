@@ -1,7 +1,7 @@
 import { MdDashboard } from "react-icons/md";
 import { IoIosPeople } from "react-icons/io";
 import { MdPayment } from "react-icons/md";
-import { studentspic, coins, avatar } from "@assets";
+import { avatar } from "@assets";
 
 const navlinks = [
   {
