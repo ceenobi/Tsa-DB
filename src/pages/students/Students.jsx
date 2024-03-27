@@ -1,3 +1,4 @@
+import { useMemo, useCallback } from "react";
 import { useTitle } from "@hooks";
 import { TableData } from "@components";
 import { tableLinks } from "@utils";
@@ -22,20 +23,33 @@ export default function Students() {
     `/dashboard/students/edit-profile/${studentId}`,
   ];
   const matchPaths = isPath.map((path) => path);
-  const activeCourse = students?.students
-    ? students.students.map((course) => course.courseCohort.toLowerCase())
-    : [];
-  const removeCourseDuplicates = [
-    ...activeCourse.filter((course, i) => {
-      return activeCourse.indexOf(course) === i && course?.length > 0;
-    }),
-  ];
+
+  const activeCourse = useMemo(() => {
+    return students?.students
+      ? students.students.map((course) => course.courseCohort.toLowerCase())
+      : [];
+  }, [students?.students]);
+
+  const removeCourseDuplicates = useMemo(() => {
+    return [
+      ...activeCourse.filter((course, i) => {
+        return activeCourse.indexOf(course) === i && course?.length > 0;
+      }),
+    ];
+  }, [activeCourse]);
 
   const allCourses = ["All Students", ...removeCourseDuplicates];
 
-  const searchStudentByCourse = (item) => {
-    navigate(`/dashboard/students/search?query=${item}`);
-  };
+  const searchStudentByCourse = useCallback(
+    (item) => {
+      if (item === "All Students") {
+        navigate(`/dashboard/students`);
+      } else {
+        navigate(`/dashboard/students/search?query=${item}`);
+      }
+    },
+    [navigate]
+  );
 
   return (
     <>
@@ -50,8 +64,12 @@ export default function Students() {
               className="d-md-none"
               variant="solid"
             >
-              {["All Students", ...tableLinks.courses].map((item, index) => (
-                <Dropdown.Item href="#/action-1" key={index}>
+              {allCourses.map((item, index) => (
+                <Dropdown.Item
+                  key={index}
+                  onClick={() => searchStudentByCourse(item)}
+                  className="text-capitalize"
+                >
                   {item}
                 </Dropdown.Item>
               ))}

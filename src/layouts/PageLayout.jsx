@@ -22,12 +22,7 @@ export default function PageLayout({ children }) {
   const AddStudent =
     location.pathname.startsWith("/dashboard/students/new-student") ||
     location.pathname.startsWith("/dashboard/students/edit-profile/");
-  const title = isDashboard
-    ? "Dashboard"
-    : isStudent
-    ? location.pathname.split("/")[2]
-    : AddStudent
-    ? location.pathname.split("/")[3]
+  const title = isDashboard ? "Dashboard" : isStudent ? location.pathname.split("/")[2] : AddStudent ? location.pathname.split("/")[3]
     : location.pathname.split("/").pop();
 
   const isPath = [

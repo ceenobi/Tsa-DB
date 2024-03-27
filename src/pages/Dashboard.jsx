@@ -1,12 +1,18 @@
+import { useEffect, useMemo, useCallback } from "react";
 import { DropdownButton, Dropdown, Row, Col, Image } from "react-bootstrap";
-import { useLocation, Outlet, useParams } from "react-router-dom";
+import {
+  useLocation,
+  Outlet,
+  useParams,
+  useNavigate,
+  Link,
+} from "react-router-dom";
 import { Headings, TableData } from "@components";
 import { formatCurrency, tableLinks, Spinner } from "@utils";
 import { useTitle } from "@hooks";
-import { useEffect } from "react";
 import { PageLayout } from "@layouts";
 import { useGetStudentsData, useCurrent } from "@store";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { studentsService } from "@services";
 import { studentspic, coins } from "@assets";
 import { shallow } from "zustand/shallow";
@@ -15,6 +21,8 @@ import styles from "./pages.module.css";
 export default function Dashboard() {
   useTitle("Dashboard");
   const location = useLocation();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { studentId } = useParams();
   const current = useCurrent((state) => state.current, shallow);
   const { students, setStudents } = useGetStudentsData();
@@ -33,7 +41,10 @@ export default function Dashboard() {
     if (data) {
       setStudents(data?.data);
     }
-  }, [data, setStudents]);
+    if (students) {
+      queryClient.invalidateQueries("studentsData");
+    }
+  }, [data, queryClient, setStudents, students]);
 
   const isPath = [
     "/dashboard/payments",
@@ -45,10 +56,37 @@ export default function Dashboard() {
   ];
   const matchPaths = isPath.map((path) => path);
 
+  const activeCourse = useMemo(() => {
+    return students?.students
+      ? students.students.map((course) => course.courseCohort.toLowerCase())
+      : [];
+  }, [students?.students]);
+
+  const removeCourseDuplicates = useMemo(() => {
+    return [
+      ...activeCourse.filter((course, i) => {
+        return activeCourse.indexOf(course) === i && course?.length > 0;
+      }),
+    ];
+  }, [activeCourse]);
+
+  const allCourses = [...removeCourseDuplicates];
+
+  const searchStudentByCourse = useCallback(
+    (item) => {
+      if (item === "All Students") {
+        navigate(`/dashboard/students`);
+      } else {
+        navigate(`/dashboard/students/search?query=${item}`);
+      }
+    },
+    [navigate]
+  );
+
   return (
     <PageLayout>
       {matchPaths.includes(location.pathname) ? (
-        <div style={{ minHeight: "85dvh" }}>
+        <div style={{ minHeight: "95dvh" }}>
           <Outlet />
         </div>
       ) : (
@@ -59,9 +97,15 @@ export default function Dashboard() {
             className="mt-3 mt-md-5"
             variant="solid"
           >
-            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+            {allCourses.map((item, index) => (
+              <Dropdown.Item
+                key={index}
+                onClick={() => searchStudentByCourse(item)}
+                className="text-capitalize"
+              >
+                {item}
+              </Dropdown.Item>
+            ))}
           </DropdownButton>
           <Row className="mt-3 gy-2">
             <Col md={6} lg={4} style={{ height: "175px" }}>
@@ -75,7 +119,7 @@ export default function Dashboard() {
                     Enrolled Students
                   </p>
                   <Headings
-                    title={students.numOfStudents}
+                    title={students.numOfStudents ? students.numOfStudents : 0}
                     className={styles.h1}
                     color={"var( --deepBlack)"}
                   />
@@ -149,7 +193,8 @@ export default function Dashboard() {
               color="var(--mainBlue)"
               className="fw-bold"
             />
-            <span
+            <Link
+              to="/dashboard/students"
               className="text-decoration-underline cursor fw-medium text-end"
               style={{
                 fontSize: "1.12rem",
@@ -158,26 +203,32 @@ export default function Dashboard() {
               }}
             >
               View All Students
-            </span>
+            </Link>
           </div>
           {isError && (
             <span className="text-danger">
               {error.message ? error.message : error}
             </span>
           )}
-          {isLoading && <Spinner />}
+
           {!isLoading && !isError && students && !students.students?.length && (
             <span className="text-red-400">
               You have no students data to display
             </span>
           )}
-          {students.students && students.students.length > 0 && (
-            <TableData
-              header={tableLinks.headers}
-              extra="my-3"
-              data={students}
-              current={current}
-            />
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <>
+              {students.students && students.students.length > 0 && (
+                <TableData
+                  header={tableLinks.headers}
+                  extra="my-3"
+                  data={students}
+                  current={current}
+                />
+              )}
+            </>
           )}
         </>
       )}
