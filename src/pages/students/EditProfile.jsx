@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useGetAStudentData } from "@store";
 import { studentsService } from "@services";
 import { Spinner } from "@utils";
-import { handleAuthError } from "@config";
+// import { handleAuthError } from "@config";
 import styles from "./student.module.css";
 
 export default function EditProfile() {
@@ -77,7 +77,7 @@ export default function EditProfile() {
       )}
       {isLoading && <Spinner />}
       {!isLoading && !isError && !student && (
-        <span className="text-red-400">
+        <span className="text-red-400"> h
           You have no student data to display
         </span>
       )}

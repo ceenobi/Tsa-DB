@@ -11,4 +11,9 @@ const useGetAStudentData = create((set) => ({
   setStudent: (user) => set(() => ({ student: user })),
 }));
 
-export { useGetStudentsData, useGetAStudentData };
+const useGetStudentsByCourse = create((set) => ({
+  course: [],
+  setCourse: (students) => set(() => ({ course: students })),
+}));
+
+export { useGetStudentsData, useGetAStudentData, useGetStudentsByCourse };

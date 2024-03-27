@@ -62,7 +62,7 @@ const tableLinks = {
   courses: [
     "Fullstack",
     "Frontend",
-    "UI/UX",
+    "Product Design",
     "Data Analysis",
     "Cyber Security",
   ],

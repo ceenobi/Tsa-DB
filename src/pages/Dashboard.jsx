@@ -5,16 +5,18 @@ import { formatCurrency, tableLinks, Spinner } from "@utils";
 import { useTitle } from "@hooks";
 import { useEffect } from "react";
 import { PageLayout } from "@layouts";
-import { useGetStudentsData } from "@store";
+import { useGetStudentsData, useCurrent } from "@store";
 import { useQuery } from "@tanstack/react-query";
 import { studentsService } from "@services";
 import { studentspic, coins } from "@assets";
+import { shallow } from "zustand/shallow";
 import styles from "./pages.module.css";
 
 export default function Dashboard() {
   useTitle("Dashboard");
   const location = useLocation();
   const { studentId } = useParams();
+  const current = useCurrent((state) => state.current, shallow);
   const { students, setStudents } = useGetStudentsData();
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["studentsData"],
@@ -38,6 +40,7 @@ export default function Dashboard() {
     "/dashboard/students",
     `/dashboard/students/generate-docket/${studentId}`,
     "/dashboard/students/new-student",
+    "/dashboard/students/search",
     `/dashboard/students/edit-profile/${studentId}`,
   ];
   const matchPaths = isPath.map((path) => path);
@@ -45,7 +48,7 @@ export default function Dashboard() {
   return (
     <PageLayout>
       {matchPaths.includes(location.pathname) ? (
-        <div style={{ minHeight: "85vh" }}>
+        <div style={{ minHeight: "85dvh" }}>
           <Outlet />
         </div>
       ) : (
@@ -95,7 +98,11 @@ export default function Dashboard() {
                     Total Revenue
                   </p>
                   <Headings
-                    title={formatCurrency(students.revenue)}
+                    title={
+                      students.revenue
+                        ? formatCurrency(students.revenue)
+                        : formatCurrency(0)
+                    }
                     className={styles.h1}
                     color={"var( --mainGreen)"}
                   />
@@ -118,7 +125,11 @@ export default function Dashboard() {
                     Total Outstanding
                   </p>
                   <Headings
-                    title={formatCurrency(students.balance)}
+                    title={
+                      students.balance
+                        ? formatCurrency(students.balance)
+                        : formatCurrency(0)
+                    }
                     className={styles.h1}
                     color={"var( --mainRed)"}
                   />
@@ -165,6 +176,7 @@ export default function Dashboard() {
               header={tableLinks.headers}
               extra="my-3"
               data={students}
+              current={current}
             />
           )}
         </>

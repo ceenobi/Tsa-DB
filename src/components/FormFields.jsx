@@ -77,8 +77,8 @@ export function FormSelect({
           {...props}
         >
           {data?.map((item) => (
-            <option value={item.name} key={item.id}>
-              {item.name}
+            <option value={item.name.toLowerCase()} key={item.id}>
+              {item.name.toLowerCase()}
             </option>
           ))}
         </Form.Select>

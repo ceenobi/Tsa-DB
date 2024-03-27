@@ -15,7 +15,10 @@ export default function StudentProfile({
   data,
 }) {
   const [openModal, setOpenModal] = useState(false);
+  const [discount, setDiscount] = useState(0);
   const handleClose = () => setShowStudentModal(false);
+
+  console.log(discount);
 
   const pStyle = {
     fontWeight: "600",
@@ -314,11 +317,14 @@ export default function StudentProfile({
                       >
                         Discount
                       </Form.Label>
-                      <Form.Select className="mb-4 text-secondary">
-                        <option>Select Discount</option>
-                        <option>5% Discount</option>
-                        <option>10% Discount</option>
-                        <option>15% Discount</option>
+                      <Form.Select
+                        className="mb-4 text-secondary"
+                        onChange={(e) => setDiscount(e.target.value)}
+                      >
+                        <option value={0}>Select Discount</option>
+                        <option value={5}>5% Discount</option>
+                        <option value={10}>10% Discount</option>
+                        <option value={15}>15% Discount</option>
                       </Form.Select>
                     </Form.Group>
                     <div className="text-center my-2">

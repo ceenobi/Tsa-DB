@@ -6,6 +6,7 @@ import Docket from "./students/Docket";
 import EnrollStudent from "./students/EnrollStudent";
 import EditProfile from "./students/EditProfile";
 import Login from "./Login";
+import SeeStudentsByCourse from "./students/SeeStudentsByCourse";
 
 export {
   Dashboard,
@@ -16,4 +17,5 @@ export {
   EnrollStudent,
   EditProfile,
   Login,
+  SeeStudentsByCourse,
 };

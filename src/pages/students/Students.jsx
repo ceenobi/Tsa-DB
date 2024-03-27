@@ -1,7 +1,7 @@
 import { useTitle } from "@hooks";
 import { TableData } from "@components";
 import { tableLinks } from "@utils";
-import { Outlet, useLocation, useParams } from "react-router-dom";
+import { Outlet, useLocation, useParams, useNavigate } from "react-router-dom";
 import { shallow } from "zustand/shallow";
 import { useCurrent, useGetStudentsData } from "@store";
 import { DropdownButton, Dropdown } from "react-bootstrap";
@@ -11,16 +11,31 @@ export default function Students() {
   useTitle("Student records");
   const current = useCurrent((state) => state.current, shallow);
   const { students } = useGetStudentsData();
-  console.log('ko', students);
-
   const location = useLocation();
+  const navigate = useNavigate();
   const { studentId } = useParams();
+
   const isPath = [
     `/dashboard/students/generate-docket/${studentId}`,
     "/dashboard/students/new-student",
+    "/dashboard/students/search",
     `/dashboard/students/edit-profile/${studentId}`,
   ];
   const matchPaths = isPath.map((path) => path);
+  const activeCourse = students?.students
+    ? students.students.map((course) => course.courseCohort.toLowerCase())
+    : [];
+  const removeCourseDuplicates = [
+    ...activeCourse.filter((course, i) => {
+      return activeCourse.indexOf(course) === i && course?.length > 0;
+    }),
+  ];
+
+  const allCourses = ["All Students", ...removeCourseDuplicates];
+
+  const searchStudentByCourse = (item) => {
+    navigate(`/dashboard/students/search?query=${item}`);
+  };
 
   return (
     <>
@@ -42,17 +57,18 @@ export default function Students() {
               ))}
             </DropdownButton>
             <div className="d-none d-md-flex gap-4 justify-content-between align-items-center">
-              {["All Students", ...tableLinks.courses].map((item, index) => (
+              {allCourses.map((item, index) => (
                 <div
                   key={index}
                   className={
-                    index === current
+                    item === index
                       ? `${styles.activeLink}`
                       : `${styles.noActiveLink}`
                   }
                   type="button"
+                  onClick={() => searchStudentByCourse(item)}
                 >
-                  <h1 className="fs-6">{item}</h1>
+                  <h1 className="fs-6 text-capitalize">{item}</h1>
                 </div>
               ))}
             </div>

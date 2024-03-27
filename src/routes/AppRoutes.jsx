@@ -8,6 +8,7 @@ import {
   EnrollStudent,
   EditProfile,
   Login,
+  SeeStudentsByCourse,
 } from "@pages";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Spinner } from "@utils";
@@ -48,6 +49,11 @@ export default function AppRoutes() {
                   path: "edit-profile/:studentId",
                   name: "EditProfile ",
                   element: <EditProfile />,
+                },
+                {
+                  path: "search",
+                  name: "Search students by course",
+                  element: <SeeStudentsByCourse />,
                 },
               ],
             },
