@@ -10,6 +10,8 @@ import tsLogo from "./tslogoLg.png";
 import divider from "./divider.png";
 import divider2 from "./divider2.png";
 import focusedStudent from "./portrait-focused-student.png";
+import footerArrow from './footer-arrow.svg';
+import browseFileImg from './Browse file (1).svg'
 
 export {
   logo,
@@ -24,4 +26,6 @@ export {
   divider,
   divider2,
   focusedStudent,
+  footerArrow,
+  browseFileImg
 };

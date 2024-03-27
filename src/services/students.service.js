@@ -10,6 +10,9 @@ const getAStudent = async (studentId) => {
 const updateAStudent = async (studentId, formData) => {
   return await axiosInstance.patch(`/student/${studentId}`, formData);
 };
+const addAStudent = async (studentId, formData) => {
+  return await axiosInstance.post(`/student/${studentId}`, formData);
+};
 
 export default {
   getAllStudents,
