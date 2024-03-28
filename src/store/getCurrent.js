@@ -8,4 +8,12 @@ const useCurrent = createWithEqualityFn(
   (state, newState) => state.current === newState.current
 );
 
-export { useCurrent };
+const useCurrentPage = createWithEqualityFn(
+  (set) => ({
+    resultsPerPage: 20,
+    setResultsPerPage: (number) => set(() => ({ resultsPerPage: number })),
+  }),
+  (state, newState) => state.resultsPerPage === newState.resultsPerPage
+);
+
+export { useCurrent, useCurrentPage };

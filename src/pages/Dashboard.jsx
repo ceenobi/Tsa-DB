@@ -12,7 +12,7 @@ import { formatCurrency, tableLinks, Spinner } from "@utils";
 import { useTitle } from "@hooks";
 import { PageLayout } from "@layouts";
 import { useGetStudentsData, useCurrent } from "@store";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { studentsService } from "@services";
 import { studentspic, coins } from "@assets";
 import { shallow } from "zustand/shallow";
@@ -22,7 +22,6 @@ export default function Dashboard() {
   useTitle("Dashboard");
   const location = useLocation();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const { studentId } = useParams();
   const current = useCurrent((state) => state.current, shallow);
   const { students, setStudents } = useGetStudentsData();
@@ -41,10 +40,7 @@ export default function Dashboard() {
     if (data) {
       setStudents(data?.data);
     }
-    if (students) {
-      queryClient.invalidateQueries("studentsData");
-    }
-  }, [data, queryClient, setStudents, students]);
+  }, [data, setStudents]);
 
   const isPath = [
     "/dashboard/payments",

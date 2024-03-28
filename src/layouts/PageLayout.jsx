@@ -1,4 +1,11 @@
-import { useLocation, Link, useParams } from "react-router-dom";
+import { useRef } from "react";
+import {
+  useLocation,
+  Link,
+  useParams,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import {
   Container,
   Stack,
@@ -9,12 +16,17 @@ import {
 } from "react-bootstrap";
 import { FiSearch } from "react-icons/fi";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
+import { IoCloseSharp } from "react-icons/io5";
 import { avatar } from "@assets";
 import { Headings, MyButton } from "@components";
+import { useDebouncedCallback } from "use-debounce";
 
 export default function PageLayout({ children }) {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { studentId } = useParams();
+  const inputRef = useRef(null);
   const isDashboard = location.pathname === "/";
   const isStudent =
     location.pathname.startsWith("/dashboard/students/generate-docket/") ||
@@ -22,7 +34,12 @@ export default function PageLayout({ children }) {
   const AddStudent =
     location.pathname.startsWith("/dashboard/students/new-student") ||
     location.pathname.startsWith("/dashboard/students/edit-profile/");
-  const title = isDashboard ? "Dashboard" : isStudent ? location.pathname.split("/")[2] : AddStudent ? location.pathname.split("/")[3]
+  const title = isDashboard
+    ? "Dashboard"
+    : isStudent
+    ? location.pathname.split("/")[2]
+    : AddStudent
+    ? location.pathname.split("/")[3]
     : location.pathname.split("/").pop();
 
   const isPath = [
@@ -31,6 +48,27 @@ export default function PageLayout({ children }) {
     "/dashboard/students/new-student",
   ];
   const matchPaths = isPath.map((path) => path);
+  const query = searchParams.get("query") || "";
+  // const page = searchParams.get("page") || 1;
+
+  const handleSearch = useDebouncedCallback((e) => {
+    e.preventDefault();
+    const params = new URLSearchParams(searchParams);
+    params.set("page", 1);
+    if (e.target.value) {
+      e.target.value.length > 3 && params.set("query", e.target.value);
+    } else {
+      params.delete("query");
+    }
+    navigate(`/dashboard/students/search?${params}`);
+  }, 300);
+
+  const deleteParams = () => {
+    const newSearchParams = new URLSearchParams(window.location.search);
+    newSearchParams.delete("query");
+    navigate(window.location.pathname + "?" + newSearchParams.toString());
+    inputRef.current.value = "";
+  };
 
   return (
     <Container fluid className="p-3">
@@ -48,9 +86,15 @@ export default function PageLayout({ children }) {
                 placeholder="Search for courses, classes, students and more..."
                 aria-label="Search bar"
                 className="rounded-1 border-0 bg-transparent"
+                ref={inputRef}
+                onChange={handleSearch}
               />
-              <Button variant="none" type="submit">
-                <FiSearch size="18px" color="#747474" />
+              <Button variant="none">
+                {query ? (
+                  <IoCloseSharp size="20px" onClick={deleteParams} />
+                ) : (
+                  <FiSearch size="18px" color="#747474" />
+                )}
               </Button>
             </InputGroup>
           </Form>

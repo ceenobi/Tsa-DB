@@ -1,4 +1,4 @@
-import { useCurrent } from "./getCurrent";
+import { useCurrent, useCurrentPage } from "./getCurrent";
 import {
   useGetStudentsData,
   useGetAStudentData,
@@ -7,6 +7,7 @@ import {
 
 export {
   useCurrent,
+  useCurrentPage,
   useGetStudentsData,
   useGetAStudentData,
   useGetStudentsByCourse,

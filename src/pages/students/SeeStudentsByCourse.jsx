@@ -3,7 +3,7 @@ import { useTitle } from "@hooks";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useGetStudentsByCourse, useGetStudentsData, useCurrent } from "@store";
 import { shallow } from "zustand/shallow";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@utils";
 import { studentsService } from "@services";
 import { TableData } from "@components";
@@ -13,9 +13,8 @@ import styles from "../pages.module.css";
 
 export default function SeeStudentsByCourse() {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
-  const query = searchParams.get("query");
+  const query = searchParams.get("query") || ""
   useTitle(`Search result for "${query}"`);
   const { course, setCourse } = useGetStudentsByCourse();
   const { students } = useGetStudentsData();
@@ -36,10 +35,7 @@ export default function SeeStudentsByCourse() {
     if (data) {
       setCourse(data?.data);
     }
-    if (course) {
-      queryClient.invalidateQueries("studentsByCourse");
-    }
-  }, [data, setCourse, course, queryClient]);
+  }, [data, setCourse]);
 
   const activeCourse = useMemo(() => {
     return students?.students
