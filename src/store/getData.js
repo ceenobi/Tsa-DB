@@ -1,9 +1,10 @@
 import { create } from "zustand";
 
-
 const useGetStudentsData = create((set) => ({
   students: [],
   setStudents: (users) => set(() => ({ students: users })),
+  searchQuery: [],
+  setSearchQuery: (students) => set(() => ({ searchQuery: students })),
 }));
 
 const useGetAStudentData = create((set) => ({
@@ -11,9 +12,14 @@ const useGetAStudentData = create((set) => ({
   setStudent: (user) => set(() => ({ student: user })),
 }));
 
-const useGetStudentsByCourse = create((set) => ({
-  course: [],
-  setCourse: (students) => set(() => ({ course: students })),
+const useFilteredData = create((set) => ({
+  itemsPerPage: 20,
+  filterData: null,
+  setFilterData: (data) => set(() => ({ filterData: data })),
 }));
 
-export { useGetStudentsData, useGetAStudentData, useGetStudentsByCourse };
+export {
+  useGetStudentsData,
+  useGetAStudentData,
+  useFilteredData,
+};

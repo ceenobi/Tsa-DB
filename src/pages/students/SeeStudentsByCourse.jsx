@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useCallback } from "react";
 import { useTitle } from "@hooks";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { useGetStudentsByCourse, useGetStudentsData, useCurrent } from "@store";
+import { useGetStudentsData, useCurrent, useFilteredData } from "@store";
 import { shallow } from "zustand/shallow";
 import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@utils";
@@ -14,10 +14,10 @@ import styles from "../pages.module.css";
 export default function SeeStudentsByCourse() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const query = searchParams.get("query") || ""
+  const query = searchParams.get("query") || "";
   useTitle(`Search result for "${query}"`);
-  const { course, setCourse } = useGetStudentsByCourse();
-  const { students } = useGetStudentsData();
+  const { students, setSearchQuery } = useGetStudentsData();
+  const { filterData } = useFilteredData();
   const current = useCurrent((state) => state.current, shallow);
 
   const { isLoading, isError, data, error } = useQuery({
@@ -33,15 +33,15 @@ export default function SeeStudentsByCourse() {
 
   useEffect(() => {
     if (data) {
-      setCourse(data?.data);
+      setSearchQuery(data?.data.students);
     }
-  }, [data, setCourse]);
+  }, [data, setSearchQuery]);
 
   const activeCourse = useMemo(() => {
-    return students?.students
-      ? students.students.map((course) => course.courseCohort.toLowerCase())
+    return students
+      ? students.map((course) => course.courseCohort.toLowerCase())
       : [];
-  }, [students?.students]);
+  }, [students]);
 
   const removeCourseDuplicates = useMemo(() => {
     return [
@@ -114,7 +114,7 @@ export default function SeeStudentsByCourse() {
         </span>
       )}
 
-      {!isLoading && !isError && !course && (
+      {!isLoading && !isError && !students && (
         <span className="text-danger text-center mt-2">
           You have no student data to display
         </span>
@@ -125,7 +125,7 @@ export default function SeeStudentsByCourse() {
         <TableData
           header={tableLinks.headers}
           extra="my-3"
-          data={course}
+          data={filterData}
           current={current}
         />
       )}

@@ -9,6 +9,7 @@ import StudentProfile from "./students/StudentProfile";
 import ConfirmDeposit from "./students/ConfirmDeposit";
 import DocketModal from "./students/DocketModal";
 import { FormInputs, FormSelect } from "./FormFields";
+import Paginate from "./Paginate";
 
 export {
   Dashboard,
@@ -23,4 +24,5 @@ export {
   DocketModal,
   FormInputs,
   FormSelect,
+  Paginate,
 };

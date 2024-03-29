@@ -2,7 +2,7 @@ import { useCurrent, useCurrentPage } from "./getCurrent";
 import {
   useGetStudentsData,
   useGetAStudentData,
-  useGetStudentsByCourse,
+  useFilteredData,
 } from "./getData";
 
 export {
@@ -10,5 +10,5 @@ export {
   useCurrentPage,
   useGetStudentsData,
   useGetAStudentData,
-  useGetStudentsByCourse,
+  useFilteredData,
 };

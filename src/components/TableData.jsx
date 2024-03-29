@@ -47,7 +47,7 @@ export default function TableData({ header, extra, data, current }) {
             ))}
           </tr>
         </thead>
-        {data?.students?.map((item, i) => (
+        {data?.map((item, i) => (
           <tbody key={item._id} className="border cursor">
             <tr onClick={() => openModal(i)}>
               <td style={tNamestyle}>
@@ -93,7 +93,7 @@ export default function TableData({ header, extra, data, current }) {
             showStudentModal={showStudentModal}
             setShowStudentModal={setShowStudentModal}
             current={current}
-            data={data.students}
+            data={data}
           />
         </>
       )}

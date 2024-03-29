@@ -7,11 +7,11 @@ import {
   useNavigate,
   Link,
 } from "react-router-dom";
-import { Headings, TableData } from "@components";
+import { Headings, TableData, Paginate } from "@components";
 import { formatCurrency, tableLinks, Spinner } from "@utils";
 import { useTitle } from "@hooks";
 import { PageLayout } from "@layouts";
-import { useGetStudentsData, useCurrent } from "@store";
+import { useGetStudentsData, useCurrent, useFilteredData } from "@store";
 import { useQuery } from "@tanstack/react-query";
 import { studentsService } from "@services";
 import { studentspic, coins } from "@assets";
@@ -24,7 +24,8 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const { studentId } = useParams();
   const current = useCurrent((state) => state.current, shallow);
-  const { students, setStudents } = useGetStudentsData();
+  const { students, setStudents, searchQuery } = useGetStudentsData();
+  const { filterData, setFilterData, itemsPerPage } = useFilteredData();
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["studentsData"],
     queryFn: studentsService.getAllStudents,
@@ -38,7 +39,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (data) {
-      setStudents(data?.data);
+      setStudents(data?.data.students);
     }
   }, [data, setStudents]);
 
@@ -52,11 +53,18 @@ export default function Dashboard() {
   ];
   const matchPaths = isPath.map((path) => path);
 
+  const hidePagination = [
+    `/dashboard/students/generate-docket/${studentId}`,
+    `/dashboard/students/edit-profile/${studentId}`,
+    "/dashboard/students/new-student",
+  ];
+  const noPaginate = hidePagination.map((path) => path);
+
   const activeCourse = useMemo(() => {
-    return students?.students
-      ? students.students.map((course) => course.courseCohort.toLowerCase())
+    return students
+      ? students.map((course) => course.courseCohort.toLowerCase())
       : [];
-  }, [students?.students]);
+  }, [students]);
 
   const removeCourseDuplicates = useMemo(() => {
     return [
@@ -115,7 +123,9 @@ export default function Dashboard() {
                     Enrolled Students
                   </p>
                   <Headings
-                    title={students.numOfStudents ? students.numOfStudents : 0}
+                    title={
+                      data?.data.numOfStudents ? data?.data.numOfStudents : 0
+                    }
                     className={styles.h1}
                     color={"var( --deepBlack)"}
                   />
@@ -139,8 +149,8 @@ export default function Dashboard() {
                   </p>
                   <Headings
                     title={
-                      students.revenue
-                        ? formatCurrency(students.revenue)
+                      data?.data.revenue
+                        ? formatCurrency(data?.data.revenue)
                         : formatCurrency(0)
                     }
                     className={styles.h1}
@@ -166,8 +176,8 @@ export default function Dashboard() {
                   </p>
                   <Headings
                     title={
-                      students.balance
-                        ? formatCurrency(students.balance)
+                      data?.data.balance
+                        ? formatCurrency(data?.data.balance)
                         : formatCurrency(0)
                     }
                     className={styles.h1}
@@ -207,7 +217,7 @@ export default function Dashboard() {
             </span>
           )}
 
-          {!isLoading && !isError && students && !students.students?.length && (
+          {!isLoading && !isError && students && !students?.length && (
             <span className="text-red-400">
               You have no students data to display
             </span>
@@ -216,17 +226,24 @@ export default function Dashboard() {
             <Spinner />
           ) : (
             <>
-              {students.students && students.students.length > 0 && (
+              {students && students.length > 0 && (
                 <TableData
                   header={tableLinks.headers}
                   extra="my-3"
-                  data={students}
+                  data={filterData}
                   current={current}
                 />
               )}
             </>
           )}
         </>
+      )}
+      {!noPaginate.includes(location.pathname) && (
+        <Paginate
+          data={searchQuery.length > 0 ? searchQuery : students}
+          itemsPerPage={itemsPerPage}
+          setFilterData={setFilterData}
+        />
       )}
     </PageLayout>
   );
