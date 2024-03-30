@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTitle } from "@hooks";
 import { useNavigate } from "react-router-dom";
 import { MdArrowLeft } from "react-icons/md";
@@ -6,10 +7,15 @@ import { Stack, Row, Col, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { TiAttachment } from "react-icons/ti";
 import { registerOptions, classTypeValues, classCohortValues } from "@utils";
+import { studentsService } from "@services";
+import { handleAuthError } from "@config";
+import { BeatLoader } from "react-spinners";
+import toast from "react-hot-toast";
 import styles from "./student.module.css";
 
 export default function EnrollStudent() {
   useTitle("Add a new student");
+  const [isSending, setIsSending] = useState(false);
   const navigate = useNavigate();
   const {
     handleSubmit,
@@ -17,8 +23,23 @@ export default function EnrollStudent() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmitHandler = async (e) => {
-    e.preventDefault();
+  const onSubmitHandler = async (formData) => {
+    if (!formData.image && !formData.receipt) {
+      toast.error("Please provide payment receipt and profile image");
+      return;
+    }
+    console.log(formData);
+    setIsSending(true);
+    try {
+      const res = await studentsService.addAStudent(formData);
+      if (res.status === 201) {
+        toast.success(`tt`);
+      }
+    } catch (error) {
+      handleAuthError(error);
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -56,12 +77,12 @@ export default function EnrollStudent() {
             <Col md={4} className="mt-3 mt-md-0">
               <FormInputs
                 register={register}
-                errors={errors?.popularlyKnownAs}
-                registerOptions={registerOptions?.popularlyKnownAs}
+                errors={errors?.pka}
+                registerOptions={registerOptions?.pka}
                 className="my-1 text-black"
-                id="popularlyKnownAs"
+                id="pka"
                 label="Popularly Known As"
-                name="popularlyKnownAs"
+                name="pka"
                 type="text"
                 placeholder="Enter name"
               />
@@ -72,7 +93,7 @@ export default function EnrollStudent() {
                 className="my-1 text-black"
                 id="studentId"
                 label="Student ID"
-                name="Student ID"
+                name="studentId"
                 type="text"
                 placeholder="Student ID"
                 disabled
@@ -135,12 +156,12 @@ export default function EnrollStudent() {
             <Col md={4}>
               <FormInputs
                 register={register}
-                errors={errors?.whatsAppNumber}
-                registerOptions={registerOptions?.whatsAppNumber}
+                errors={errors?.whatsappNumber}
+                registerOptions={registerOptions?.whatsappNumber}
                 className="my-1 text-black"
-                id="whatsAppNumber"
+                id="whatsappNumber"
                 label="WhatsApp Number"
-                name="whatsAppNumber"
+                name="whatsappNumber"
                 type="text"
                 placeholder="Enter your whatsapp number"
               />
@@ -149,9 +170,9 @@ export default function EnrollStudent() {
               <FormInputs
                 register={register}
                 className="my-1 text-black"
-                id="referralStudentID"
+                id="referralStudentId"
                 label="Referral’s Student ID"
-                name="referralStudentID"
+                name="referralStudentId"
                 type="text"
                 placeholder="Enter Student ID"
               />
@@ -172,9 +193,9 @@ export default function EnrollStudent() {
               <FormInputs
                 register={register}
                 className="my-1 text-black"
-                id="iceContactName"
-                label="ICE Contact’s Name"
-                name="iceContactName"
+                id="emergencyContactName"
+                label="Emergency Contact’s Name"
+                name="emergencyContactName"
                 type="text"
                 placeholder="Enter your next of kin"
               />
@@ -183,9 +204,9 @@ export default function EnrollStudent() {
               <FormInputs
                 register={register}
                 className="my-1 text-black"
-                id="iceContactNumber"
-                label="ICE Contact’s Number"
-                name="iceContactNumber"
+                id="emergencyContactNumber"
+                label="Emergency Contact’s Number"
+                name="emergencyContactNumber"
                 type="text"
                 placeholder="Enter your next of kin’s contact"
               />
@@ -194,9 +215,9 @@ export default function EnrollStudent() {
               <FormInputs
                 register={register}
                 className="my-1 text-black"
-                id="iceContactLocation"
-                label="ICE Contact’s Location"
-                name="iceContactLocation"
+                id="emergencyContactLocation"
+                label="Emergency Contact’s Location"
+                name="emergencyContactLocation"
                 type="text"
                 placeholder="Enter your next of kin’s location"
               />
@@ -208,12 +229,12 @@ export default function EnrollStudent() {
             <Col md={6} lg={4} className="mb-md-3 mb-lg-0">
               <FormInputs
                 register={register}
-                errors={errors?.depositPaid}
-                registerOptions={registerOptions?.depositPaid}
+                errors={errors?.amount}
+                registerOptions={registerOptions?.amount}
                 className="my-1 text-black"
-                id="depositPaid"
+                id="amount"
                 label="Deposit Paid Upon Enrolment"
-                name="depositPaid"
+                name="amount"
                 type="number"
                 placeholder="0.00"
               />
@@ -243,9 +264,9 @@ export default function EnrollStudent() {
                   errors={errors?.paymentReceipt}
                   registerOptions={registerOptions?.paymentReceipt}
                   className="my-1 w-100 position-absolute top-0 end-0 opacity-0"
-                  id="paymentReceipt"
+                  id="receipt"
                   label="Payment Receipt"
-                  name="paymentReceipt"
+                  name="receipt"
                   type="file"
                   accept="image/*"
                 />
@@ -274,9 +295,9 @@ export default function EnrollStudent() {
                   errors={errors?.uploadPhoto}
                   registerOptions={registerOptions?.uploadPhoto}
                   className="my-1 w-100 position-absolute top-0 end-0 opacity-0"
-                  id="uploadPhoto"
-                  label="Upload Photo"
-                  name="uploadPhoto"
+                  id="image"
+                  label="Upload Profile Photo"
+                  name="image"
                   type="file"
                   accept="image/*"
                 />
@@ -287,7 +308,7 @@ export default function EnrollStudent() {
           <div className="d-flex flex-column flex-md-row gap-3 gap-md-4 justify-content-center justify-content-md-start ">
             <MyButton
               variant="primary"
-              text="Save Changes"
+              text={isSending ? <BeatLoader color="#0266f4" /> : "Save Changes"}
               className={`${styles.btnSize} fw-bold`}
               type="submit"
               disabled={isSubmitting}

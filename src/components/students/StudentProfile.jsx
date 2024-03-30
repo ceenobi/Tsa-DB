@@ -69,7 +69,12 @@ export default function StudentProfile({
                         </Dropdown.Item>
                       </>
 
-                      <Dropdown.Item>Generate Docket</Dropdown.Item>
+                      <Dropdown.Item
+                        as={Link}
+                        to={`/dashboard/students/generate-docket/${item._id}`}
+                      >
+                        Generate Docket
+                      </Dropdown.Item>
                       <Dropdown.Item>View Payment History</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>

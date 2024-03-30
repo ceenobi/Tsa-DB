@@ -2,17 +2,17 @@ import { Headings } from "@components";
 import { HiOutlinePhone } from "react-icons/hi";
 import { CiMail } from "react-icons/ci";
 import { PiGoogleChromeLogoThin } from "react-icons/pi";
-import { Image, Stack, Container } from "react-bootstrap";
+import { Image, Stack } from "react-bootstrap";
 import { tsLogo } from "@assets";
 import { useGetAStudentData } from "@store";
 import { timeStamp } from "@utils";
 import styles from "../../pages/students/student.module.css";
 
-export default function DownloadDocket() {
+export default function DownloadDocket({ targetRef }) {
   const { student } = useGetAStudentData();
 
   return (
-    <Container className={`${styles.bgDocket} rounded-4 p-3 mt-5`}>
+    <div className="rounded-4 p-3 mt-5" ref={targetRef}>
       <div className="my-3 my-lg-5 d-md-flex justify-content-between align-items-start p-3 p-lg-4">
         <div className="mb-4 mb-lg-0">
           <Headings
@@ -45,9 +45,9 @@ export default function DownloadDocket() {
             </div>
           </div>
         </div>
-        <Image src={tsLogo} fluid className="d-none d-md-block" />
+        <Image src={tsLogo} fluid />
       </div>
-      <div className="py-2 py-lg-5">
+      <div className="py-5">
         <Headings
           title="STUDENT ENROLLMENT DOCKET"
           color="var(--mainWhite)"
@@ -137,7 +137,7 @@ export default function DownloadDocket() {
           <Image
             src={student.image}
             fluid
-            className="rounded-4 object-fit-cove"
+            className="rounded-4 object-fit-fill"
             style={{ height: "250px", width: "250px" }}
             loading="lazy"
           />
@@ -146,7 +146,7 @@ export default function DownloadDocket() {
       <div className="mt-5">
         <Stack
           direction="horizontal"
-          className="justify-content-center align-items-center mb-4 position-relative"
+          className="justify-content-center align-items-center mb-4 gap-2"
         >
           <hr className="text-black border-2" style={{ width: "100px" }} />
           <Headings
@@ -160,7 +160,7 @@ export default function DownloadDocket() {
           className={`${styles.pStyleMini} ${styles.pSize} mb-4 mx-auto text-center`}
         >
           Please note the following as they guide the usage of the enrollment
-          docket
+          docket;
         </p>
         <p
           className={`${styles.pStyleMini} ${styles.pSize} mb-4 mx-auto text-center`}
@@ -172,6 +172,6 @@ export default function DownloadDocket() {
         </p>
       </div>
       <p className="text-end mt-5">Docket generated on {timeStamp()}</p>
-    </Container>
+    </div>
   );
 }

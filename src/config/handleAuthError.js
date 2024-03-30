@@ -8,7 +8,6 @@ const handleAuthError = (error) => {
   if (error?.response) {
     return toast.error(error.response.data.message || "An error occured");
   }
-
   toast.error("An unexpected error occured");
 };
 

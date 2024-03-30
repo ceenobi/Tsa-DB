@@ -16,9 +16,9 @@ const updateAStudent = async (studentId, formData) => {
   return await axiosInstance.patch(`/student/${studentId}`, formData);
 };
 
-// const addAStudent = async (studentId, formData) => {
-//   return await axiosInstance.post(`/student/${studentId}`, formData);
-// };
+const addAStudent = async (formData) => {
+  return await axiosInstance.post("/student", formData);
+};
 
 const searchStudentsViaCourse = async (searchQuery) => {
   return await axiosInstance.get(`/student?searchTerm=${searchQuery}`);
@@ -30,4 +30,5 @@ export default {
   updateAStudent,
   sendStudentDocket,
   searchStudentsViaCourse,
+  addAStudent,
 };

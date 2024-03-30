@@ -45,7 +45,7 @@ const registerOptions = {
         v.length >= 11 || "Should not be less than 11 characters",
     },
   },
-  depositPaid: {
+  amount: {
     required: "This field is required",
   },
   paymentReceipt: {

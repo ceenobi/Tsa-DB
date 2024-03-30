@@ -92,7 +92,7 @@ export default function Docket() {
           <MyButton
             variant="outline-primary"
             text={
-              isSending ? <BeatLoader color="#ffffff" /> : "Share Via Email"
+              isSending ? <BeatLoader color="#0266f4" /> : "Share Via Email"
             }
             className={`fw-bold ${styles.btnWidth}`}
             disabled={isSending}
@@ -227,7 +227,7 @@ export default function Docket() {
             <Image
               src={student.image}
               fluid
-              className="rounded-4 object-fit-cove"
+              className="rounded-4 object-fit-fill"
               style={{ height: "250px", width: "250px" }}
               loading="lazy"
             />

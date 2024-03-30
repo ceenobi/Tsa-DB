@@ -148,8 +148,13 @@ footer {
   margin-left: 10px !important;
   border-radius: 5px;
 }
+.page-link:hover {
+  transition: 0.3s ease all;
+  color: var(--mainBlue);
+  filter: brightness(80%);
+}
 .active {
-  background-color: var(--lightBlue);
+  background-color: var(--lightBlue) !important;
   border-radius: 50%;
 }
 .page-item-none {

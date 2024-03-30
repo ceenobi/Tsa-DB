@@ -2,7 +2,7 @@ import { Resolution, Margin } from "react-to-pdf";
 
 const options = {
   // default is `save`
-  method: "open",
+  method: "save",
   // default is Resolution.MEDIUM = 3, which should be enough, higher values
   // increases the image quality but also the size of the PDF, so be careful
   // using values higher than 10 when having multiple pages generated, it
@@ -12,7 +12,7 @@ const options = {
     // margin is in MM, default is Margin.NONE = 0
     margin: Margin.SMALL,
     // default is 'A4'
-    format: "letter",
+    format: "A4",
     // default is 'portrait'
     orientation: "portrait",
   },

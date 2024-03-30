@@ -6,18 +6,21 @@ import styles from "./student.module.css";
 
 export default function DocketModal({ student }) {
   const [showModal, setShowModal] = useState(false);
-  const [showDocket, setShowDocket] = useState(false);
   const { toPDF, targetRef } = usePDF(
-    { filename: `${student.fullName} docket.pdf` },
-    options
+    {
+      filename: `${student.fullName} docket.pdf`,
+      options
+    },
   );
 
   const handleClose = () => setShowModal(false);
   const handleOpen = () => setShowModal(true);
 
-  // useEffect(() => {
-  //   setShowDocket(false);
-  // }, []);
+  useEffect(() => {
+    if (showModal) {
+      toPDF();
+    }
+  }, [showModal, toPDF]);
 
   return (
     <>
@@ -25,16 +28,9 @@ export default function DocketModal({ student }) {
         variant="primary"
         text="Download Docket"
         className={`fw-bold ${styles.btnWidth}`}
-        onClick={() => {
-          handleOpen();
-          toPDF();
-        }}
+        onClick={handleOpen}
       />
-
-      <div ref={targetRef} className={showModal ? "d-block" : "d-none"}>
-        <DownloadDocket />
-      </div>
-
+      {showModal && <DownloadDocket targetRef={targetRef} />}
       <MyModal show={showModal} handleClose={handleClose} backdrop="static">
         <div className="text-center py-5">
           <Headings

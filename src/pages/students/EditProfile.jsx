@@ -77,8 +77,9 @@ export default function EditProfile() {
       )}
       {isLoading && <Spinner />}
       {!isLoading && !isError && !student && (
-        <span className="text-red-400"> h
-          You have no student data to display
+        <span className="text-red-400">
+          {" "}
+          h You have no student data to display
         </span>
       )}
       <div>
@@ -121,7 +122,7 @@ export default function EditProfile() {
               <Col md={4} className="mt-3 mt-md-0">
                 <FormInputs
                   register={register}
-                  errors={errors?.popularlyKnownAs}
+                  errors={errors?.pka}
                   registerOptions={registerOptions?.pka}
                   className="my-1 text-black"
                   id="pka"
@@ -214,9 +215,9 @@ export default function EditProfile() {
                 <FormInputs
                   register={register}
                   className="my-1 text-black"
-                  id="referralStudentID"
+                  id="referralStudentId"
                   label="Referral’s Student ID"
-                  name="referralStudentID"
+                  name="referralStudentId"
                   type="text"
                   placeholder="Enter Student ID"
                 />
@@ -242,7 +243,7 @@ export default function EditProfile() {
                   register={register}
                   className="my-1 text-black"
                   id="emergencyContactName"
-                  label="ICE Contact’s Name"
+                  label="Emergency Contact’s Name"
                   name="emergencyContactName"
                   type="text"
                   placeholder={student.emergencyContactName}
@@ -253,7 +254,7 @@ export default function EditProfile() {
                   register={register}
                   className="my-1 text-black"
                   id="emergencyContactNumber"
-                  label="ICE Contact’s Number"
+                  label="Emergency Contact’s Number"
                   name="emergencyContactNumber"
                   type="text"
                   placeholder={student.emergencyContactNumber}
@@ -264,7 +265,7 @@ export default function EditProfile() {
                   register={register}
                   className="my-1 text-black"
                   id="emergencyContactLocation"
-                  label="ICE Contact’s Location"
+                  label="Emergency Contact’s Location"
                   name="emergencyContactLocation"
                   type="text"
                   placeholder={student.emergencyContactLocation}
