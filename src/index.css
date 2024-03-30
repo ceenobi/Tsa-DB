@@ -24,8 +24,7 @@
   --mainBlack: #1e1e1e;
   --greyLight: #cfcfd0;
   --lightGrey: #f1efef;
-  --paleBlue: #0266F41A;
-;
+  --paleBlue: #0266f41a;
 }
 
 body {
@@ -144,6 +143,19 @@ footer {
   color: var(--greyLight);
 }
 
+/* pagination */
+.page-link {
+  margin-left: 10px !important;
+  border-radius: 5px;
+}
+.active {
+  background-color: var(--lightBlue);
+  border-radius: 50%;
+}
+.page-item-none {
+  display: none;
+}
+
 /* rules */
 
 @media (min-width: 768px) {
@@ -163,7 +175,6 @@ footer {
 
 @media (min-width: 1024px) {
   .outlet {
-    width: calc(100% - 100px);
     margin: 0 0 0 100px;
   }
   .searchBox {

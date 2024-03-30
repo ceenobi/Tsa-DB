@@ -1,17 +1,23 @@
-import { useState } from "react";
-import { MyButton, MyModal, Headings } from "@components";
+import { useEffect, useState } from "react";
+import { MyButton, MyModal, Headings, DownloadDocket } from "@components";
+import { options } from "@utils";
+import { usePDF } from "react-to-pdf";
 import styles from "./student.module.css";
 
-export default function DocketModal() {
+export default function DocketModal({ student }) {
   const [showModal, setShowModal] = useState(false);
+  const [showDocket, setShowDocket] = useState(false);
+  const { toPDF, targetRef } = usePDF(
+    { filename: `${student.fullName} docket.pdf` },
+    options
+  );
+
   const handleClose = () => setShowModal(false);
   const handleOpen = () => setShowModal(true);
 
-  const pStyle = {
-    fontWeight: "600",
-    color: "var(--offBlack)",
-    fontSize: "1.063rem",
-  };
+  // useEffect(() => {
+  //   setShowDocket(false);
+  // }, []);
 
   return (
     <>
@@ -19,8 +25,16 @@ export default function DocketModal() {
         variant="primary"
         text="Download Docket"
         className={`fw-bold ${styles.btnWidth}`}
-        onClick={handleOpen}
+        onClick={() => {
+          handleOpen();
+          toPDF();
+        }}
       />
+
+      <div ref={targetRef} className={showModal ? "d-block" : "d-none"}>
+        <DownloadDocket />
+      </div>
+
       <MyModal show={showModal} handleClose={handleClose} backdrop="static">
         <div className="text-center py-5">
           <Headings
@@ -28,10 +42,10 @@ export default function DocketModal() {
             color="var(--mainBlue)"
             size="1.438rem"
           />
-          <p style={pStyle} className="my-3">
-            Docket for{" "}
-            <span className="text-danger">Bakare Mariam Oyelola</span> was
-            confirmed successfully. Kindly check your downloads for the docket.
+          <p className={`${styles.pStyle} my-3`}>
+            Docket for <span className="text-danger">{student.fullName}</span>{" "}
+            was confirmed successfully. Kindly check your downloads for the
+            docket.
           </p>
           <MyButton
             variant="primary"

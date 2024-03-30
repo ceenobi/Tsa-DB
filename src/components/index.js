@@ -8,6 +8,7 @@ import Sidebar from "./Sidebar";
 import StudentProfile from "./students/StudentProfile";
 import ConfirmDeposit from "./students/ConfirmDeposit";
 import DocketModal from "./students/DocketModal";
+import DownloadDocket from "./students/DownloadDocket";
 import { FormInputs, FormSelect } from "./FormFields";
 import Paginate from "./Paginate";
 
@@ -25,4 +26,5 @@ export {
   FormInputs,
   FormSelect,
   Paginate,
+  DownloadDocket,
 };

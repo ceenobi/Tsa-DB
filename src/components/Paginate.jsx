@@ -1,18 +1,11 @@
 import { useEffect, useState } from "react";
-import { Stack, Button } from "react-bootstrap";
-import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import ReactPaginate from "react-paginate";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Paginate({ data, itemsPerPage, setFilterData }) {
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
-  const [searchParams] = useSearchParams();
-
-  const page = searchParams.get("page") || 1;
-
-  const params = new URLSearchParams(searchParams);
-  params.set("page", 1);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
@@ -20,9 +13,10 @@ export default function Paginate({ data, itemsPerPage, setFilterData }) {
     setPageCount(Math.ceil(data.length / itemsPerPage));
   }, [data, itemOffset, itemsPerPage, setFilterData]);
 
-  const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % data.length;
+  const handlePageClick = async (event) => {
+    const newOffset = event.selected * itemsPerPage;
     setItemOffset(newOffset);
+    navigate(`?page=${newOffset / itemsPerPage + 1}`);
   };
 
   const getPageNumber = Math.ceil(itemOffset / itemsPerPage) + 1;
@@ -34,45 +28,19 @@ export default function Paginate({ data, itemsPerPage, setFilterData }) {
         Page {getPageNumber} of {Math.ceil(data.length / itemsPerPage)}
       </span>
       <ReactPaginate
-        containerClassName={"pagination"}
-        activeClassName={"active"}
-        pageClassName={"page-item"}
-        pageRangeDisplayed={0}
-        marginPagesDisplayed={""}
-        onPageChange={handlePageClick}
+        containerClassName="pagination mt-3"
+        activeClassName="active"
         breakLabel="..."
+        breakClassName="page-item-none"
+        pageClassName="page-item-none"
+        previousClassName="page-item"
+        previousLinkClassName="page-link"
+        nextClassName="page-item"
+        nextLinkClassName="page-link"
+        onPageChange={handlePageClick}
         pageCount={pageCount}
-        previousLabel={
-          <Button
-            variant="none"
-            className="border me-3"
-            style={{
-              borderColor: "var(--greyLight)",
-              color: "var(--offBlack)",
-              minWidth: "fit-content",
-            }}
-          >
-            <Stack direction="horizontal" gap={2}>
-              <GrFormPrevious />
-              Previous
-            </Stack>
-          </Button>
-        }
-        nextLabel={
-          <Button
-            variant="none"
-            style={{
-              borderColor: "var(--greyLight)",
-              color: "var(--offBlack)",
-              minWidth: "fit-content",
-            }}
-          >
-            <Stack direction="horizontal" gap={2}>
-              Next
-              <GrFormNext />
-            </Stack>
-          </Button>
-        }
+        previousLabel={"< Previous"}
+        nextLabel={"Next >"}
       />
     </div>
   );

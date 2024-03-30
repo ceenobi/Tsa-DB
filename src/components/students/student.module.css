@@ -17,12 +17,19 @@
   height: 250px;
 }
 
+.pStyle {
+  font-weight: 600;
+  color: var(--offBlack);
+  font-size: 1.063rem;
+}
+
 @media (min-width: 768px) {
   .studentProfileImg {
     width: 40%;
   }
 }
-@media (max-width: 280px) {
+
+@media (max-width: 374px) {
   .btnWidth {
     width: 100%;
   }

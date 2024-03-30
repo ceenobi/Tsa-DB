@@ -29,7 +29,6 @@
   font-weight: 600;
 }
 
-.boxSize,
 .pSize {
   width: 100%;
 }
@@ -53,20 +52,14 @@
 }
 
 @media (min-width: 768px) {
-  .boxSize {
-    width: 50%;
-  }
   .headers {
     width: 70%;
   }
   .divider {
-    width: auto;
+    width: 57%;
   }
   .btnSize {
     min-width: 232px;
-  }
-  .border {
-    border-bottom: 1px;
   }
 }
 
@@ -80,9 +73,12 @@
   .divider {
     width: 40%;
   }
+  .border {
+    border-bottom: 1px!important;
+  }
 }
 
-@media (max-width: 280px) {
+@media (max-width: 374px) {
   .btnWidth {
     width: 100%;
   }

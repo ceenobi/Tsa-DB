@@ -71,7 +71,7 @@ export default function SeeStudentsByCourse() {
         <DropdownButton
           id="dropdown-basic-button"
           title="All Courses"
-          className="d-md-none"
+          className="d-lg-none"
           variant="solid"
         >
           {allCourses.map((item, index) => (
@@ -84,7 +84,7 @@ export default function SeeStudentsByCourse() {
             </Dropdown.Item>
           ))}
         </DropdownButton>
-        <div className="d-none d-md-flex gap-4 justify-content-between align-items-center">
+        <div className="d-none d-lg-flex gap-4 justify-content-between align-items-center">
           {allCourses.map((item, index) => (
             <div
               key={index}
@@ -113,7 +113,7 @@ export default function SeeStudentsByCourse() {
         </span>
       )}
 
-      {!isLoading && !isError && !searchQuery && (
+      {!isLoading && !isError && !searchQuery.length && (
         <span className="text-danger text-center mt-2">
           You have no student data to display
         </span>

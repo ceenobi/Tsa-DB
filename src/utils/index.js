@@ -7,6 +7,8 @@ import {
 import formatCurrency from "./formatCurrency";
 import registerOptions from "./formValidate";
 import Spinner from "./Spinner";
+import timeStamp from "./formatDate";
+import options from "./docketOptions";
 
 export {
   navlinks,
@@ -15,5 +17,7 @@ export {
   registerOptions,
   classTypeValues,
   classCohortValues,
-  Spinner
+  Spinner,
+  timeStamp,
+  options
 };

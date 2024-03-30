@@ -88,7 +88,7 @@ export default function Docket() {
           </div>
         </Stack>
         <div className="d-flex flex-wrap justify-content-between gap-3 mt-1">
-          <DocketModal />
+          <DocketModal student={student} />
           <MyButton
             variant="outline-primary"
             text={
@@ -102,14 +102,15 @@ export default function Docket() {
       </div>
       <div className={`${styles.bg} rounded-4 p-3 mt-5`}>
         <div className="my-3 my-lg-5 d-md-flex justify-content-between align-items-start p-3 p-lg-4">
-          <div className={`${styles.boxSize} mb-4 mb-lg-0`}>
+          <div className="mb-4 mb-lg-0">
             <Headings
               title="TechStudio Academy"
               color="var(--mainBlue)"
               className={`${styles.h1}`}
             />
             <p className={styles.pStyle}>
-              1, Ogunlesi Street, Off Bode Thomas, Awoyokun Bus Stop, Onipanu,
+              1, Ogunlesi Street, Off Bode Thomas,{" "}
+              <br className="d-none d-md-block" /> Awoyokun Bus Stop, Onipanu,
               Lagos State.
             </p>
             <p className={`${styles.pStyle} mb-2 mb-lg-1`}>
