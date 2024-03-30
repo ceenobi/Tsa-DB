@@ -6,6 +6,7 @@ import {
   useParams,
   useNavigate,
   Link,
+  useSearchParams,
 } from "react-router-dom";
 import { Headings, TableData, Paginate } from "@components";
 import { formatCurrency, tableLinks, Spinner } from "@utils";
@@ -20,6 +21,8 @@ import styles from "./pages.module.css";
 
 export default function Dashboard() {
   useTitle("Dashboard");
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("query") || "";
   const location = useLocation();
   const navigate = useNavigate();
   const { studentId } = useParams();
@@ -239,11 +242,22 @@ export default function Dashboard() {
         </>
       )}
       {!noPaginate.includes(location.pathname) && (
-        <Paginate
-          data={searchQuery.length > 0 ? searchQuery : students}
-          itemsPerPage={itemsPerPage}
-          setFilterData={setFilterData}
-        />
+        <>
+          {query && (
+            <Paginate
+              data={searchQuery}
+              itemsPerPage={itemsPerPage}
+              setFilterData={setFilterData}
+            />
+          )}
+          {!query && (
+            <Paginate
+              data={students}
+              itemsPerPage={itemsPerPage}
+              setFilterData={setFilterData}
+            />
+          )}
+        </>
       )}
     </PageLayout>
   );

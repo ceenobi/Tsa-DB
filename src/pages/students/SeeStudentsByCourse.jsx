@@ -16,10 +16,9 @@ export default function SeeStudentsByCourse() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
   useTitle(`Search result for "${query}"`);
-  const { students, setSearchQuery } = useGetStudentsData();
+  const { students, setSearchQuery, searchQuery } = useGetStudentsData();
   const { filterData } = useFilteredData();
   const current = useCurrent((state) => state.current, shallow);
-
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["studentsByCourse", query],
     queryFn: () => studentsService.searchStudentsViaCourse(query),
@@ -56,7 +55,7 @@ export default function SeeStudentsByCourse() {
   const searchStudentByCourse = useCallback(
     (item) => {
       if (item === "All Students") {
-        navigate(`/dashboard/students`);
+        navigate(`/dashboard/students/search`);
       } else {
         navigate(`/dashboard/students/search?query=${item}`);
       }
@@ -114,7 +113,7 @@ export default function SeeStudentsByCourse() {
         </span>
       )}
 
-      {!isLoading && !isError && !students && (
+      {!isLoading && !isError && !searchQuery && (
         <span className="text-danger text-center mt-2">
           You have no student data to display
         </span>

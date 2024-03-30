@@ -44,7 +44,7 @@ export default function Students() {
   const searchStudentByCourse = useCallback(
     (item) => {
       if (item === "All Students") {
-        navigate(`/dashboard/students`);
+        navigate(`/dashboard/students/search`);
       } else {
         navigate(`/dashboard/students/search?query=${item}`);
       }
