@@ -10,7 +10,7 @@ import {
   Login,
 } from "@pages";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Spinner } from "@utils";
+import { Spinner,validationSchema } from "@utils";
 const Root = lazy(() => import("@components/Root"));
 
 export default function AppRoutes() {

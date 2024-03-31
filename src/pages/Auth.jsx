@@ -3,30 +3,9 @@ import { useTitle } from "@hooks";
 import { Container, Form, Image } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { browseFileImg } from "@assets";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
-
-const validationSchema = yup
-  .object({
-    fullname: yup.string().required("missing info"),
-    popularlyKnownAs: yup.string().required("missing info"),
-    studentId: yup.string().required("missing info"),
-    classCohort: yup.string().required("missing info"),
-    email: yup.string().required("missing email").email("Invalid email format"),
-    phoneNumber: yup.string().required("missing phone number"),
-    classType: yup.string().required("missing info"),
-    uploadReceipt: yup.string().required("missing info"),
-    whatsappNumber: yup.string().required("missing info"),
-    referralStudentId: yup.string().required("missing info"),
-    referralName: yup.string().required("missing info"),
-    emergencyContactName: yup.string().required("missing info"),
-    emergencyContactNumber: yup.string().required("missing info"),
-    emergencyContactLocation: yup.string().required("missing info"),
-    paymentDetails: yup.string().required("missing info"),
-    paymentReceipt: yup.string().required("missing info"),
-  })
-  .required();
+import {validationSchema} from '@utils'
 const Auth = () => {
   useTitle("Welcome to Techstudio");
   const {
@@ -36,8 +15,8 @@ const Auth = () => {
   } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      fullname: "",
-      popularlyKnownAs: "",
+      fullName: "",
+      pka: "",
       studentId: "",
       classCohort: "",
       email: "",
@@ -57,21 +36,15 @@ const Auth = () => {
   console.log("errors", errors);
   const onSubmit = async (data) => {
     
-    // axios.post("https://tsa-database-server.onrender.com/api/v1/student", {
-    //     student: data,
-    //   })
-    //   .then((res) => console.log("succ", res))
-    //   .catch((err) => {
-    //     console.log("err", err);
-    //   });
-    //   console.log("data", data);
+
+      console.log("data", data);
   };
 
   return (
     <>
       <Navbar />
       <Container className="mt-5 p-3">
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form encType="multipart/form-data" onSubmit={handleSubmit(onSubmit)}>
           <div className="row justify-content-between">
             <h2 className="my-5">Student&apos;s Details</h2>
             {/* fullname */}
@@ -83,11 +56,11 @@ const Auth = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter your full name"
-                {...register("fullname")}
+                {...register("fullName")}
               />
-              {errors.fullname && (
+              {errors.fullName && errors.fullName.message && (
                 <span className="text-danger">
-                  {errors.fullname.message}
+                  {errors.fullName.message}
                 </span>
               )}
             </Form.Group>
@@ -100,12 +73,12 @@ const Auth = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter name"
-                {...register("popularlyKnownAs")}
+                {...register("pka")}
               />
-              {errors.popularlyKnownAs && (
+              {errors.pka && errors.pka.message &&(
                 <span className="text-danger">
                   {" "}
-                  {errors.popularlyKnownAs.message}{" "}
+                  {errors.pka.message}{" "}
                 </span>
               )}
             </Form.Group>
@@ -135,11 +108,13 @@ const Auth = () => {
                 {...register("classCohort")}
               >
                 <option>Select cohort </option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                <option value="1">Fullstack</option>
+                <option value="2">Cybersecurity</option>
+                <option value="3">Frontend</option>
+                <option value="4">Data Analysis</option>
+                <option value="4">Product Design</option>
               </Form.Select>
-              {errors.studentId && (
+              {errors.classCohort && errors.classCohort.message && (
                 <span className="text-danger">
                   {" "}
                   {errors.classCohort.message}{" "}
@@ -157,7 +132,7 @@ const Auth = () => {
                 placeholder="Enter your email address"
                 {...register("email")}
               />
-                {errors.studentId && (
+                {errors.email && errors.email.message &&(
                 <span className="text-danger">
                   {" "}
                   {errors.email.message}{" "}
@@ -175,7 +150,7 @@ const Auth = () => {
                 placeholder="Enter your phone number"
                 {...register("phoneNumber")}
               />
-              {errors.studentId && (
+              {errors.phoneNumber && errors.phoneNumber.message && (
                 <span className="text-danger">
                   {" "}
                   {errors.phoneNumber.message}{" "}
@@ -194,9 +169,8 @@ const Auth = () => {
                 {...register("classType")}
               >
                 <option>Select Class Type</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                <option value="1">weekday</option>
+                <option value="2">weekend</option>
               </Form.Select>
             </Form.Group>
             {/* img upload */}
@@ -210,6 +184,7 @@ const Auth = () => {
 
               {/* below for bootstrap */}
               <Form.Control
+                accept="image/*"
                 type="file"
                 className="position-absolute top-50 opacity-0"
                 size="lg"
@@ -319,6 +294,7 @@ const Auth = () => {
 
               {/* below for bootstrap */}
               <Form.Control
+                accept="image/*"
                 type="file"
                 className="position-absolute top-50 opacity-0"
                 size="lg"
