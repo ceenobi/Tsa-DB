@@ -1,11 +1,17 @@
 import { Table, Image, Stack } from "react-bootstrap";
 import { useState } from "react";
-import { StudentProfile } from "@components";
+import { StudentProfile, PaymentProfile } from "@components";
 import { useCurrent } from "@store";
+import { useLocation } from "react-router-dom";
+import { formatCurrency } from "@utils";
 
 export default function TableData({ header, extra, data, current }) {
   const [showStudentModal, setShowStudentModal] = useState(false);
   const getCurrent = useCurrent((state) => state.addCurrent);
+  const location = useLocation();
+
+  const isPath = ["/dashboard/payments"];
+  const matchPaths = isPath.map((path) => path);
 
   const tNamestyle = {
     color: "var(--mainBlue)",
@@ -61,40 +67,85 @@ export default function TableData({ header, extra, data, current }) {
                   {item.fullName}
                 </Stack>
               </td>
-              <td style={tstyle} className="text-capitalize">
-                <div className="mt-2">{item.pka}</div>
-              </td>
+              {!matchPaths.includes(location.pathname) && (
+                <td style={tstyle} className="text-capitalize">
+                  <div className="mt-2">{item.pka}</div>
+                </td>
+              )}
               <td style={tstyle}>
-                {" "}
                 <div className="mt-2 text-capitalize">{item.courseCohort}</div>
               </td>
-              <td style={tFstyle}>
-                {" "}
-                <div className="mt-2">{item.email}</div>
-              </td>
-              <td style={tFstyle}>
-                {" "}
-                <div className="mt-2">{item.phoneNumber}</div>
-              </td>
-              <td
-                style={{
-                  color: "var(--mainRed)",
-                }}
-              >
-                <div className="mt-2">{item.classType}</div>
-              </td>
+              {!matchPaths.includes(location.pathname) && (
+                <>
+                  <td style={tFstyle}>
+                    <div className="mt-2">{item.email}</div>
+                  </td>
+                  <td style={tFstyle}>
+                    <div className="mt-2">{item.phoneNumber}</div>
+                  </td>
+                  <td
+                    style={{
+                      color: "var(--mainRed)",
+                    }}
+                  >
+                    <div className="mt-2">{item.classType}</div>
+                  </td>
+                </>
+              )}
+              {matchPaths.includes(location.pathname) && (
+                <>
+                  <td style={tstyle} className="text-capitalize">
+                    <div className="mt-2">{formatCurrency(item.courseFee)}</div>
+                  </td>
+                  {item.payments.map((info, i) => (
+                    <td
+                      style={tstyle}
+                      className="text-capitalize text-success"
+                      key={i}
+                    >
+                      <div className="mt-2">{formatCurrency(info.amount)}</div>
+                    </td>
+                  ))}
+                  <td style={tstyle} className="text-capitalize text-primary">
+                    <div className="mt-2">
+                      {item.balance ? formatCurrency(item.balance) : "-"}
+                    </div>
+                  </td>
+                  <td
+                    style={tstyle}
+                    className={`text-capitalize ${
+                      item.paymentStatus === "part"
+                        ? "text-danger"
+                        : "text-success"
+                    }`}
+                  >
+                    <div className="mt-2">
+                      {item.paymentStatus === "part" ? "part" : "full"}
+                    </div>
+                  </td>
+                </>
+              )}
             </tr>
           </tbody>
         ))}
       </Table>
       {showStudentModal && (
         <>
-          <StudentProfile
-            showStudentModal={showStudentModal}
-            setShowStudentModal={setShowStudentModal}
-            current={current}
-            data={data}
-          />
+          {!matchPaths.includes(location.pathname) ? (
+            <StudentProfile
+              showStudentModal={showStudentModal}
+              setShowStudentModal={setShowStudentModal}
+              current={current}
+              data={data}
+            />
+          ) : (
+            <PaymentProfile
+              showStudentModal={showStudentModal}
+              setShowStudentModal={setShowStudentModal}
+              current={current}
+              data={data}
+            />
+          )}
         </>
       )}
     </>

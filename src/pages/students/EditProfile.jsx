@@ -5,12 +5,18 @@ import { MdArrowLeft } from "react-icons/md";
 import { Headings, FormInputs, FormSelect, MyButton } from "@components";
 import { Stack, Row, Col, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { registerOptions, classTypeValues, classCohortValues } from "@utils";
+import {
+  registerOptions,
+  classTypeValues,
+  classCohortValues,
+  Spinner,
+} from "@utils";
 import { useQuery } from "@tanstack/react-query";
 import { useGetAStudentData } from "@store";
 import { studentsService } from "@services";
-import { Spinner } from "@utils";
-// import { handleAuthError } from "@config";
+import { handleAuthError } from "@config";
+import toast from "react-hot-toast";
+import { BeatLoader } from "react-spinners";
 import styles from "./student.module.css";
 
 export default function EditProfile() {
@@ -57,15 +63,16 @@ export default function EditProfile() {
 
   useTitle(`Edit Profile "${student.fullName}"`);
 
-  console.log(student);
-
-  const onSubmitHandler = async (data) => {
-    console.log(data);
-    // try {
-    //   const res = await studentsService.updateAStudent()
-    // } catch (error) {
-    //   handleAuthError(error);
-    // }
+  const onSubmitHandler = async (formData) => {
+    console.log(formData);
+    try {
+      const res = await studentsService.updateAStudent(formData);
+      if (res.status === 200) {
+        toast.success(`tt`);
+      }
+    } catch (error) {
+      handleAuthError(error);
+    }
   };
 
   return (
@@ -104,7 +111,7 @@ export default function EditProfile() {
         </Stack>
         <div className="p-3 p-md-4">
           <Form onSubmit={handleSubmit(onSubmitHandler)}>
-            <p className={styles.pStyle2}>Student’s Details</p>
+            <p className={styles.pStyle2}>Student&apos;s Details</p>
             <Row>
               <Col md={4}>
                 <FormInputs
@@ -216,7 +223,7 @@ export default function EditProfile() {
                   register={register}
                   className="my-1 text-black"
                   id="referralStudentId"
-                  label="Referral’s Student ID"
+                  label="Referral's Student ID"
                   name="referralStudentId"
                   type="text"
                   placeholder="Enter Student ID"
@@ -227,7 +234,7 @@ export default function EditProfile() {
                   register={register}
                   className="my-1 text-black"
                   id="referralName"
-                  label="Referral’s Name"
+                  label="Referral's Name"
                   name="referralName"
                   type="text"
                   placeholder={
@@ -243,7 +250,7 @@ export default function EditProfile() {
                   register={register}
                   className="my-1 text-black"
                   id="emergencyContactName"
-                  label="Emergency Contact’s Name"
+                  label="Emergency Contact's Name"
                   name="emergencyContactName"
                   type="text"
                   placeholder={student.emergencyContactName}
@@ -254,7 +261,7 @@ export default function EditProfile() {
                   register={register}
                   className="my-1 text-black"
                   id="emergencyContactNumber"
-                  label="Emergency Contact’s Number"
+                  label="Emergency Contact's Number"
                   name="emergencyContactNumber"
                   type="text"
                   placeholder={student.emergencyContactNumber}
@@ -265,7 +272,7 @@ export default function EditProfile() {
                   register={register}
                   className="my-1 text-black"
                   id="emergencyContactLocation"
-                  label="Emergency Contact’s Location"
+                  label="Emergency Contact's Location"
                   name="emergencyContactLocation"
                   type="text"
                   placeholder={student.emergencyContactLocation}
@@ -276,7 +283,9 @@ export default function EditProfile() {
             <div className="d-flex flex-column flex-md-row gap-3 gap-md-4 justify-content-center justify-content-md-start ">
               <MyButton
                 variant="primary"
-                text="Save Changes"
+                text={
+                  isSubmitting ? <BeatLoader color="#0266f4" /> : "Save Changes"
+                }
                 className={`${styles.btnSize} fw-bold`}
                 type="submit"
                 disabled={isSubmitting}

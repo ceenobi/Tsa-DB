@@ -18,8 +18,14 @@ const useFilteredData = create((set) => ({
   setFilterData: (data) => set(() => ({ filterData: data })),
 }));
 
+const useGetAStudentPaymentRecord = create((set) => ({
+  student: [],
+  setStudent: (user) => set(() => ({ student: user })),
+}));
+
 export {
   useGetStudentsData,
   useGetAStudentData,
   useFilteredData,
+  useGetAStudentPaymentRecord,
 };

@@ -11,6 +11,7 @@ import DocketModal from "./students/DocketModal";
 import DownloadDocket from "./students/DownloadDocket";
 import { FormInputs, FormSelect } from "./FormFields";
 import Paginate from "./Paginate";
+import PaymentProfile from "./payments/PaymentProfile";
 
 export {
   Dashboard,
@@ -27,4 +28,5 @@ export {
   FormSelect,
   Paginate,
   DownloadDocket,
+  PaymentProfile
 };

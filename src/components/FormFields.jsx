@@ -1,4 +1,6 @@
-import { Form } from "react-bootstrap";
+import { useState } from "react";
+import { Form, Image } from "react-bootstrap";
+import toast from "react-hot-toast";
 
 export function FormInputs({
   id,
@@ -14,6 +16,18 @@ export function FormInputs({
   togglePassword,
   ...props
 }) {
+  const [preview, setPreview] = useState();
+
+  const onPreviewPicture = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      if (e.target.files[0].size > 5 * 1000 * 1000) {
+        toast.error("File with maximum size of 5MB is allowed");
+        return false;
+      }
+      setPreview(URL.createObjectURL(e.target.files[0]));
+    }
+  };
+  console.log(preview);
   return (
     <>
       <Form.Group className={className} controlId={id}>
@@ -25,6 +39,7 @@ export function FormInputs({
           {...register(name, registerOptions)}
           isInvalid={!!errors}
           className="bg-light.bg-gradient"
+          onChange={onPreviewPicture}
           {...props}
         />
         <Form.Control.Feedback type="invalid">
@@ -50,6 +65,16 @@ export function FormInputs({
           </>
         )}
       </Form.Group>
+      {preview && (
+        <>
+          <Image
+            src={preview}
+            alt="image preview"
+            style={{ width: "40px", height: "40px" }}
+            className="rounded-3 my-3 me-2"
+          />
+        </>
+      )}
     </>
   );
 }

@@ -27,7 +27,7 @@ export default function StudentProfile({
   };
 
   return (
-    <div>
+    <>
       <div>
         {data.map((item, i) => (
           <div key={item._id}>
@@ -355,6 +355,6 @@ export default function StudentProfile({
           current={current}
         />
       )}
-    </div>
+    </>
   );
 }

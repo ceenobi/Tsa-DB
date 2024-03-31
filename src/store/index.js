@@ -3,6 +3,7 @@ import {
   useGetStudentsData,
   useGetAStudentData,
   useFilteredData,
+  useGetAStudentPaymentRecord,
 } from "./getData";
 
 export {
@@ -11,4 +12,5 @@ export {
   useGetStudentsData,
   useGetAStudentData,
   useFilteredData,
+  useGetAStudentPaymentRecord,
 };

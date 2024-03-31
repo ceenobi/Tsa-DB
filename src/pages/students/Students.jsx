@@ -26,10 +26,10 @@ export default function Students() {
   const matchPaths = isPath.map((path) => path);
 
   const activeCourse = useMemo(() => {
-    return students?.students
-      ? students.students.map((course) => course.courseCohort.toLowerCase())
+    return students
+      ? students.map((course) => course.courseCohort.toLowerCase())
       : [];
-  }, [students?.students]);
+  }, [students]);
 
   const removeCourseDuplicates = useMemo(() => {
     return [
@@ -80,7 +80,7 @@ export default function Students() {
                 <div
                   key={index}
                   className={
-                    item === index
+                    item === index || item === "All Students"
                       ? `${styles.activeLink}`
                       : `${styles.noActiveLink}`
                   }

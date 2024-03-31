@@ -1,4 +1,4 @@
-import { axiosInstance } from "@config";
+import { axiosInstance, authHeader } from "@config";
 
 const getAllStudents = async () => {
   return await axiosInstance.get("/student");
@@ -13,15 +13,27 @@ const sendStudentDocket = async (studentId) => {
 };
 
 const updateAStudent = async (studentId, formData) => {
-  return await axiosInstance.patch(`/student/${studentId}`, formData);
+  return await axiosInstance.patch(`/student/${studentId}`, formData, {
+    headers: authHeader(),
+  });
 };
 
 const addAStudent = async (formData) => {
-  return await axiosInstance.post("/student", formData);
+  return await axiosInstance.post("/student", formData, {
+    headers: authHeader(),
+  });
 };
 
 const searchStudentsViaCourse = async (searchQuery) => {
   return await axiosInstance.get(`/student?searchTerm=${searchQuery}`);
+};
+
+const getStudentPaymentRecord = async (id) => {
+  return await axiosInstance.get(`/student/${id}/payment`);
+};
+
+const loginAdmin = async (formData) => {
+  return await axiosInstance.post("/login", formData);
 };
 
 export default {
@@ -31,4 +43,6 @@ export default {
   sendStudentDocket,
   searchStudentsViaCourse,
   addAStudent,
+  getStudentPaymentRecord,
+  loginAdmin,
 };

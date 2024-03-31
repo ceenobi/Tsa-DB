@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useTitle } from "@hooks";
 import { useNavigate } from "react-router-dom";
 import { MdArrowLeft } from "react-icons/md";
@@ -15,7 +14,6 @@ import styles from "./student.module.css";
 
 export default function EnrollStudent() {
   useTitle("Add a new student");
-  const [isSending, setIsSending] = useState(false);
   const navigate = useNavigate();
   const {
     handleSubmit,
@@ -29,7 +27,6 @@ export default function EnrollStudent() {
       return;
     }
     console.log(formData);
-    setIsSending(true);
     try {
       const res = await studentsService.addAStudent(formData);
       if (res.status === 201) {
@@ -37,8 +34,6 @@ export default function EnrollStudent() {
       }
     } catch (error) {
       handleAuthError(error);
-    } finally {
-      setIsSending(false);
     }
   };
 
@@ -308,7 +303,9 @@ export default function EnrollStudent() {
           <div className="d-flex flex-column flex-md-row gap-3 gap-md-4 justify-content-center justify-content-md-start ">
             <MyButton
               variant="primary"
-              text={isSending ? <BeatLoader color="#0266f4" /> : "Save Changes"}
+              text={
+                isSubmitting ? <BeatLoader color="#0266f4" /> : "Save Changes"
+              }
               className={`${styles.btnSize} fw-bold`}
               type="submit"
               disabled={isSubmitting}
