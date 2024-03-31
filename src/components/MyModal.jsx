@@ -1,4 +1,4 @@
-import { Modal } from "react-bootstrap";
+import { Modal, Stack } from "react-bootstrap";
 
 export default function MyModal({
   show,
@@ -19,8 +19,10 @@ export default function MyModal({
         >
           {title}
         </Modal.Title>
-        {backIcon}
-        {menu}
+        <Stack direction="horizontal">
+          {backIcon}
+          {menu}
+        </Stack>
       </div>
       <Modal.Body>{children}</Modal.Body>
     </Modal>
