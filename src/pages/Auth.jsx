@@ -1,10 +1,11 @@
+import axios from "axios";
+import { useState } from "react";
 import { Navbar, Footer } from "@layouts";
 import { useTitle } from "@hooks";
 import { Container, Form, Image } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { browseFileImg } from "@assets";
 import { yupResolver } from "@hookform/resolvers/yup";
-import axios from "axios";
 import {validationSchema} from '@utils'
 const Auth = () => {
   useTitle("Welcome to Techstudio");
@@ -17,27 +18,69 @@ const Auth = () => {
     defaultValues: {
       fullName: "",
       pka: "",
-      studentId: "",
-      classCohort: "",
+      // studentId: "",
+      courseCohort: "",
       email: "",
       phoneNumber: "",
       classType: "",
-      uploadReceipt: "",
+      image: "",
       whatsappNumber: "",
       referralStudentId: "",
-      referralName: "",
+      // referralName: "",
       emergencyContactName: "",
       emergencyContactNumber: "",
       emergencyContactLocation: "",
-      paymentDetails: "",
-      paymentReceipt: "",
+      amount: "",
+      receipt: "",
     },
   });
+  const [selectedImage, setSelectedImage] = useState(null); 
+  const [selectedReceipt, setSelectedReceipt] = useState(null);
   console.log("errors", errors);
+  
   const onSubmit = async (data) => {
+  try {
+    const formData = new FormData();
+    formData.append("fullName", data.fullName);
+    formData.append("pka", data.pka);
+    formData.append("courseCohort", data.courseCohort);
+    formData.append("email", data.email);
+    formData.append("phoneNumber", data.phoneNumber);
+    formData.append("classType", data.classType);
+    formData.append("whatsappNumber", data.whatsappNumber);
+    formData.append("referralStudentId", data.referralStudentId);
+    formData.append("emergencyContactName", data.emergencyContactName);
+    formData.append("emergencyContactNumber", data.emergencyContactNumber);
+    formData.append("emergencyContactLocation", data.emergencyContactLocation);
+    formData.append("amount", data.amount);
+    if (selectedImage) {
+      formData.append("image", selectedImage);
+    }
+    if (selectedReceipt) {
+      formData.append("receipt", selectedReceipt);
+    }
     
+    const response = await axios.post(
+      'https://tsa-database-server.onrender.com/api/v1/student',
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
-      console.log("data", data);
+    console.log('Response:', response.data);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+  const handleImageChange = (event) => {
+    setSelectedImage(event.target.files[0]);
+  };
+
+  const handleReceiptChange = (event) => {
+    setSelectedReceipt(event.target.files[0]);
   };
 
   return (
@@ -105,14 +148,14 @@ const Auth = () => {
 
               <Form.Select
                 aria-label="Default select example"
-                {...register("classCohort")}
+                {...register("courseCohort")}
               >
                 <option>Select cohort </option>
-                <option value="1">Fullstack</option>
-                <option value="2">Cybersecurity</option>
-                <option value="3">Frontend</option>
-                <option value="4">Data Analysis</option>
-                <option value="4">Product Design</option>
+                <option value="Fullstack">Fullstack</option>
+                <option value="Cybersecurity">Cybersecurity</option>
+                <option value="Frontend">Frontend</option>
+                <option value="Data Analysis">Data Analysis</option>
+                <option value="Product Design">Product Design</option>
               </Form.Select>
               {errors.classCohort && errors.classCohort.message && (
                 <span className="text-danger">
@@ -169,8 +212,8 @@ const Auth = () => {
                 {...register("classType")}
               >
                 <option>Select Class Type</option>
-                <option value="1">weekday</option>
-                <option value="2">weekend</option>
+                <option value="weekday">weekday</option>
+                <option value="weekend">weekend</option>
               </Form.Select>
             </Form.Group>
             {/* img upload */}
@@ -189,8 +232,16 @@ const Auth = () => {
                 className="position-absolute top-50 opacity-0"
                 size="lg"
                 placeholder="hh"
-                {...register("uploadReceipt")}
+                {...register("image")}
+                onChange={handleImageChange}
+
               />
+              {errors.image && errors.image.message &&(
+                <span className="text-danger">
+                  {" "}
+                  {errors.image.message}{" "}
+                </span>
+              )}
             </Form.Group>
             <hr />
             {/* Other Details */}
@@ -280,8 +331,14 @@ const Auth = () => {
               <Form.Control
                 placeholder="0.00"
                 type="number"
-                {...register("paymentDetails")}
+                {...register("amount")}
               />
+                 {errors.amount && errors.amount.message &&(
+                <span className="text-danger">
+                  {" "}
+                  {errors.amount.message}{" "}
+                </span>
+              )}
             </Form.Group>
             {/* payment receipt */}
             <Form.Group
@@ -299,8 +356,16 @@ const Auth = () => {
                 className="position-absolute top-50 opacity-0"
                 size="lg"
                 placeholder="hh"
-                {...register("paymentReceipt")}
+                {...register("receipt")}
+                onChange={handleReceiptChange}
+
               />
+               {errors.receipt && errors.receipt.message &&(
+                <span className="text-danger">
+                  {" "}
+                  {errors.receipt.message}{" "}
+                </span>
+              )}
             </Form.Group>
             <hr />
             {/* <section className="row  justify-content-between  my-5">
