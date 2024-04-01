@@ -12,7 +12,7 @@ import {
 } from "@pages";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Spinner } from "@utils";
-const Root = lazy(() => import("@components/Root"));
+const Root = lazy(() => import("@layouts/Root"));
 
 export default function AppRoutes() {
   const routes = [
@@ -61,6 +61,13 @@ export default function AppRoutes() {
               path: "payments",
               name: "Payments",
               element: <Payments />,
+              children: [
+                {
+                  path: "payments",
+                  name: "Payments",
+                  element: null,
+                },
+              ],
             },
           ],
         },

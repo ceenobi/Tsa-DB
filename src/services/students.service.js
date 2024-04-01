@@ -32,6 +32,10 @@ const getStudentPaymentRecord = async (id) => {
   return await axiosInstance.get(`/student/${id}/payment`);
 };
 
+const addStudentPaymentRecord = async (id) => {
+  return await axiosInstance.post(`/student/${id}/payment`);
+};
+
 const loginAdmin = async (formData) => {
   return await axiosInstance.post("/login", formData);
 };
@@ -44,5 +48,6 @@ export default {
   searchStudentsViaCourse,
   addAStudent,
   getStudentPaymentRecord,
+  addStudentPaymentRecord,
   loginAdmin,
 };

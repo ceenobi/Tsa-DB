@@ -3,6 +3,7 @@ import {
   tableLinks,
   classTypeValues,
   classCohortValues,
+  paymentMethods,
 } from "./links";
 import formatCurrency from "./formatCurrency";
 import registerOptions from "./formValidate";
@@ -19,5 +20,6 @@ export {
   classCohortValues,
   Spinner,
   timeStamp,
-  options
+  options,
+  paymentMethods,
 };

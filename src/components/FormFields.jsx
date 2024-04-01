@@ -98,7 +98,7 @@ export function FormSelect({
           name={name}
           {...register(name, registerOptions)}
           defaultValue=""
-          isInvalid={!!errors}
+          // isInvalid={!!errors}
           {...props}
         >
           {data?.map((item) => (
@@ -107,9 +107,11 @@ export function FormSelect({
             </option>
           ))}
         </Form.Select>
-        <Form.Control.Feedback type="invalid">
-          {errors?.message}
-        </Form.Control.Feedback>
+        {errors?.username?.type === "required" ? (
+          <span className="text-danger fw-semibold">
+            This field is required!
+          </span>
+        ) : null}
       </Form.Group>
     </>
   );

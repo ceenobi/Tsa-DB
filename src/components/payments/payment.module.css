@@ -1,5 +1,10 @@
-.paymentBg{
+.paymentBg {
   background-color: var(--paleSkyBlue);
+}
+
+.fileUpload {
+  border: 1px dotted !important;
+  background-color: var(--paleBlue);
 }
 
 @media (max-width: 374px) {

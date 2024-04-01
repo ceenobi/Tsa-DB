@@ -61,6 +61,18 @@ const classTypeValues = [
   },
 ];
 
+const paymentMethods = [
+  {
+    id: 1,
+    name: "Bank Transfer",
+  },
+  {
+    id: 2,
+    name: "POS Transaction",
+  },
+  { id: 3, name: "Cash Payment" },
+];
+
 const tableLinks = {
   headers: [
     "Full Name (As written on certificate)",
@@ -122,4 +134,10 @@ const tableLinks = {
   ],
 };
 
-export { navlinks, tableLinks, classTypeValues, classCohortValues };
+export {
+  navlinks,
+  tableLinks,
+  classTypeValues,
+  classCohortValues,
+  paymentMethods,
+};
