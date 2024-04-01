@@ -68,7 +68,7 @@ export default function Payments() {
             <div
               key={index}
               className={
-                item === index
+                item === index || item === "All Students"
                   ? `${styles.activeLink}`
                   : `${styles.noActiveLink}`
               }

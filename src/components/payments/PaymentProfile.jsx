@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { MyButton, MyModal, Headings } from "@components";
+import { useEffect, useState } from "react";
+import { MyButton, MyModal, AddPaymentRecord } from "@components";
 import { Row, Col, Table, Image } from "react-bootstrap";
 import { IoMdClose } from "react-icons/io";
 import { formatCurrency } from "@utils";
@@ -16,6 +16,7 @@ export default function PaymentProfile({
   current,
   data,
 }) {
+  const [showModal, setShowModal] = useState(false);
   const filterStudentId = data?.filter((student, index) => index === current);
   const getStudentId = filterStudentId.map((student) => student._id);
   const { student, setStudent } = useGetAStudentPaymentRecord();
@@ -56,7 +57,7 @@ export default function PaymentProfile({
     <>
       <MyButton
         variant="primary"
-        text="Download Docket"
+        text="Payment Profile"
         className={`fw-bold ${styles.btnWidth}`}
         onClick={handleOpen}
       />
@@ -101,7 +102,10 @@ export default function PaymentProfile({
                   </p>
                 </Col>
                 <Col xs={6} lg={3}>
-                  <p style={{ color: "var(--offBlack)" }} className="mb-0">
+                  <p
+                    style={{ color: "var(--offBlack)" }}
+                    className="mb-0 fw-medium"
+                  >
                     Course Fee
                   </p>
                   <p style={{ color: "var(--mainBlue)" }} className="fw-bold">
@@ -111,7 +115,10 @@ export default function PaymentProfile({
                   </p>
                 </Col>
                 <Col xs={6} lg={3}>
-                  <p style={{ color: "var(--offBlack)" }} className="mb-0">
+                  <p
+                    style={{ color: "var(--offBlack)" }}
+                    className="mb-0 fw-medium"
+                  >
                     Payment Status
                   </p>
                   <p
@@ -141,9 +148,18 @@ export default function PaymentProfile({
                     <th>Amount Paid</th>
                     <th>Balance</th>
                     <th>Comments</th>
-                    <th className="text-primary">
+                    {/* <th
+                      className="text-primary"
+                      onClick={() => {
+                        setShowModal(true);
+                        handleClose();
+                      }}
+                    >
                       <MdEdit />
                       Add Payment Record
+                    </th> */}
+                    <th>
+                      <AddPaymentRecord handleClose={handleClose} />
                     </th>
                   </tr>
                 </thead>
@@ -192,7 +208,9 @@ export default function PaymentProfile({
                     </td>
                     <td style={tstyle} className="text-capitalize">
                       <div className="mt-2">
-                        <p className="mb-0">Payment manipulated by Mubarak</p>
+                        <p className="mb-0 small">
+                          <i>Payment manipulated by Mubarak</i>
+                        </p>
                       </div>
                     </td>
                   </tr>
@@ -202,6 +220,13 @@ export default function PaymentProfile({
           </div>
         )}
       </MyModal>
+      {/* {showModal && (
+        <AddPaymentRecord
+          showModal={showModal}
+          setShowModal={setShowModal}
+          showStudentModal={showStudentModal}
+        />
+      )} */}
     </>
   );
 }

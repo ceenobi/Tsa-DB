@@ -12,6 +12,7 @@ import DownloadDocket from "./students/DownloadDocket";
 import { FormInputs, FormSelect } from "./FormFields";
 import Paginate from "./Paginate";
 import PaymentProfile from "./payments/PaymentProfile";
+import AddPaymentRecord from "./payments/AddPaymentRecord";
 
 export {
   Dashboard,
@@ -28,5 +29,6 @@ export {
   FormSelect,
   Paginate,
   DownloadDocket,
-  PaymentProfile
+  PaymentProfile,
+  AddPaymentRecord
 };
