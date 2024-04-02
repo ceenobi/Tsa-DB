@@ -1,32 +1,12 @@
+import axios from "axios";
+import { useState } from "react";
 import { Navbar, Footer } from "@layouts";
 import { useTitle } from "@hooks";
 import { Container, Form, Image } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { browseFileImg } from "@assets";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import axios from "axios";
-
-const validationSchema = yup
-  .object({
-    fullname: yup.string().required("missing info"),
-    popularlyKnownAs: yup.string().required("missing info"),
-    studentId: yup.string().required("missing info"),
-    classCohort: yup.string().required("missing info"),
-    email: yup.string().required("missing email").email("Invalid email format"),
-    phoneNumber: yup.string().required("missing phone number"),
-    classType: yup.string().required("missing info"),
-    uploadReceipt: yup.string().required("missing info"),
-    whatsappNumber: yup.string().required("missing info"),
-    referralStudentId: yup.string().required("missing info"),
-    referralName: yup.string().required("missing info"),
-    emergencyContactName: yup.string().required("missing info"),
-    emergencyContactNumber: yup.string().required("missing info"),
-    emergencyContactLocation: yup.string().required("missing info"),
-    paymentDetails: yup.string().required("missing info"),
-    paymentReceipt: yup.string().required("missing info"),
-  })
-  .required();
+import {validationSchema} from '@utils'
 const Auth = () => {
   useTitle("Welcome to Techstudio");
   const {
@@ -36,42 +16,78 @@ const Auth = () => {
   } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      fullname: "",
-      popularlyKnownAs: "",
-      studentId: "",
-      classCohort: "",
+      fullName: "",
+      pka: "",
+      // studentId: "",
+      courseCohort: "",
       email: "",
       phoneNumber: "",
       classType: "",
-      uploadReceipt: "",
+      image: "",
       whatsappNumber: "",
       referralStudentId: "",
-      referralName: "",
+      // referralName: "",
       emergencyContactName: "",
       emergencyContactNumber: "",
       emergencyContactLocation: "",
-      paymentDetails: "",
-      paymentReceipt: "",
+      amount: "",
+      receipt: "",
     },
   });
+  const [selectedImage, setSelectedImage] = useState(null); 
+  const [selectedReceipt, setSelectedReceipt] = useState(null);
   console.log("errors", errors);
+  
   const onSubmit = async (data) => {
+  try {
+    const formData = new FormData();
+    formData.append("fullName", data.fullName);
+    formData.append("pka", data.pka);
+    formData.append("courseCohort", data.courseCohort);
+    formData.append("email", data.email);
+    formData.append("phoneNumber", data.phoneNumber);
+    formData.append("classType", data.classType);
+    formData.append("whatsappNumber", data.whatsappNumber);
+    formData.append("referralStudentId", data.referralStudentId);
+    formData.append("emergencyContactName", data.emergencyContactName);
+    formData.append("emergencyContactNumber", data.emergencyContactNumber);
+    formData.append("emergencyContactLocation", data.emergencyContactLocation);
+    formData.append("amount", data.amount);
+    if (selectedImage) {
+      formData.append("image", selectedImage);
+    }
+    if (selectedReceipt) {
+      formData.append("receipt", selectedReceipt);
+    }
     
-    // axios.post("https://tsa-database-server.onrender.com/api/v1/student", {
-    //     student: data,
-    //   })
-    //   .then((res) => console.log("succ", res))
-    //   .catch((err) => {
-    //     console.log("err", err);
-    //   });
-    //   console.log("data", data);
+    const response = await axios.post(
+      'https://tsa-database-server.onrender.com/api/v1/student',
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    console.log('Response:', response.data);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+  const handleImageChange = (event) => {
+    setSelectedImage(event.target.files[0]);
+  };
+
+  const handleReceiptChange = (event) => {
+    setSelectedReceipt(event.target.files[0]);
   };
 
   return (
     <>
       <Navbar />
       <Container className="mt-5 p-3">
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form encType="multipart/form-data" onSubmit={handleSubmit(onSubmit)}>
           <div className="row justify-content-between">
             <h2 className="my-5">Student&apos;s Details</h2>
             {/* fullname */}
@@ -83,11 +99,11 @@ const Auth = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter your full name"
-                {...register("fullname")}
+                {...register("fullName")}
               />
-              {errors.fullname && (
+              {errors.fullName && errors.fullName.message && (
                 <span className="text-danger">
-                  {errors.fullname.message}
+                  {errors.fullName.message}
                 </span>
               )}
             </Form.Group>
@@ -100,12 +116,12 @@ const Auth = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter name"
-                {...register("popularlyKnownAs")}
+                {...register("pka")}
               />
-              {errors.popularlyKnownAs && (
+              {errors.pka && errors.pka.message &&(
                 <span className="text-danger">
                   {" "}
-                  {errors.popularlyKnownAs.message}{" "}
+                  {errors.pka.message}{" "}
                 </span>
               )}
             </Form.Group>
@@ -132,14 +148,16 @@ const Auth = () => {
 
               <Form.Select
                 aria-label="Default select example"
-                {...register("classCohort")}
+                {...register("courseCohort")}
               >
                 <option>Select cohort </option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                <option value="Fullstack">Fullstack</option>
+                <option value="Cybersecurity">Cybersecurity</option>
+                <option value="Frontend">Frontend</option>
+                <option value="Data Analysis">Data Analysis</option>
+                <option value="Product Design">Product Design</option>
               </Form.Select>
-              {errors.studentId && (
+              {errors.classCohort && errors.classCohort.message && (
                 <span className="text-danger">
                   {" "}
                   {errors.classCohort.message}{" "}
@@ -157,7 +175,7 @@ const Auth = () => {
                 placeholder="Enter your email address"
                 {...register("email")}
               />
-                {errors.studentId && (
+                {errors.email && errors.email.message &&(
                 <span className="text-danger">
                   {" "}
                   {errors.email.message}{" "}
@@ -175,7 +193,7 @@ const Auth = () => {
                 placeholder="Enter your phone number"
                 {...register("phoneNumber")}
               />
-              {errors.studentId && (
+              {errors.phoneNumber && errors.phoneNumber.message && (
                 <span className="text-danger">
                   {" "}
                   {errors.phoneNumber.message}{" "}
@@ -194,9 +212,8 @@ const Auth = () => {
                 {...register("classType")}
               >
                 <option>Select Class Type</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                <option value="weekday">weekday</option>
+                <option value="weekend">weekend</option>
               </Form.Select>
             </Form.Group>
             {/* img upload */}
@@ -210,12 +227,21 @@ const Auth = () => {
 
               {/* below for bootstrap */}
               <Form.Control
+                accept="image/*"
                 type="file"
                 className="position-absolute top-50 opacity-0"
                 size="lg"
                 placeholder="hh"
-                {...register("uploadReceipt")}
+                {...register("image")}
+                onChange={handleImageChange}
+
               />
+              {errors.image && errors.image.message &&(
+                <span className="text-danger">
+                  {" "}
+                  {errors.image.message}{" "}
+                </span>
+              )}
             </Form.Group>
             <hr />
             {/* Other Details */}
@@ -305,8 +331,14 @@ const Auth = () => {
               <Form.Control
                 placeholder="0.00"
                 type="number"
-                {...register("paymentDetails")}
+                {...register("amount")}
               />
+                 {errors.amount && errors.amount.message &&(
+                <span className="text-danger">
+                  {" "}
+                  {errors.amount.message}{" "}
+                </span>
+              )}
             </Form.Group>
             {/* payment receipt */}
             <Form.Group
@@ -319,12 +351,21 @@ const Auth = () => {
 
               {/* below for bootstrap */}
               <Form.Control
+                accept="image/*"
                 type="file"
                 className="position-absolute top-50 opacity-0"
                 size="lg"
                 placeholder="hh"
-                {...register("paymentReceipt")}
+                {...register("receipt")}
+                onChange={handleReceiptChange}
+
               />
+               {errors.receipt && errors.receipt.message &&(
+                <span className="text-danger">
+                  {" "}
+                  {errors.receipt.message}{" "}
+                </span>
+              )}
             </Form.Group>
             <hr />
             {/* <section className="row  justify-content-between  my-5">

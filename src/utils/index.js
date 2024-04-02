@@ -8,8 +8,9 @@ import {
 import formatCurrency from "./formatCurrency";
 import registerOptions from "./formValidate";
 import Spinner from "./Spinner";
-import timeStamp from "./formatDate";
+import validationSchema from "./validationSchema";
 import options from "./docketOptions";
+import timeStamp from "./formatDate";
 
 export {
   navlinks,
@@ -19,7 +20,8 @@ export {
   classTypeValues,
   classCohortValues,
   Spinner,
-  timeStamp,
-  options,
   paymentMethods,
+  validationSchema,
+  options,
+  timeStamp
 };

@@ -21,10 +21,10 @@ export default function Login() {
       <div className={styles.imgStudent}>
         <Image src={focusedStudent} fluid />
       </div>
-      <div className="p-3 p-md-4">
-         <Form onSubmit={handleSubmit(onSubmitHandler)}>
-
-         </Form>
+      <div className="p-3 p-md-4 rounded shadow-lg mx-5 w-50">
+      <h2>Welcome Back</h2>
+      <p>Let's continue from were you stopped</p>
+        
       </div>
     </div>
   );
