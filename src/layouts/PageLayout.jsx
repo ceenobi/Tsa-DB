@@ -17,6 +17,7 @@ import { FiSearch } from "react-icons/fi";
 import { IoCloseSharp } from "react-icons/io5";
 import { avatar } from "@assets";
 import { Headings, MyButton } from "@components";
+import { Drawer } from "@layouts";
 import { useDebouncedCallback } from "use-debounce";
 
 export default function PageLayout({ children }) {
@@ -62,6 +63,7 @@ export default function PageLayout({ children }) {
   return (
     <Container fluid className="p-3">
       <div className="d-flex justify-content-between align-items-center">
+        <Drawer />
         <Headings
           title={title}
           size="24px"
