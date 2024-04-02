@@ -26,6 +26,8 @@ export default function StudentProfile({
     fontSize: "0.884rem",
   };
 
+  // paymentVerification: 'vrirfied'
+
   return (
     <>
       <div>

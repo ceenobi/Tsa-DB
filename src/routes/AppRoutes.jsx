@@ -11,7 +11,7 @@ import {
   SeeStudentsByCourse,
 } from "@pages";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Spinner, validationSchema } from "@utils";
+import { Spinner } from "@utils";
 const Root = lazy(() => import("@layouts/Root"));
 
 export default function AppRoutes() {
