@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, Image } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import toast from "react-hot-toast";
 
 export function FormInputs({
@@ -14,17 +14,18 @@ export function FormInputs({
   name,
   showPassword,
   togglePassword,
+  accept,
   ...props
 }) {
   const [preview, setPreview] = useState();
 
-  const onPreviewPicture = (e) => {
+  const onPreviewFileName = (e) => {
     if (e.target.files && e.target.files[0]) {
       if (e.target.files[0].size > 5 * 1000 * 1000) {
         toast.error("File with maximum size of 5MB is allowed");
         return false;
       }
-      setPreview(URL.createObjectURL(e.target.files[0]));
+      setPreview(e.target.files[0].name);
     }
   };
 
@@ -37,10 +38,11 @@ export function FormInputs({
           placeholder={placeholder}
           name={name}
           {...register(name, registerOptions)}
-          isInvalid={!!errors}
           className="bg-light.bg-gradient"
-          onChange={onPreviewPicture}
+          accept={accept}
+          onChange={onPreviewFileName}
           {...props}
+          isInvalid={!!errors}
         />
         <Form.Control.Feedback type="invalid">
           {errors?.message}
@@ -67,12 +69,9 @@ export function FormInputs({
       </Form.Group>
       {preview && (
         <>
-          <Image
-            src={preview}
-            alt="image preview"
-            style={{ width: "40px", height: "40px" }}
-            className="rounded-3 my-3 me-2"
-          />
+          <span className="small">
+            {preview.slice(0, preview.length / 2) + preview.slice(-5)}
+          </span>
         </>
       )}
     </>
@@ -98,7 +97,7 @@ export function FormSelect({
           name={name}
           {...register(name, registerOptions)}
           defaultValue=""
-          // isInvalid={!!errors}
+          isInvalid={!!errors}
           {...props}
         >
           {data?.map((item) => (
@@ -107,11 +106,9 @@ export function FormSelect({
             </option>
           ))}
         </Form.Select>
-        {errors?.username?.type === "required" ? (
-          <span className="text-danger fw-semibold">
-            This field is required!
-          </span>
-        ) : null}
+        <Form.Control.Feedback type="invalid">
+          {errors?.message}
+        </Form.Control.Feedback>
       </Form.Group>
     </>
   );

@@ -52,7 +52,7 @@ const registerOptions = {
     required: "Please upload proof of payment",
   },
   uploadPhoto: {
-    required: "Please upload",
+    required: "Please upload a profile image",
   },
 };
 

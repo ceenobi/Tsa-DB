@@ -22,19 +22,19 @@ export default function EnrollStudent() {
   } = useForm();
 
   const onSubmitHandler = async (formData) => {
-    if (!formData.image && !formData.receipt) {
+    if (formData.image === undefined || formData.receipt === undefined) {
       toast.error("Please provide payment receipt and profile image");
       return;
     }
     console.log(formData);
-    try {
-      const res = await studentsService.addAStudent(formData);
-      if (res.status === 201) {
-        toast.success(`tt`);
-      }
-    } catch (error) {
-      handleAuthError(error);
-    }
+    // try {
+    //   const res = await studentsService.addAStudent(formData);
+    //   if (res.status === 201) {
+    //     toast.success(`tt`);
+    //   }
+    // } catch (error) {
+    //   handleAuthError(error);
+    // }
   };
 
   return (
@@ -184,7 +184,7 @@ export default function EnrollStudent() {
                 disabled
               />
             </Col>
-            <Col md={4} className="mt-3 mt-md-4">
+            <Col md={6} lg={4} className="mt-3 mt-md-4">
               <FormInputs
                 register={register}
                 className="my-1 text-black"
@@ -195,7 +195,7 @@ export default function EnrollStudent() {
                 placeholder="Enter your next of kin"
               />
             </Col>
-            <Col md={4} className="mt-3 mt-md-4">
+            <Col md={6} lg={4} className="mt-3 mt-md-4">
               <FormInputs
                 register={register}
                 className="my-1 text-black"
@@ -206,7 +206,7 @@ export default function EnrollStudent() {
                 placeholder="Enter your next of kin’s contact"
               />
             </Col>
-            <Col md={4} className="mt-3 mt-md-4">
+            <Col md={6} lg={4} className="mt-3 mt-md-4">
               <FormInputs
                 register={register}
                 className="my-1 text-black"
@@ -314,6 +314,7 @@ export default function EnrollStudent() {
               variant="outline-danger"
               text="Cancel"
               className={`${styles.btnSize} fw-bold`}
+              onClick={() => navigate(-1)}
             />
           </div>
         </Form>

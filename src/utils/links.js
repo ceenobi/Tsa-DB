@@ -97,41 +97,6 @@ const tableLinks = {
     "Data Analysis",
     "Cyber Security",
   ],
-  data: [
-    {
-      id: 1,
-      img: "https://res.cloudinary.com/ceenobi/image/upload/v1701812025/pintube/czx6fsishkk3yaeeazwc.jpg",
-      title: "Charles TheOne",
-      pka: "The smooth macadamian",
-      courseCohort: "Fullstack March 2023",
-      email: "theoneandonly@yourstruly.com",
-      phone: "06011111111",
-      classType: "Weekday",
-      whatsApp: "08130035667",
-    },
-    {
-      id: 2,
-      img: "https://res.cloudinary.com/ceenobi/image/upload/v1686266381/cld-sample.jpg",
-      title: "Aisha Partyfreaks",
-      pka: "oyeaish",
-      courseCohort: "Fullstack March 2024",
-      email: "partyfreaks@gmail.com",
-      phone: "06011111111",
-      classType: "Weekday",
-      whatsApp: "08130035662",
-    },
-    {
-      id: 3,
-      img: "https://res.cloudinary.com/ceenobi/image/upload/v1702659165/pintube/bb4a5vlbmzxmm2nh47ca.jpg",
-      title: "Eggys Eggy",
-      pka: "eggy",
-      courseCohort: "Fullstack November 2023",
-      email: "eggys@gmail.com",
-      phone: "06011111111",
-      classType: "Weekend",
-      whatsApp: "08130035663",
-    },
-  ],
 };
 
 export {
