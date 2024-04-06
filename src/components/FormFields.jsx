@@ -27,7 +27,7 @@ export function FormInputs({
       setPreview(URL.createObjectURL(e.target.files[0]));
     }
   };
-  console.log(preview);
+
   return (
     <>
       <Form.Group className={className} controlId={id}>

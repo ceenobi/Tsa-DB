@@ -5,7 +5,10 @@ import { Image, Stack, Form, Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { CiMenuKebab } from "react-icons/ci";
 import { formatCurrency } from "@utils";
+import { studentsService } from "@services";
 import { divider2 } from "@assets";
+import { handleAuthError } from "@config";
+import { BeatLoader } from "react-spinners";
 import styles from "./student.module.css";
 
 export default function StudentProfile({
@@ -16,9 +19,8 @@ export default function StudentProfile({
 }) {
   const [openModal, setOpenModal] = useState(false);
   const [discount, setDiscount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const handleClose = () => setShowStudentModal(false);
-
-  console.log(discount);
 
   const pStyle = {
     fontWeight: "600",
@@ -26,7 +28,35 @@ export default function StudentProfile({
     fontSize: "0.884rem",
   };
 
-  // paymentVerification: 'vrirfied'
+  const filterPaymentId = data?.filter((payment, index) => index === current);
+  const getStudentPayment = filterPaymentId.map((payment) => payment);
+  const getPaymentInfo = getStudentPayment?.flatMap((item) => item.payments);
+  const getPaymentId = getPaymentInfo.map((item) => item._id);
+  const paymentId = getPaymentId.toString();
+  // const getPaymentAmount = getPaymentInfo.map((item) => item.amount);
+  // const paymentAmount = Number(getPaymentAmount.toString());
+
+  const confirmPayment = async (studentId, paymentId) => {
+    setIsLoading(true);
+    const formData = {
+      discount: discount,
+      paymentVerification: "verified",
+    };
+    try {
+      const res = await studentsService.updateAStudentPaymentRecord(
+        studentId,
+        paymentId,
+        formData
+      );
+      if (res.status === 200) {
+        setOpenModal(true);
+      }
+    } catch (error) {
+      handleAuthError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -285,63 +315,70 @@ export default function StudentProfile({
                       />
                     </Stack>
                     {item.payments.map((info) => (
-                      <div
-                        key={info._id}
-                        className="d-flex flex-wrap justify-content-around align-items-center gap-2 w-100 my-3 text-center"
-                      >
-                        <div>
-                          <p style={pStyle} className="small mb-1">
-                            Deposit Paid Upon Enrollment
-                          </p>
-                          <h1
+                      <div key={info._id}>
+                        <div className="d-flex flex-wrap justify-content-around align-items-center gap-2 w-100 my-3 text-center">
+                          <div>
+                            <p style={pStyle} className="small mb-1">
+                              Deposit Paid Upon Enrollment
+                            </p>
+                            <h1
+                              style={{
+                                color:
+                                  item.courseFee === info.amount
+                                    ? "var(--mainGreen)"
+                                    : "var(--mainRed)",
+                                fontSize: "1.75rem",
+                              }}
+                            >
+                              {formatCurrency(info.amount)}
+                            </h1>
+                          </div>
+                          <div>
+                            <p style={pStyle} className="small mb-1">
+                              Payment Receipt
+                            </p>
+                            <Image
+                              src={info.receipt}
+                              style={{ height: "40px", width: "40px" }}
+                            />
+                          </div>
+                        </div>
+                        <Form.Group>
+                          <Form.Label
                             style={{
-                              color: "var(--mainRed)",
-                              fontSize: "1.75rem",
+                              color: "var(--deepBlack)",
+                              fontWeight: "600",
+                              fontSize: "1.2rem",
                             }}
                           >
-                            {formatCurrency(info.amount)}
-                          </h1>
-                        </div>
-                        <div>
-                          <p style={pStyle} className="small mb-1">
-                            Payment Receipt
-                          </p>
-                          <Image
-                            src={info.receipt}
-                            style={{ height: "40px", width: "40px" }}
-                          />
-                        </div>
+                            Discount
+                          </Form.Label>
+                          <Form.Select
+                            className="mb-4 text-secondary"
+                            onChange={(e) => setDiscount(e.target.value)}
+                          >
+                            <option value={0}>Select Discount</option>
+                            <option value={5}>5% Discount</option>
+                            <option value={10}>10% Discount</option>
+                            <option value={15}>15% Discount</option>
+                          </Form.Select>
+                        </Form.Group>
                       </div>
                     ))}
-
-                    <Form.Group>
-                      <Form.Label
-                        style={{
-                          color: "var(--deepBlack)",
-                          fontWeight: "600",
-                          fontSize: "1.2rem",
-                        }}
-                      >
-                        Discount
-                      </Form.Label>
-                      <Form.Select
-                        className="mb-4 text-secondary"
-                        onChange={(e) => setDiscount(e.target.value)}
-                      >
-                        <option value={0}>Select Discount</option>
-                        <option value={5}>5% Discount</option>
-                        <option value={10}>10% Discount</option>
-                        <option value={15}>15% Discount</option>
-                      </Form.Select>
-                    </Form.Group>
-                    <div className="text-center my-2">
-                      <MyButton
-                        variant="primary"
-                        text="Confirm Deposit Payment"
-                        className="fw-bold"
-                        onClick={() => setOpenModal(true)}
-                      />
-                    </div>
+                  </div>
+                  <div className="text-center my-2">
+                    <MyButton
+                      variant="primary"
+                      text={
+                        isLoading ? (
+                          <BeatLoader color="#ffffff" />
+                        ) : (
+                          "Confirm Deposit Payment"
+                        )
+                      }
+                      className="fw-bold"
+                      onClick={() => confirmPayment(item._id, paymentId)}
+                    />
                   </div>
                 </div>
               </MyModal>

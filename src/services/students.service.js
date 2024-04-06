@@ -40,6 +40,12 @@ const loginAdmin = async (formData) => {
   return await axiosInstance.post("/login", formData);
 };
 
+const updateAStudentPaymentRecord = async (studentId, paymentId, formData) => {
+  return await axiosInstance.patch(`/student/${studentId}/payment/${paymentId}`, formData, {
+    headers: authHeader(),
+  });
+};
+
 export default {
   getAllStudents,
   getAStudent,
@@ -50,4 +56,5 @@ export default {
   getStudentPaymentRecord,
   addStudentPaymentRecord,
   loginAdmin,
+  updateAStudentPaymentRecord,
 };

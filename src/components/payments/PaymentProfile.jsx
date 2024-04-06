@@ -206,7 +206,7 @@ export default function PaymentProfile({
                       <td style={tstyle} className="text-capitalize">
                         <div className="mt-2">
                           <p className="mb-0 small">
-                            <i>Payment manipulated by Mubarak</i>
+                            <i>modified by:{student.modifiedBy?.name}</i>
                           </p>
                         </div>
                       </td>
