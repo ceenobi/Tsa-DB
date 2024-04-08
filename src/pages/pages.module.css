@@ -38,6 +38,6 @@
 @media (min-width: 1024px) {
   .imgStudent {
     width: 50%;
-    height: fit-content;
+    height: 100vh;
   }
 }

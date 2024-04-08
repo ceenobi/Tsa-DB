@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { Form } from "react-bootstrap";
-import toast from "react-hot-toast";
 
 export function FormInputs({
   id,
@@ -17,18 +15,6 @@ export function FormInputs({
   accept,
   ...props
 }) {
-  const [preview, setPreview] = useState();
-
-  const onPreviewFileName = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      if (e.target.files[0].size > 5 * 1000 * 1000) {
-        toast.error("File with maximum size of 5MB is allowed");
-        return false;
-      }
-      setPreview(e.target.files[0].name);
-    }
-  };
-
   return (
     <>
       <Form.Group className={className} controlId={id}>
@@ -40,7 +26,6 @@ export function FormInputs({
           {...register(name, registerOptions)}
           className="bg-light.bg-gradient"
           accept={accept}
-          onChange={onPreviewFileName}
           {...props}
           isInvalid={!!errors}
         />
@@ -67,13 +52,6 @@ export function FormInputs({
           </>
         )}
       </Form.Group>
-      {preview && (
-        <>
-          <span className="small">
-            {preview.slice(0, preview.length / 2) + preview.slice(-5)}
-          </span>
-        </>
-      )}
     </>
   );
 }

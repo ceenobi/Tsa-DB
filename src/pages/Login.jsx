@@ -16,10 +16,11 @@ export default function Login() {
  const onSubmitHandler = async (e) => {
    e.preventDefault();
  };
+ 
   return (
     <div className="d-lg-flex align-items-center">
       <div className={styles.imgStudent}>
-        <Image src={focusedStudent} fluid />
+        <Image src={focusedStudent} className="w-100 h-100 object-fit-cove"/>
       </div>
       <div className="p-3 p-md-4 rounded shadow-lg mx-5 w-50">
       <h2>Welcome Back</h2>

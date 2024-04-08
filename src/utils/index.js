@@ -23,5 +23,5 @@ export {
   paymentMethods,
   validationSchema,
   options,
-  timeStamp
+  timeStamp,
 };

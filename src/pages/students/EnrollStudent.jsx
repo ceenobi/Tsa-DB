@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTitle } from "@hooks";
 import { useNavigate } from "react-router-dom";
 import { MdArrowLeft } from "react-icons/md";
@@ -14,6 +15,9 @@ import styles from "./student.module.css";
 
 export default function EnrollStudent() {
   useTitle("Add a new student");
+  const [preview, setPreview] = useState();
+  const [preview1, setPreview1] = useState();
+
   const navigate = useNavigate();
   const {
     handleSubmit,
@@ -21,20 +25,36 @@ export default function EnrollStudent() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmitHandler = async (formData) => {
-    if (formData.image === undefined || formData.receipt === undefined) {
-      toast.error("Please provide payment receipt and profile image");
-      return;
+  const onPreviewFileName = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      if (e.target.files[0].size > 5 * 1000 * 1000) {
+        toast.error("File with maximum size of 5MB is allowed");
+        return false;
+      }
+      setPreview(e.target.files[0].name);
     }
+  };
+
+  const onPreviewFileName2 = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      if (e.target.files[0].size > 5 * 1000 * 1000) {
+        toast.error("File with maximum size of 5MB is allowed");
+        return false;
+      }
+      setPreview1(e.target.files[0].name);
+    }
+  };
+
+  const onSubmitHandler = async (formData) => {
     console.log(formData);
-    // try {
-    //   const res = await studentsService.addAStudent(formData);
-    //   if (res.status === 201) {
-    //     toast.success(`tt`);
-    //   }
-    // } catch (error) {
-    //   handleAuthError(error);
-    // }
+    try {
+      const res = await studentsService.addAStudent(formData);
+      if (res.status === 201) {
+        toast.success("File upload success");
+      }
+    } catch (error) {
+      handleAuthError(error);
+    }
   };
 
   return (
@@ -251,25 +271,38 @@ export default function EnrollStudent() {
                   <MyButton
                     variant="primary"
                     text="Add"
-                    className={`fw-medium border border-start-0`}
+                    className="fw-medium border border-start-0"
                   />
                 </div>
-                <FormInputs
-                  register={register}
-                  errors={errors?.paymentReceipt}
-                  registerOptions={registerOptions?.paymentReceipt}
-                  className="my-1 w-100 position-absolute top-0 end-0 opacity-0"
+                <Form.Control
+                  {...register("receipt", { required: true })}
+                  type="file"
+                  className="w-100 h-100 position-absolute bottom-0 end-0 opacity-0"
+                  accept="image/*"
                   id="receipt"
                   label="Payment Receipt"
                   name="receipt"
-                  type="file"
-                  accept="image/*"
+                  onChange={onPreviewFileName}
                 />
+                {errors?.receipt?.type === "required" ? (
+                  <span className="small text-danger">
+                    This field is required!
+                  </span>
+                ) : null}
+                {preview && (
+                  <>
+                    <span className="small">
+                      {preview.slice(0, preview.length / 2) + preview.slice(-5)}
+                    </span>
+                  </>
+                )}
               </div>
             </Col>
             <Col md={6} lg={4} className="mt-3 mt-md-0">
               <div className="position-relative">
-                <Form.Label className="mt-2 mt-md-1">Upload Photo</Form.Label>
+                <Form.Label className="mt-2 mt-md-1">
+                  Upload Profile Photo
+                </Form.Label>
                 <div
                   className={`${styles.fileUpload} rounded-2 d-flex align-items-center justify-content-between cursor`}
                 >
@@ -282,20 +315,32 @@ export default function EnrollStudent() {
                   <MyButton
                     variant="primary"
                     text="Add"
-                    className={`fw-medium border border-start-0`}
+                    className="fw-medium border border-start-0"
                   />
                 </div>
-                <FormInputs
-                  register={register}
-                  errors={errors?.uploadPhoto}
-                  registerOptions={registerOptions?.uploadPhoto}
-                  className="my-1 w-100 position-absolute top-0 end-0 opacity-0"
-                  id="image"
-                  label="Upload Profile Photo"
-                  name="image"
+                <Form.Control
+                  {...register("image", { required: true })}
                   type="file"
+                  className="w-100 h-100 position-absolute bottom-0 end-0 opacity-0"
                   accept="image/*"
+                  name="image"
+                  id="image"
+                  label="image"
+                  onChange={onPreviewFileName2}
                 />
+                {errors?.image?.type === "required" ? (
+                  <span className="small text-danger">
+                    This field is required!
+                  </span>
+                ) : null}
+                {preview1 && (
+                  <>
+                    <span className="small">
+                      {preview1.slice(0, preview1.length / 2) +
+                        preview1.slice(-5)}
+                    </span>
+                  </>
+                )}
               </div>
             </Col>
           </Row>

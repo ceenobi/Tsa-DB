@@ -26,5 +26,5 @@ export {
   Paginate,
   DownloadDocket,
   PaymentProfile,
-  AddPaymentRecord
+  AddPaymentRecord,
 };

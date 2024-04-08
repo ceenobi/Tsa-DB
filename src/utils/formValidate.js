@@ -1,3 +1,4 @@
+
 const registerOptions = {
   email: {
     required: "Email is required",
@@ -51,7 +52,7 @@ const registerOptions = {
   paymentReceipt: {
     required: "Please upload proof of payment",
   },
-  uploadPhoto: {
+  image: {
     required: "Please upload a profile image",
   },
 };
