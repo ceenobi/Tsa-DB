@@ -7,7 +7,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useGetAStudentPaymentRecord } from "@store";
 import { studentsService } from "@services";
 import { Spinner } from "@utils";
+import { handleAuthError } from "@config";
 import { MdEdit } from "react-icons/md";
+import toast from "react-hot-toast";
 import styles from "./payment.module.css";
 
 export default function PaymentProfile({
@@ -17,9 +19,13 @@ export default function PaymentProfile({
   data,
 }) {
   const [showModal, setShowModal] = useState(false);
+
+  //filter students based on index to match and get student id
   const filterStudentId = data?.filter((student, index) => index === current);
   const getStudentId = filterStudentId.map((student) => student._id);
   const { student, setStudent } = useGetAStudentPaymentRecord();
+
+  //fetch student payment data
   const {
     isLoading,
     isError,
@@ -36,17 +42,49 @@ export default function PaymentProfile({
     },
   });
 
+  //fetch full student data
+  const { data: studentFullData } = useQuery({
+    queryKey: ["studentPaymentFullData", getStudentId],
+    queryFn: () => studentsService.getAStudent(getStudentId),
+    onError: (error) => {
+      console.error("Error fetching student's full payment data:", error);
+    },
+    onLoading: () => {
+      <Spinner />;
+    },
+  });
+
+  //store api data to zustand state
   useEffect(() => {
     if (paymentData) {
       setStudent(paymentData?.data);
     }
   }, [paymentData, setStudent]);
 
+  //modal controls
   const handleClose = () => setShowStudentModal(false);
   const handleOpen = () => setShowStudentModal(true);
   const handleOpenModal = () => setShowModal(true);
 
+  //send payment reminder
+  const sendReminder = async (balance) => {
+    const formData = {
+      studentId: studentFullData?.data?.student.studentId,
+      comments: `Kindly note that you’re yet to complete your payment. 
+      The balance left to pay is ${balance}. Please pay up before 31/02/2023 to avoid exclusion from class`,
+    };
+    try {
+      const res = await studentsService.sendStudentPaymentReminder(formData);
+      if (res.status === 200) {
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      handleAuthError(error);
+    }
+  };
+
   console.log(student);
+  console.log("ft", studentFullData?.data?.student);
 
   const tstyle = {
     color: "var(--offBlack)",
@@ -140,6 +178,8 @@ export default function PaymentProfile({
                       variant="danger"
                       text="Send Reminder"
                       className="fw-bold"
+                      onClick={() => sendReminder(student.balance)}
+                      disabled={student.balance === 0}
                     />
                   </Col>
                 </Row>
@@ -200,6 +240,13 @@ export default function PaymentProfile({
                         <div className="mt-2">
                           <p className="mb-0 text-danger">
                             {formatCurrency(student.balance)}
+                          </p>
+                        </div>
+                      </td>
+                      <td style={tstyle} className="text-capitalize">
+                        <div className="mt-2">
+                          <p className="mb-0 small">
+                            <i>modified by:{student.modifiedBy?.name}</i>
                           </p>
                         </div>
                       </td>

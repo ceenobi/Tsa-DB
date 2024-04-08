@@ -41,9 +41,17 @@ const loginAdmin = async (formData) => {
 };
 
 const updateAStudentPaymentRecord = async (studentId, paymentId, formData) => {
-  return await axiosInstance.patch(`/student/${studentId}/payment/${paymentId}`, formData, {
-    headers: authHeader(),
-  });
+  return await axiosInstance.patch(
+    `/student/${studentId}/payment/${paymentId}`,
+    formData,
+    {
+      headers: authHeader(),
+    }
+  );
+};
+
+const sendStudentPaymentReminder = async (formData) => {
+  return await axiosInstance.post("/student/send", formData);
 };
 
 export default {
@@ -57,4 +65,5 @@ export default {
   addStudentPaymentRecord,
   loginAdmin,
   updateAStudentPaymentRecord,
+  sendStudentPaymentReminder,
 };

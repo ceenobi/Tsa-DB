@@ -78,9 +78,13 @@ export function FormSelect({
           isInvalid={!!errors}
           {...props}
         >
-          {data?.map((item) => (
-            <option value={item.name.toLowerCase()} key={item.id}>
-              {item.name.toLowerCase()}
+          {data?.map((item, i) => (
+            <option
+              value={i === 0 ? "" : item.name.toLowerCase()}
+              key={item.id}
+              disabled={i === 0}
+            >
+              {item.name}
             </option>
           ))}
         </Form.Select>

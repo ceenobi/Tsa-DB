@@ -33,7 +33,7 @@ const registerOptions = {
         v.length >= 11 || "Should not be less than 11 characters",
     },
   },
-  classCohort: {
+  options: {
     required: "Please select an option",
   },
   classType: {

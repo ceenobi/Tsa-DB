@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import { useTitle } from "@hooks";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useGetStudentsData, useCurrent, useFilteredData } from "@store";
@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@utils";
 import { studentsService } from "@services";
 import { TableData } from "@components";
-import { tableLinks } from "@utils";
+import { tableLinks, classCohortValues } from "@utils";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 import styles from "../pages.module.css";
 
@@ -16,7 +16,7 @@ export default function SeeStudentsByCourse() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
   useTitle(`Search result for "${query}"`);
-  const { students, setSearchQuery, searchQuery } = useGetStudentsData();
+  const { setSearchQuery, searchQuery } = useGetStudentsData();
   const { filterData } = useFilteredData();
   const current = useCurrent((state) => state.current, shallow);
   const { isLoading, isError, data, error } = useQuery({
@@ -36,31 +36,22 @@ export default function SeeStudentsByCourse() {
     }
   }, [data, setSearchQuery]);
 
-  const activeCourse = useMemo(() => {
-    return students
-      ? students.map((course) => course.courseCohort.toLowerCase())
-      : [];
-  }, [students]);
+  const filterCourseCohorts = classCohortValues.filter((item, i) => i !== 0);
+  const getCourseCohorts = filterCourseCohorts.map((item) => item.name);
 
-  const removeCourseDuplicates = useMemo(() => {
-    return [
-      ...activeCourse.filter((course, i) => {
-        return activeCourse.indexOf(course) === i && course?.length > 0;
-      }),
-    ];
-  }, [activeCourse]);
+  const allCourses = ["All Students", ...getCourseCohorts];
 
-  const allCourses = ["All Students", ...removeCourseDuplicates];
+  const getCurrentLocation = location.pathname.split("/")[2];
 
   const searchStudentByCourse = useCallback(
     (item) => {
       if (item === "All Students") {
-        navigate(`/dashboard/students/search`);
+        navigate(`/dashboard/${getCurrentLocation}/search`);
       } else {
-        navigate(`/dashboard/students/search?query=${item}`);
+        navigate(`/dashboard/${getCurrentLocation}/search?query=${item}`);
       }
     },
-    [navigate]
+    [getCurrentLocation, navigate]
   );
 
   return (
@@ -112,12 +103,6 @@ export default function SeeStudentsByCourse() {
           {error.message ? error.message : error}
         </span>
       )}
-
-      {!isLoading && !isError && !searchQuery.length && (
-        <span className="text-danger text-center mt-2">
-          You have no student data to display
-        </span>
-      )}
       {isLoading ? (
         <Spinner />
       ) : (
@@ -127,6 +112,11 @@ export default function SeeStudentsByCourse() {
           data={filterData}
           current={current}
         />
+      )}
+      {!isLoading && !isError && !searchQuery.length && (
+        <span className="text-danger text-center mt-2">
+          You have no student data to display
+        </span>
       )}
     </div>
   );

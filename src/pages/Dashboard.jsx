@@ -49,6 +49,7 @@ export default function Dashboard() {
   const isPath = [
     "/dashboard/payments",
     "/dashboard/payments/add-payment-record",
+    "/dashboard/payments/search",
     "/dashboard/students",
     `/dashboard/students/generate-docket/${studentId}`,
     "/dashboard/students/new-student",

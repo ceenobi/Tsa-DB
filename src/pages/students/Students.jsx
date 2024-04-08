@@ -1,17 +1,16 @@
-import { useMemo, useCallback } from "react";
+import { useCallback } from "react";
 import { useTitle } from "@hooks";
 import { TableData } from "@components";
-import { tableLinks } from "@utils";
+import { tableLinks, classCohortValues } from "@utils";
 import { Outlet, useLocation, useParams, useNavigate } from "react-router-dom";
 import { shallow } from "zustand/shallow";
-import { useCurrent, useGetStudentsData, useFilteredData } from "@store";
+import { useCurrent, useFilteredData } from "@store";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 import styles from "../pages.module.css";
 
 export default function Students() {
   useTitle("Student records");
   const current = useCurrent((state) => state.current, shallow);
-  const { students } = useGetStudentsData();
   const { filterData } = useFilteredData();
   const location = useLocation();
   const navigate = useNavigate();
@@ -25,21 +24,10 @@ export default function Students() {
   ];
   const matchPaths = isPath.map((path) => path);
 
-  const activeCourse = useMemo(() => {
-    return students
-      ? students.map((course) => course.courseCohort.toLowerCase())
-      : [];
-  }, [students]);
+  const filterCourseCohorts = classCohortValues.filter((item, i) => i !== 0);
+  const getCourseCohorts = filterCourseCohorts.map((item) => item.name);
 
-  const removeCourseDuplicates = useMemo(() => {
-    return [
-      ...activeCourse.filter((course, i) => {
-        return activeCourse.indexOf(course) === i && course?.length > 0;
-      }),
-    ];
-  }, [activeCourse]);
-
-  const allCourses = ["All Students", ...removeCourseDuplicates];
+  const allCourses = ["All Students", ...getCourseCohorts];
 
   const searchStudentByCourse = useCallback(
     (item) => {

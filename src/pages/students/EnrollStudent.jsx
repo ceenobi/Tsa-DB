@@ -35,7 +35,7 @@ export default function EnrollStudent() {
     }
   };
 
-  const onPreviewFileName2 = (e) => {
+  const onPreviewFileName1 = (e) => {
     if (e.target.files && e.target.files[0]) {
       if (e.target.files[0].size > 5 * 1000 * 1000) {
         toast.error("File with maximum size of 5MB is allowed");
@@ -117,8 +117,8 @@ export default function EnrollStudent() {
             <Col md={4} className="mt-3 mt-md-4">
               <FormSelect
                 register={register}
-                errors={errors?.classCohort}
-                registerOptions={registerOptions?.classCohort}
+                errors={errors?.classType}
+                registerOptions={registerOptions?.classType}
                 className="my-1 text-black"
                 id="courseCohort"
                 label="Course Cohort"
@@ -326,7 +326,7 @@ export default function EnrollStudent() {
                   name="image"
                   id="image"
                   label="image"
-                  onChange={onPreviewFileName2}
+                  onChange={onPreviewFileName1}
                 />
                 {errors?.image?.type === "required" ? (
                   <span className="small text-danger">

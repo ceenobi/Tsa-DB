@@ -63,9 +63,9 @@ export default function AppRoutes() {
               element: <Payments />,
               children: [
                 {
-                  path: "payments",
-                  name: "Payments",
-                  element: null,
+                  path: "search",
+                  name: "Search students by course",
+                  element: <SeeStudentsByCourse />,
                 },
               ],
             },
