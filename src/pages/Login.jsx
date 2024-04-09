@@ -21,9 +21,15 @@ export default function Login() {
       <div className={styles.imgStudent}>
         <Image src={focusedStudent} fluid />
       </div>
-      <div className="p-3 p-md-4 rounded shadow-lg mx-5 w-50">
-      <h2>Welcome Back</h2>
+      <div className="p-5  rounded shadow-lg mx-5 w-50">
+      <h2 className="pt-5">Welcome Back</h2>
       <p>Let's continue from were you stopped</p>
+      <form action="" className="mb-4">
+        <label htmlFor="">name</label><br />
+        <input type="text" name="" id="" /><br /><br />
+        <label htmlFor="">name</label><br />
+        <input type="text" name="" id="" /><br /><br />
+      </form>
         
       </div>
     </div>

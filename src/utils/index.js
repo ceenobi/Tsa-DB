@@ -7,7 +7,8 @@ import {
 import formatCurrency from "./formatCurrency";
 import registerOptions from "./formValidate";
 import Spinner from "./Spinner";
-import validationSchema from './validationSchema'
+import validationSchema from './validationSchema';
+import SuccessModal from "./SuccessModal";
 
 export {
   navlinks,
@@ -17,5 +18,6 @@ export {
   classTypeValues,
   classCohortValues,
   Spinner,
-  validationSchema
+  validationSchema,
+  SuccessModal
 };
