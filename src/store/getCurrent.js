@@ -16,4 +16,12 @@ const useCurrentPage = createWithEqualityFn(
   (state, newState) => state.resultsPerPage === newState.resultsPerPage
 );
 
-export { useCurrent, useCurrentPage };
+const useHandleShow = createWithEqualityFn(
+  (set) => ({
+    show: false,
+    setShow: (newShow) => set(() => ({ show: newShow })),
+  }),
+  (state, newState) => state.show === newState.show
+);
+
+export { useCurrent, useCurrentPage, useHandleShow };

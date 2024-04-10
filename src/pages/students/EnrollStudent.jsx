@@ -277,7 +277,7 @@ export default function EnrollStudent() {
                 <Form.Control
                   {...register("receipt", { required: true })}
                   type="file"
-                  className="w-100 h-100 position-absolute bottom-0 end-0 opacity-0"
+                  className="w-100 h-75 position-absolute bottom-0 end-0 opacity-0"
                   accept="image/*"
                   id="receipt"
                   label="Payment Receipt"
@@ -321,7 +321,7 @@ export default function EnrollStudent() {
                 <Form.Control
                   {...register("image", { required: true })}
                   type="file"
-                  className="w-100 h-100 position-absolute bottom-0 end-0 opacity-0"
+                  className="w-100 h-75 position-absolute bottom-0 end-0 opacity-0"
                   accept="image/*"
                   name="image"
                   id="image"

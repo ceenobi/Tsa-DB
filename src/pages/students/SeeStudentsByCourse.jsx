@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from "react";
 import { useTitle } from "@hooks";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import { useGetStudentsData, useCurrent, useFilteredData } from "@store";
 import { shallow } from "zustand/shallow";
 import { useQuery } from "@tanstack/react-query";
@@ -13,6 +13,7 @@ import styles from "../pages.module.css";
 
 export default function SeeStudentsByCourse() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
   useTitle(`Search result for "${query}"`);
@@ -107,7 +108,12 @@ export default function SeeStudentsByCourse() {
         <Spinner />
       ) : (
         <TableData
-          header={tableLinks.headers}
+          header={
+            location.pathname === "/dashboard/students" ||
+            location.pathname === "/dashboard/students/search"
+              ? tableLinks.headers
+              : tableLinks.paymentHeaders
+          }
           extra="my-3"
           data={filterData}
           current={current}

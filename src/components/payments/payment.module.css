@@ -7,6 +7,35 @@
   background-color: var(--paleBlue);
 }
 
+.h1 {
+  font-size: clamp(1.1rem, 4vw, 1.8rem) !important;
+}
+
+.pStyle {
+  font-size: clamp(0.8rem, 4vw, 1.1rem) !important;
+}
+
+.tstyle {
+  color: var(--offBlack);
+  font-weight: 600;
+  font-size: 0.884rem;
+}
+
+.btnSize {
+  min-width: 100%;
+}
+
+@media (min-width: 767px) {
+  .btnSize {
+    min-width: 125px;
+  }
+}
+
+@media (min-width: 967px) {
+  .btnSize {
+    min-width: 180px;
+  }
+}
 @media (max-width: 374px) {
   .btnWidth {
     width: 100%;

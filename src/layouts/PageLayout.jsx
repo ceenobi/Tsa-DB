@@ -100,7 +100,7 @@ export default function PageLayout({ children }) {
             />
           )}
         </Stack>
-        <Image src={avatar} roundedCircle />
+        <Image src={avatar} roundedCircle fluid alt="user-pic" />
       </div>
       {children}
     </Container>

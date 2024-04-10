@@ -49,6 +49,9 @@ const registerOptions = {
   amount: {
     required: "This field is required",
   },
+  comments: {
+    required: "This field is required",
+  },
   paymentReceipt: {
     required: "Please upload proof of payment",
   },

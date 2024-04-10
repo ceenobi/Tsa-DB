@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MyButton, MyModal, AddPaymentRecord } from "@components";
 import { Row, Col, Table, Image } from "react-bootstrap";
 import { IoMdClose } from "react-icons/io";
@@ -7,10 +7,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useGetAStudentPaymentRecord } from "@store";
 import { studentsService } from "@services";
 import { Spinner } from "@utils";
-import { handleAuthError } from "@config";
 import { MdEdit } from "react-icons/md";
-import toast from "react-hot-toast";
 import styles from "./payment.module.css";
+import PaymentReminder from "./PaymentReminder";
 
 export default function PaymentProfile({
   setShowStudentModal,
@@ -42,18 +41,6 @@ export default function PaymentProfile({
     },
   });
 
-  //fetch full student data
-  const { data: studentFullData } = useQuery({
-    queryKey: ["studentPaymentFullData", getStudentId],
-    queryFn: () => studentsService.getAStudent(getStudentId),
-    onError: (error) => {
-      console.error("Error fetching student's full payment data:", error);
-    },
-    onLoading: () => {
-      <Spinner />;
-    },
-  });
-
   //store api data to zustand state
   useEffect(() => {
     if (paymentData) {
@@ -66,31 +53,7 @@ export default function PaymentProfile({
   const handleOpen = () => setShowStudentModal(true);
   const handleOpenModal = () => setShowModal(true);
 
-  //send payment reminder
-  const sendReminder = async (balance) => {
-    const formData = {
-      studentId: studentFullData?.data?.student.studentId,
-      comments: `Kindly note that you’re yet to complete your payment. 
-      The balance left to pay is ${balance}. Please pay up before 31/02/2023 to avoid exclusion from class`,
-    };
-    try {
-      const res = await studentsService.sendStudentPaymentReminder(formData);
-      if (res.status === 200) {
-        toast.success(res.data.message);
-      }
-    } catch (error) {
-      handleAuthError(error);
-    }
-  };
-
   console.log(student);
-  console.log("ft", studentFullData?.data?.student);
-
-  const tstyle = {
-    color: "var(--offBlack)",
-    fontWeight: 600,
-    fontSize: "0.884rem",
-  };
 
   return (
     <>
@@ -174,13 +137,7 @@ export default function PaymentProfile({
                     </p>
                   </Col>
                   <Col xs={12} lg={3}>
-                    <MyButton
-                      variant="danger"
-                      text="Send Reminder"
-                      className="fw-bold"
-                      onClick={() => sendReminder(student.balance)}
-                      disabled={student.balance === 0}
-                    />
+                    <PaymentReminder getStudentId={getStudentId} />
                   </Col>
                 </Row>
                 <hr />
@@ -203,18 +160,17 @@ export default function PaymentProfile({
                   <tbody className="border cursor">
                     <tr>
                       {student?.payments?.map((info, i) => (
-                        <>
-                          <td style={tstyle} className="text-capitalize">
+                        <React.Fragment key={i}>
+                          <td className={`text-capitalize ${styles.tstyle}`}>
                             <div className="mt-2">
                               <p className="mb-0">Bank Transfer</p>
                               <Image
-                                key={i}
                                 src={info.receipt}
                                 style={{ width: "20px", height: "20px" }}
                               />
                             </div>
                           </td>
-                          <td style={tstyle} className="text-capitalize">
+                          <td className={`text-capitalize ${styles.tstyle}`}>
                             <div className="mt-2">
                               <p className="mb-0 text-success">
                                 {formatCurrency(info.amount)}
@@ -234,23 +190,23 @@ export default function PaymentProfile({
                               </span>
                             </div>
                           </td>
-                        </>
+                        </React.Fragment>
                       ))}
-                      <td style={tstyle} className="text-capitalize">
+                      <td className={`text-capitalize ${styles.tstyle}`}>
                         <div className="mt-2">
                           <p className="mb-0 text-danger">
                             {formatCurrency(student.balance)}
                           </p>
                         </div>
                       </td>
-                      <td style={tstyle} className="text-capitalize">
+                      <td className={`text-capitalize ${styles.tstyle}`}>
                         <div className="mt-2">
                           <p className="mb-0 small">
                             <i>modified by:{student.modifiedBy?.name}</i>
                           </p>
                         </div>
                       </td>
-                      <td style={tstyle} className="text-capitalize">
+                      <td className={`text-capitalize ${styles.tstyle}`}>
                         <div className="mt-2">
                           <p className="mb-0 small">
                             <i>modified by:{student.modifiedBy?.name}</i>

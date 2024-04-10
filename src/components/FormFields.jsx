@@ -12,7 +12,6 @@ export function FormInputs({
   name,
   showPassword,
   togglePassword,
-  accept,
   ...props
 }) {
   return (
@@ -25,7 +24,6 @@ export function FormInputs({
           name={name}
           {...register(name, registerOptions)}
           className="bg-light.bg-gradient"
-          accept={accept}
           {...props}
           isInvalid={!!errors}
         />

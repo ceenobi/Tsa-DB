@@ -11,6 +11,9 @@ import { FormInputs, FormSelect } from "./FormFields";
 import Paginate from "./Paginate";
 import PaymentProfile from "./payments/PaymentProfile";
 import AddPaymentRecord from "./payments/AddPaymentRecord";
+import PaymentReminder from "./payments/PaymentReminder";
+import PaymentReminderForm from "./payments/PaymentReminderForm";
+import PaymentReminderSuccess from "./payments/PaymentReminderSuccess";
 
 export {
   Dashboard,
@@ -27,4 +30,7 @@ export {
   DownloadDocket,
   PaymentProfile,
   AddPaymentRecord,
+  PaymentReminder,
+  PaymentReminderForm,
+  PaymentReminderSuccess,
 };

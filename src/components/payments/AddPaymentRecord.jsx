@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styles from "./payment.module.css";
 import {
   MyModal,
@@ -18,6 +19,7 @@ import { BeatLoader } from "react-spinners";
 import toast from "react-hot-toast";
 
 export default function AddPaymentRecord({ showModal, setShowModal }) {
+  const [preview, setPreview] = useState();
   const { student } = useGetAStudentPaymentRecord();
   const {
     handleSubmit,
@@ -27,12 +29,17 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
 
   const handleCloseModal = () => setShowModal(false);
 
-  const onSubmitHandler = async (formData) => {
-    if (!formData.image && !formData.receipt) {
-      toast.error("Please provide payment receipt and profile image");
-      return;
+  const onPreviewFileName = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      if (e.target.files[0].size > 5 * 1000 * 1000) {
+        toast.error("File with maximum size of 5MB is allowed");
+        return false;
+      }
+      setPreview(e.target.files[0].name);
     }
-    console.log(formData);
+  };
+
+  const onSubmitHandler = async (formData) => {
     try {
       const res = await studentsService.addStudentPaymentRecord(formData);
       if (res.status === 201) {
@@ -55,14 +62,17 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
           title="Add Payment Record"
           className="text-center"
           color="var(--mainBlue)"
-          size="22px"
+          size="22.5px"
         />
         <Form onSubmit={handleSubmit(onSubmitHandler)} id="addPayment">
           <Row className="align-items-center">
             <Col md={4}>
-              <p style={{ color: "var(--mainBlue)" }} className="fw-bold mt-4">
-                Payment Method
-              </p>
+              <Headings
+                title="Payment Method"
+                className="fw-bold mt-4 mb-0"
+                color="var(--mainBlue)"
+                size="20px"
+              />
             </Col>
             <Col md={8}>
               <FormSelect
@@ -72,45 +82,67 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
                 className="my-1 text-black"
                 id="paymentMethod"
                 name="paymentMethod"
+                size="lg"
                 data={paymentMethods}
               />
             </Col>
             <Col md={4}>
-              <p style={{ color: "var(--mainBlue)" }} className="fw-bold mt-4">
-                Receipt
-              </p>
-            </Col>
-            <Col md={8}>
-              <div
-                className={`${styles.fileUpload} rounded-2 d-flex align-items-center justify-content-between cursor`}
-              >
-                <Stack direction="horizontal" gap={2}>
-                  <TiAttachment className="ms-2" color="#0266f4" />
-                  <span style={{ fontSize: "10px", fontWeight: "400" }}>
-                    Browse files or drag and drop here
-                  </span>
-                </Stack>
-                <MyButton
-                  variant="primary"
-                  text="Add"
-                  className={`fw-medium border border-start-0`}
-                />
-              </div>
-              <FormInputs
-                register={register}
-                errors={errors?.paymentReceipt}
-                registerOptions={registerOptions?.paymentReceipt}
-                className="my-1 w-100 position-absolute top-0 end-0 opacity-0"
-                id="receipt"
-                name="receipt"
-                type="file"
-                accept="image/*"
+              <Headings
+                title="Receipt"
+                className="fw-bold mt-4 mb-0"
+                color="var(--mainBlue)"
+                size="20px"
               />
             </Col>
+            <Col md={8}>
+              <div className="position-relative mt-4 py-2">
+                <div
+                  className={`${styles.fileUpload} rounded-2 d-flex align-items-center justify-content-between cursor`}
+                >
+                  <Stack direction="horizontal" gap={2}>
+                    <TiAttachment className="ms-2" color="#0266f4" />
+                    <span style={{ fontSize: "10px", fontWeight: "400" }}>
+                      Browse files or drag and drop here
+                    </span>
+                  </Stack>
+                  <MyButton
+                    variant="primary"
+                    text="Add"
+                    className={`fw-medium border border-start-0 h-auto`}
+                  />
+                </div>
+                <Form.Control
+                  {...register("receipt", { required: true })}
+                  type="file"
+                  className="w-100 h-100 position-absolute bottom-0 end-0 opacity-0"
+                  accept="image/*"
+                  id="receipt"
+                  label="Payment Receipt"
+                  name="receipt"
+                  size="lg"
+                  onChange={onPreviewFileName}
+                />
+                {errors?.receipt?.type === "required" ? (
+                  <span className="small text-danger">
+                    This field is required!
+                  </span>
+                ) : null}
+                {preview && (
+                  <>
+                    <span className="small">
+                      {preview.slice(0, preview.length / 2) + preview.slice(-5)}
+                    </span>
+                  </>
+                )}
+              </div>
+            </Col>
             <Col md={4}>
-              <p style={{ color: "var(--mainBlue)" }} className="fw-bold mt-4">
-                Amount Paid
-              </p>
+              <Headings
+                title="Amount Paid"
+                className="fw-bold mt-4 mb-0"
+                color="var(--mainBlue)"
+                size="20px"
+              />
             </Col>
             <Col md={8}>
               <FormInputs
@@ -121,13 +153,17 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
                 id="amount"
                 name="amount"
                 type="number"
+                size="lg"
                 placeholder="Enter your initial deposit"
               />
             </Col>
             <Col md={4}>
-              <p style={{ color: "var(--mainBlue)" }} className="fw-bold mt-4">
-                Balance
-              </p>
+              <Headings
+                title="Balance"
+                className="fw-bold mt-4 mb-0"
+                color="var(--mainBlue)"
+                size="20px"
+              />
             </Col>
             <Col md={8}>
               <FormInputs
@@ -136,6 +172,7 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
                 id="balance"
                 name="balance"
                 type="number"
+                size="lg"
                 placeholder={student.balance}
                 disabled
               />
@@ -152,13 +189,10 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
                 id="datePaid"
                 name="datePaid"
                 type="date"
+                size="lg"
               />
             </Col>
-            <Col md={4}>
-              <p style={{ color: "var(--mainBlue)" }} className="fw-bold mt-4">
-                Comments
-              </p>
-            </Col>
+            <Col md={4}>Comments</Col>
             <Col md={8}>
               <FormInputs
                 register={register}
@@ -174,13 +208,13 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
             </Col>
           </Row>
         </Form>
-        <div className="my-4 d-flex justify-content-end align-items-center gap-3">
+        <div className="my-4 d-md-flex justify-content-end align-items-center gap-3">
           <MyButton
             variant="primary"
             text={
               isSubmitting ? <BeatLoader color="#0266f4" /> : "Save Changes"
             }
-            className={`${styles.btnSize} fw-bold`}
+            className={`${styles.btnSize} fw-bold mb-3 mb-md-0`}
             type="submit"
             disabled={isSubmitting}
             form="addPayment"
@@ -188,7 +222,7 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
           <MyButton
             variant="outline-danger"
             text="Cancel"
-            className={`fw-bold ${styles.btnWidth}`}
+            className={`${styles.btnSize} fw-bold`}
             onClick={handleCloseModal}
           />
         </div>

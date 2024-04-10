@@ -1,4 +1,4 @@
-import { MyModal, MyButton } from "@components";
+import { MyModal, MyButton, Headings } from "@components";
 import { success } from "@assets";
 import { Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -39,9 +39,11 @@ export default function ConfirmDeposit({
           style={{ width: "400px", height: "400px", zIndex: 3 }}
         />
         <div>
-          <h1 style={{ color: "var(--mainBlue)", fontSize: "1.438rem" }}>
-            Deposit Confirmed Successfully!!!
-          </h1>
+          <Headings
+            title="Deposit Confirmed Successfully!!!"
+            color="var(--mainBlue)"
+            size="1.438rem"
+          />
           {data.map((item, i) => (
             <div key={item._id}>
               {i === current && (

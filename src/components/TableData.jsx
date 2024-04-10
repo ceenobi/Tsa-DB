@@ -10,7 +10,7 @@ export default function TableData({ header, extra, data, current }) {
   const getCurrent = useCurrent((state) => state.addCurrent);
   const location = useLocation();
 
-  const isPath = ["/dashboard/payments"];
+  const isPath = ["/dashboard/payments", "/dashboard/payments/search"];
   const matchPaths = isPath.map((path) => path);
 
   const tNamestyle = {
@@ -63,6 +63,7 @@ export default function TableData({ header, extra, data, current }) {
                     style={{ height: "40px", width: "40px" }}
                     className="object-fit-cover"
                     roundedCircle
+                    alt={item.fullName}
                   />
                   {item.fullName}
                 </Stack>

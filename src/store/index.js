@@ -1,4 +1,4 @@
-import { useCurrent, useCurrentPage } from "./getCurrent";
+import { useCurrent, useCurrentPage, useHandleShow } from "./getCurrent";
 import {
   useGetStudentsData,
   useGetAStudentData,
@@ -13,4 +13,5 @@ export {
   useGetAStudentData,
   useFilteredData,
   useGetAStudentPaymentRecord,
+  useHandleShow,
 };
