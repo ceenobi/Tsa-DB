@@ -8,6 +8,7 @@ export default function PaymentReminderSuccess({
   student,
   handleCloseReminder,
   handleCloseReminderForm,
+  handleClosePayment,
 }) {
   const navigate = useNavigate();
 
@@ -18,6 +19,7 @@ export default function PaymentReminderSuccess({
     handleClose();
     handleCloseReminder();
     handleCloseReminderForm();
+    handleClosePayment()
     navigate("/dashboard/payments");
   };
 

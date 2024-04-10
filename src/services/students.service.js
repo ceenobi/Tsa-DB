@@ -32,8 +32,10 @@ const getStudentPaymentRecord = async (id) => {
   return await axiosInstance.get(`/student/${id}/payment`);
 };
 
-const addStudentPaymentRecord = async (id) => {
-  return await axiosInstance.post(`/student/${id}/payment`);
+const addStudentPaymentRecord = async (id, formData) => {
+  return await axiosInstance.post(`/student/${id}/payment`, formData, {
+    headers: authHeader(),
+  });
 };
 
 const loginAdmin = async (formData) => {

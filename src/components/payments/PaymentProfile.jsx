@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MyButton, MyModal, AddPaymentRecord } from "@components";
+import { MyModal, AddPaymentRecord } from "@components";
 import { Row, Col, Table, Image } from "react-bootstrap";
 import { IoMdClose } from "react-icons/io";
 import { formatCurrency } from "@utils";
@@ -50,21 +50,11 @@ export default function PaymentProfile({
 
   //modal controls
   const handleClose = () => setShowStudentModal(false);
-  const handleOpen = () => setShowStudentModal(true);
   const handleOpenModal = () => setShowModal(true);
-
-  console.log(student);
 
   return (
     <>
       <>
-        <MyButton
-          variant="primary"
-          text="Payment Profile"
-          className={setShowModal ? "d-none" : `fw-bold ${styles.btnWidth}`}
-          onClick={handleOpen}
-        />
-
         <MyModal
           show={showStudentModal}
           handleClose={handleClose}
@@ -137,7 +127,10 @@ export default function PaymentProfile({
                     </p>
                   </Col>
                   <Col xs={12} lg={3}>
-                    <PaymentReminder getStudentId={getStudentId} />
+                    <PaymentReminder
+                      getStudentId={getStudentId}
+                      handleClosePayment={handleClose}
+                    />
                   </Col>
                 </Row>
                 <hr />

@@ -21,7 +21,11 @@ const formattedDate = new Date().toLocaleDateString("en-GB", {
   year: "numeric",
 });
 
-export default function PaymentReminderForm({ student, handleCloseReminder }) {
+export default function PaymentReminderForm({
+  student,
+  handleCloseReminder,
+  handleClosePayment,
+}) {
   const [showModal, setShowModal] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const {
@@ -67,6 +71,7 @@ export default function PaymentReminderForm({ student, handleCloseReminder }) {
           setShowSuccess={setShowSuccess}
           handleCloseReminderForm={handleClose}
           handleCloseReminder={handleCloseReminder}
+          handleClosePayment={handleClosePayment}
           student={student.fullName}
         />
       ) : (
@@ -97,7 +102,7 @@ export default function PaymentReminderForm({ student, handleCloseReminder }) {
                       title="Name"
                       className="fw-bold mt-4 mb-0"
                       color="var(--mainBlue)"
-                      size="20px"
+                      size="18px"
                     />
                   </Col>
                   <Col md={8}>
@@ -119,7 +124,7 @@ export default function PaymentReminderForm({ student, handleCloseReminder }) {
                       title="Student ID"
                       className="fw-bold mt-4 mb-0"
                       color="var(--mainBlue)"
-                      size="20px"
+                      size="18px"
                     />
                   </Col>
                   <Col md={8}>
@@ -139,7 +144,7 @@ export default function PaymentReminderForm({ student, handleCloseReminder }) {
                       title="Email Address"
                       className="fw-bold mt-4 mb-0"
                       color="var(--mainBlue)"
-                      size="20px"
+                      size="18px"
                     />
                   </Col>
                   <Col md={8}>
@@ -159,7 +164,7 @@ export default function PaymentReminderForm({ student, handleCloseReminder }) {
                       title="Phone No"
                       className="fw-bold mt-4 mb-0"
                       color="var(--mainBlue)"
-                      size="20px"
+                      size="18px"
                     />
                   </Col>
                   <Col md={8}>
@@ -179,7 +184,7 @@ export default function PaymentReminderForm({ student, handleCloseReminder }) {
                       title="Comments"
                       className="fw-bold mt-4 mb-0"
                       color="var(--mainBlue)"
-                      size="20px"
+                      size="18px"
                     />
                   </Col>
                   <Col md={8}>

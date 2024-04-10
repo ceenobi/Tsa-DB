@@ -8,11 +8,10 @@ import {
   FormSelect,
 } from "@components";
 import { registerOptions, paymentMethods } from "@utils";
-// import { useNavigate } from "react-router-dom";
 import { Row, Col, Form, Stack } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { TiAttachment } from "react-icons/ti";
-import { useGetAStudentPaymentRecord } from "@store";
+import { useGetAStudentData } from "@store";
 import { studentsService } from "@services";
 import { handleAuthError } from "@config";
 import { BeatLoader } from "react-spinners";
@@ -20,12 +19,16 @@ import toast from "react-hot-toast";
 
 export default function AddPaymentRecord({ showModal, setShowModal }) {
   const [preview, setPreview] = useState();
-  const { student } = useGetAStudentPaymentRecord();
+  const { student } = useGetAStudentData();
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      balance: student.balance,
+    },
+  });
 
   const handleCloseModal = () => setShowModal(false);
 
@@ -40,8 +43,13 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
   };
 
   const onSubmitHandler = async (formData) => {
+    console.log(formData);
     try {
-      const res = await studentsService.addStudentPaymentRecord(formData);
+      const res = await studentsService.addStudentPaymentRecord(
+        student._id,
+        formData
+      );
+      console.log(res);
       if (res.status === 201) {
         toast.success(`succeded`);
       }
@@ -71,7 +79,7 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
                 title="Payment Method"
                 className="fw-bold mt-4 mb-0"
                 color="var(--mainBlue)"
-                size="20px"
+                size="18px"
               />
             </Col>
             <Col md={8}>
@@ -79,7 +87,7 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
                 register={register}
                 errors={errors?.classType}
                 registerOptions={registerOptions?.classType}
-                className="my-1 text-black"
+                className="text-black"
                 id="paymentMethod"
                 name="paymentMethod"
                 size="lg"
@@ -91,7 +99,7 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
                 title="Receipt"
                 className="fw-bold mt-4 mb-0"
                 color="var(--mainBlue)"
-                size="20px"
+                size="18px"
               />
             </Col>
             <Col md={8}>
@@ -119,10 +127,9 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
                   id="receipt"
                   label="Payment Receipt"
                   name="receipt"
-                  size="lg"
                   onChange={onPreviewFileName}
                 />
-                {errors?.receipt?.type === "required" ? (
+                {errors?.receipt?.type === "required" && !preview ? (
                   <span className="small text-danger">
                     This field is required!
                   </span>
@@ -141,7 +148,7 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
                 title="Amount Paid"
                 className="fw-bold mt-4 mb-0"
                 color="var(--mainBlue)"
-                size="20px"
+                size="18px"
               />
             </Col>
             <Col md={8}>
@@ -149,7 +156,7 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
                 register={register}
                 errors={errors?.amount}
                 registerOptions={registerOptions?.amount}
-                className="my-1 text-black"
+                className="text-black"
                 id="amount"
                 name="amount"
                 type="number"
@@ -162,13 +169,13 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
                 title="Balance"
                 className="fw-bold mt-4 mb-0"
                 color="var(--mainBlue)"
-                size="20px"
+                size="18px"
               />
             </Col>
             <Col md={8}>
               <FormInputs
                 register={register}
-                className="my-1 text-black"
+                className="text-black"
                 id="balance"
                 name="balance"
                 type="number"
@@ -185,22 +192,26 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
             <Col md={8}>
               <FormInputs
                 register={register}
-                className="my-1 text-black"
+                className="text-black"
                 id="datePaid"
                 name="datePaid"
                 type="date"
                 size="lg"
               />
             </Col>
-            <Col md={4}>Comments</Col>
+            <Col md={4}>
+              <p style={{ color: "var(--mainBlue)" }} className="fw-bold mt-4">
+                Comment
+              </p>
+            </Col>
             <Col md={8}>
               <FormInputs
                 register={register}
                 errors={errors?.amount}
                 registerOptions={registerOptions?.amount}
-                className="my-1 text-black"
-                id="comments"
-                name="comments"
+                className="text-black"
+                id="comment"
+                name="comment"
                 as="textarea"
                 placeholder="Place remarks"
                 rows={4}
@@ -211,9 +222,7 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
         <div className="my-4 d-md-flex justify-content-end align-items-center gap-3">
           <MyButton
             variant="primary"
-            text={
-              isSubmitting ? <BeatLoader color="#0266f4" /> : "Save Changes"
-            }
+            text={isSubmitting ? <BeatLoader color="#0266f4" /> : "Save Record"}
             className={`${styles.btnSize} fw-bold mb-3 mb-md-0`}
             type="submit"
             disabled={isSubmitting}

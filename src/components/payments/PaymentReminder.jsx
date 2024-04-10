@@ -6,7 +6,7 @@ import { useGetAStudentData } from "@store";
 import { Spinner } from "@utils";
 import styles from "./payment.module.css";
 
-export default function PaymentReminder({ getStudentId }) {
+export default function PaymentReminder({ getStudentId, handleClosePayment }) {
   const [showModal, setShowModal] = useState(false);
   const { student, setStudent } = useGetAStudentData();
   //modal controls
@@ -57,6 +57,7 @@ export default function PaymentReminder({ getStudentId }) {
             <PaymentReminderForm
               student={student}
               handleCloseReminder={handleClose}
+              handleClosePayment={handleClosePayment}
             />
             <p
               className={`${styles.pStyle} cursor text-underline text-primary fw-bold`}

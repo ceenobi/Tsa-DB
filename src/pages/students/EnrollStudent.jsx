@@ -284,7 +284,7 @@ export default function EnrollStudent() {
                   name="receipt"
                   onChange={onPreviewFileName}
                 />
-                {errors?.receipt?.type === "required" ? (
+                {errors?.receipt?.type === "required" && !preview ? (
                   <span className="small text-danger">
                     This field is required!
                   </span>
@@ -328,7 +328,7 @@ export default function EnrollStudent() {
                   label="image"
                   onChange={onPreviewFileName1}
                 />
-                {errors?.image?.type === "required" ? (
+                {errors?.image?.type === "required" && !preview1 ? (
                   <span className="small text-danger">
                     This field is required!
                   </span>
