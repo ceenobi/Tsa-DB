@@ -6,6 +6,9 @@ import styles from "./pages.module.css";
 import { useTitle } from "@hooks";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa";
+import {logo} from '@assets'
+import { NavLink } from "react-router-dom";
+
 
 
 export default function Login() {
@@ -25,16 +28,23 @@ export default function Login() {
     !reveal ? setReveal(true) : setReveal(false);
   }
   return (
-    <div className="d-lg-flex align-items-center">
+    <div className="d-lg-flex align-items-center position-relative ">
       <div className={styles.imgStudent}>
-        <Image src={focusedStudent} className="w-100 h-100 object-fit-cove" />
+        <Image src={focusedStudent} className="w-100 h-100 object-fit-cove " />
+        
+      </div>
+      <div className="position-absolute top-0 mt-5 ms-5 ">
+      <NavLink to="/" >
+        <Image src={logo}  className="w-50 ms-4 mt-4" />
+      </NavLink>
+        {/* <Image src={logo} className="w-75 ms-4 mt-3"/> */}
       </div>
       <div className="p-5 rounded shadow-lg mx-5 w-50">
         <h2>Welcome Back</h2>
-        <p>Let's continue from were you stopped</p>
+        <p className="mb-5">Let's continue from were you stopped</p>
         <Form>
           {/* email address */}
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Group className="mb-4" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control type="email" placeholder="name@example.com" />
             <Form.Text className="text-muted">
@@ -65,7 +75,7 @@ export default function Login() {
               Forgot password?
             </a>
           </div>
-          <Button variant="primary" type="submit" className="w-100">
+          <Button variant="primary" type="submit" className="w-100 my-4">
             Log in
           </Button>
         </Form>

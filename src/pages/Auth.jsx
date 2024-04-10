@@ -7,8 +7,12 @@ import { useForm } from "react-hook-form";
 import { browseFileImg } from "@assets";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema, SuccessModal } from "@utils";
+import { Headings, FormInputs, FormSelect, MyButton } from "@components";
 // import SuccessModal from "@utils/SuccessModal";
 import Spinner from "react-bootstrap/Spinner";
+import styles from "./pages.module.css";
+
+
 
 const Auth = () => {
   const [show, setShow] = useState(false);
@@ -124,8 +128,8 @@ const Auth = () => {
             >
               close
             </p>
-            <div className="mt-3 p-5">
-              <h2 className="text-primary">Details Uploaded Successfully!!!</h2>
+            <div className="mt-3 p-5 mt-5">
+              <h2 className="text-primary mt-5">Details Uploaded Successfully!!!</h2>
               <p className="fw-bold">
                 Your details have been successfully uploaded to the Tech Studio
                 Academy’s database.
@@ -407,7 +411,22 @@ const Auth = () => {
                 <button className="btn btn-payment btn-outline-danger">CANCEL</button>
               </div>
             </section> */}
-              <section className="my-4 container row gap-2 mx-auto">
+             <div className="d-flex my-5 flex-column flex-md-row gap-3 gap-md-4 justify-content-center justify-content-md-start ">
+            <MyButton
+              variant="primary"
+              text=                    {btnContent}
+
+              className={`${styles.btnSize} fw-bold`}
+              type="submit"
+              disabled={isSubmitting}
+            />
+            <MyButton
+              variant="outline-danger"
+              text="Cancel"
+              className={`${styles.btnSize} fw-bold`}
+            />
+          </div>
+              {/* <section className=" my-4 container row gap-2 ">
                 <div className="col-sm-12 col-md-3">
                   <button
                     className="btn btn-primary w-100"
@@ -425,7 +444,7 @@ const Auth = () => {
                     CANCEL
                   </button>
                 </div>
-              </section>
+              </section> */}
             </div>
           </Form>
         </Container>
