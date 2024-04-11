@@ -27,21 +27,15 @@
   width: 100%;
   height: 600px;
   filter: grayscale(100%);
-  
-}
-
-form{
-  /* min-height: 23rem; */
-  /* display: flex;
-  flex-direction: column; */
-  /* align-items: center; */
-  /* justify-content: center; */
 }
 
 .btnSize {
   min-width: 202px;
 }
 
+.formBox {
+  width: 100%;
+}
 
 @media (max-width: 280px) {
   .btnWidth {
@@ -56,12 +50,12 @@ form{
     min-width: 260px;
   }
 }
-
-
-
-@media (min-width: 1024px) {
+@media (min-width: 992px) {
   .imgStudent {
     width: 50%;
     height: 100vh;
+  }
+  .formBox {
+    width: 50%;
   }
 }

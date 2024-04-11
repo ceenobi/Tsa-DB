@@ -19,9 +19,7 @@ const updateAStudent = async (studentId, formData) => {
 };
 
 const addAStudent = async (formData) => {
-  return await axiosInstance.post("/student", formData, {
-    headers: authHeader(),
-  });
+  return await axiosInstance.post("/student", formData);
 };
 
 const searchStudentsViaCourse = async (searchQuery) => {

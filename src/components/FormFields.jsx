@@ -10,8 +10,6 @@ export function FormInputs({
   type,
   registerOptions,
   name,
-  showPassword,
-  togglePassword,
   ...props
 }) {
   return (
@@ -30,25 +28,6 @@ export function FormInputs({
         <Form.Control.Feedback type="invalid">
           {errors?.message}
         </Form.Control.Feedback>
-        {type === "password" && (
-          <>
-            {showPassword ? (
-              <span
-                className="position-absolute top-50 end-0 translate-middle cursor"
-                onClick={togglePassword}
-              >
-                Hide
-              </span>
-            ) : (
-              <span
-                className="position-absolute top-50 end-0 translate-middle cursor"
-                onClick={togglePassword}
-              >
-                Show
-              </span>
-            )}
-          </>
-        )}
       </Form.Group>
     </>
   );

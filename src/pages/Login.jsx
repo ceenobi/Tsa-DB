@@ -11,24 +11,32 @@ import { NavLink } from "react-router-dom";
 
 export default function Login() {
   const [reveal, setReveal] = useState(false);
-
   useTitle("Add a new student");
+  
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
   } = useForm();
 
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+  };
+  function handleHide() {
+    !reveal ? setReveal(true) : setReveal(false);
+  }
 
- const onSubmitHandler = async (e) => {
-   e.preventDefault();
- };
   return (
-    <div className="d-lg-flex align-items-center">
-      <div className={styles.imgStudent}>
-        <Image src={focusedStudent} fluid />
+    <div className="d-lg-flex align-items-center position-relative ">
+      <div className={`${styles.imgStudent} `}>
+        <Image src={focusedStudent} className="w-100 h-100" />
       </div>
-      <div className="p-5  rounded shadow-lg mx-5 w-50">
+      <div className="position-absolute top-0 mt-5 ms-md-5">
+        <NavLink to="/">
+          <Image src={logo} className="w-50 ms-4 mt-4" />
+        </NavLink>
+      </div>
+      <div className={`p-5 rounded shadow-lg mx-lg-5 ${styles.formBox}`}>
         <h2
           style={{
             color: "rgba(31, 38, 102, 1)",
@@ -38,10 +46,13 @@ export default function Login() {
         >
           Welcome Back
         </h2>
-        <p className="mb-5">Let's continue from were you stopped</p>
+        <p className="mb-5">Let&apos;s continue from were you stopped</p>
         <Form>
           {/* email address */}
-          <Form.Group className="mb-4 text-secondary small" controlId="formBasicEmail">
+          <Form.Group
+            className="mb-4 text-secondary small"
+            controlId="formBasicEmail"
+          >
             <Form.Label>Email Address</Form.Label>
             <Form.Control type="email" placeholder="name@example.com" />
             <Form.Text className="text-muted">

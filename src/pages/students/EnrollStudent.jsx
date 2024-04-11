@@ -51,6 +51,7 @@ export default function EnrollStudent() {
       const res = await studentsService.addAStudent(formData);
       if (res.status === 201) {
         toast.success("File upload success");
+        document.documentElement.scrollTop = 0;
       }
     } catch (error) {
       handleAuthError(error);

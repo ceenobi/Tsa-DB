@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import { Navbar, Footer } from "@layouts";
 import { useTitle } from "@hooks";
@@ -7,11 +6,11 @@ import { useForm } from "react-hook-form";
 import { browseFileImg } from "@assets";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema, SuccessModal } from "@utils";
-import { Headings, FormInputs, FormSelect, MyButton } from "@components";
-// import SuccessModal from "@utils/SuccessModal";
+import { MyButton } from "@components";
 import toast from "react-hot-toast";
 import Spinner from "react-bootstrap/Spinner";
 import styles from "./pages.module.css";
+import { studentsService } from "@services";
 
 const Auth = () => {
   const [show, setShow] = useState(false);
@@ -19,8 +18,8 @@ const Auth = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedReceipt, setSelectedReceipt] = useState(null);
-
   useTitle("Welcome to Techstudio");
+
   const {
     handleSubmit,
     register,
@@ -71,17 +70,11 @@ const Auth = () => {
         formData.append("image", selectedImage);
       }
 
-      const response = await axios.post(
-        "https://tsa-database-server.onrender.com/api/v1/student",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      console.log("Response:", response.data);
+      const response = await studentsService.addAStudent(formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       if (response.data.success) {
         setReveal(true);
         setIsClicked(true);
@@ -89,26 +82,23 @@ const Auth = () => {
       }
     } catch (error) {
       console.error("Error:", error);
-      if(error.message === "Network Error"){
+      if (error.message === "Network Error") {
         toast.error(error.message);
-        alert(error.message)
+        alert(error.message);
       }
-      
     } finally {
       setIsClicked(false);
     }
   };
   const handleImageChange = (event) => {
-    // setSelectedImage(event.target.files[0]);
     const file = event.target.files[0];
-    console.log("Selected Image:", file);
     setSelectedImage(file);
-    
   };
 
   const handleReceiptChange = (event) => {
     setSelectedReceipt(event.target.files[0]);
   };
+
   if (show) {
     return <SuccessModal />;
   }
@@ -279,26 +269,22 @@ const Auth = () => {
                   className="position-absolute top-50 opacity-0"
                   size="lg"
                   placeholder="hh"
-                  {...register("image",{ required: true})}
+                  {...register("image", { required: true })}
                   onChange={handleImageChange}
                 />
-                 {errors?.image?.type  && !selectedImage ? (
-                  <span className="small text-danger">
-                    Image is required
-                  </span>
+                {errors?.image?.type && !selectedImage ? (
+                  <span className="small text-danger">Image is required</span>
                 ) : null}
                 {selectedImage && (
                   <>
-                    <p className="text-success">
-                      {selectedImage.name}
-                    </p>
+                    <p className="text-success">{selectedImage.name}</p>
                   </>
                 )}
                 {/* {selectedImage && (
                   <p className="text-success">File: {selectedImage.name}</p>
                 )} */}
                 {/* {errors.image && <span className="text-danger">{errors.image.message}</span>} */}
-                 {/* {errors.image && errors.image.message && (
+                {/* {errors.image && errors.image.message && (
                   <span className="text-danger">{errors.image.message}</span>
                 )} */}
               </Form.Group>
@@ -410,19 +396,15 @@ const Auth = () => {
                   className="position-absolute top-50 opacity-0"
                   size="lg"
                   placeholder="hh"
-                  {...register("receipt",{required:true})}
+                  {...register("receipt", { required: true })}
                   onChange={handleReceiptChange}
                 />
-                 {errors?.receipt?.type  && !selectedReceipt ? (
-                  <span className="small text-danger">
-                    Receipt is required
-                  </span>
+                {errors?.receipt?.type && !selectedReceipt ? (
+                  <span className="small text-danger">Receipt is required</span>
                 ) : null}
                 {selectedReceipt && (
                   <>
-                    <p className="text-success">
-                      {selectedReceipt.name}
-                    </p>
+                    <p className="text-success">{selectedReceipt.name}</p>
                   </>
                 )}
               </Form.Group>

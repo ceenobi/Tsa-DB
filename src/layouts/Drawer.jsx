@@ -12,7 +12,7 @@ export default function Drawer() {
   const handleShow = () => setShow(true);
   return (
     <>
-      <CiMenuBurger onClick={handleShow} size="27px" className="d-lg-none" />
+      <CiMenuBurger onClick={handleShow} size="24px" className="d-lg-none" />
       <Offcanvas show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>

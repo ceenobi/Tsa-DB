@@ -11,6 +11,7 @@ import Spinner from "./Spinner";
 import validationSchema from "./validationSchema";
 import options from "./docketOptions";
 import timeStamp from "./formatDate";
+import SuccessModal from "./SuccessModal";
 
 export {
   navlinks,
@@ -24,4 +25,5 @@ export {
   validationSchema,
   options,
   timeStamp,
+  SuccessModal,
 };

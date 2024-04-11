@@ -5,6 +5,22 @@ import { useCurrent } from "@store";
 import { useLocation } from "react-router-dom";
 import { formatCurrency } from "@utils";
 
+const tNamestyle = {
+  color: "var(--mainBlue)",
+  fontWeight: 700,
+  fontSize: "1.01rem",
+};
+const tstyle = {
+  color: "var(--offBlack)",
+  fontWeight: 600,
+  fontSize: "0.884rem",
+};
+const tFstyle = {
+  color: "var(--lightBlue)",
+  fontWeight: 600,
+  fontSize: "0.884rem",
+};
+
 export default function TableData({ header, extra, data, current }) {
   const [showStudentModal, setShowStudentModal] = useState(false);
   const getCurrent = useCurrent((state) => state.addCurrent);
@@ -12,22 +28,6 @@ export default function TableData({ header, extra, data, current }) {
 
   const isPath = ["/dashboard/payments", "/dashboard/payments/search"];
   const matchPaths = isPath.map((path) => path);
-
-  const tNamestyle = {
-    color: "var(--mainBlue)",
-    fontWeight: 700,
-    fontSize: "1.01rem",
-  };
-  const tstyle = {
-    color: "var(--offBlack)",
-    fontWeight: 600,
-    fontSize: "0.884rem",
-  };
-  const tFstyle = {
-    color: "var(--lightBlue)",
-    fontWeight: 600,
-    fontSize: "0.884rem",
-  };
 
   const openModal = (index) => {
     getCurrent(index);
