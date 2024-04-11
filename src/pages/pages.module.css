@@ -26,14 +26,38 @@
 .imgStudent {
   width: 100%;
   height: 600px;
-  filter: grayscale(80%);
+  filter: grayscale(100%);
+  
 }
 
+form{
+  /* min-height: 23rem; */
+  /* display: flex;
+  flex-direction: column; */
+  /* align-items: center; */
+  /* justify-content: center; */
+}
+
+.btnSize {
+  min-width: 202px;
+}
+
+
+@media (max-width: 280px) {
+  .btnWidth {
+    width: 100%;
+  }
+}
 @media (min-width: 768px) {
   .border {
     border-bottom: 1px solid #cfcfd0;
   }
+  .btnSize {
+    min-width: 260px;
+  }
 }
+
+
 
 @media (min-width: 1024px) {
   .imgStudent {
