@@ -9,15 +9,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema, SuccessModal } from "@utils";
 import { Headings, FormInputs, FormSelect, MyButton } from "@components";
 // import SuccessModal from "@utils/SuccessModal";
+import toast from "react-hot-toast";
 import Spinner from "react-bootstrap/Spinner";
 import styles from "./pages.module.css";
-
-
 
 const Auth = () => {
   const [show, setShow] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedReceipt, setSelectedReceipt] = useState(null);
 
   useTitle("Welcome to Techstudio");
   const {
@@ -30,15 +31,13 @@ const Auth = () => {
     defaultValues: {
       fullName: "",
       pka: "",
-      // studentId: "",
       courseCohort: "",
       email: "",
       phoneNumber: "",
       classType: "",
-      image: "",
+      image: null,
       whatsappNumber: "",
       referralStudentId: "",
-      // referralName: "",
       emergencyContactName: "",
       emergencyContactNumber: "",
       emergencyContactLocation: "",
@@ -46,8 +45,6 @@ const Auth = () => {
       receipt: "",
     },
   });
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedReceipt, setSelectedReceipt] = useState(null);
   console.log("errors", errors);
 
   const onSubmit = async (data) => {
@@ -73,9 +70,6 @@ const Auth = () => {
       if (selectedImage) {
         formData.append("image", selectedImage);
       }
-      if (selectedReceipt) {
-        formData.append("receipt", selectedReceipt);
-      }
 
       const response = await axios.post(
         "https://tsa-database-server.onrender.com/api/v1/student",
@@ -89,19 +83,27 @@ const Auth = () => {
 
       console.log("Response:", response.data);
       if (response.data.success) {
-        // setShow(true);
         setReveal(true);
         setIsClicked(true);
         document.documentElement.scrollTop = 0;
       }
     } catch (error) {
       console.error("Error:", error);
+      if(error.message === "Network Error"){
+        toast.error(error.message);
+        alert(error.message)
+      }
+      
     } finally {
       setIsClicked(false);
     }
   };
   const handleImageChange = (event) => {
-    setSelectedImage(event.target.files[0]);
+    // setSelectedImage(event.target.files[0]);
+    const file = event.target.files[0];
+    console.log("Selected Image:", file);
+    setSelectedImage(file);
+    
   };
 
   const handleReceiptChange = (event) => {
@@ -119,7 +121,7 @@ const Auth = () => {
         {reveal && (
           <section
             className=" text-center bg-white shadow  mx-auto position-absolute top-0 end-0 mt-3 rounded-top"
-            style={{ minHeight: "14rem", maxWidth:"24rem" }}
+            style={{ minHeight: "14rem", maxWidth: "24rem" }}
           >
             <p
               className="text-end me-3 mt-2"
@@ -129,7 +131,9 @@ const Auth = () => {
               close
             </p>
             <div className="mt-3 p-5 mt-5">
-              <h2 className="text-primary mt-5">Details Uploaded Successfully!!!</h2>
+              <h2 className="text-primary mt-5">
+                Details Uploaded Successfully!!!
+              </h2>
               <p className="fw-bold">
                 Your details have been successfully uploaded to the Tech Studio
                 Academy’s database.
@@ -275,12 +279,28 @@ const Auth = () => {
                   className="position-absolute top-50 opacity-0"
                   size="lg"
                   placeholder="hh"
-                  {...register("image")}
+                  {...register("image",{ required: true})}
                   onChange={handleImageChange}
                 />
-                {errors.image && errors.image.message && (
-                  <span className="text-danger">{errors.image.message}</span>
+                 {errors?.image?.type  && !selectedImage ? (
+                  <span className="small text-danger">
+                    Image is required
+                  </span>
+                ) : null}
+                {selectedImage && (
+                  <>
+                    <p className="text-success">
+                      {selectedImage.name}
+                    </p>
+                  </>
                 )}
+                {/* {selectedImage && (
+                  <p className="text-success">File: {selectedImage.name}</p>
+                )} */}
+                {/* {errors.image && <span className="text-danger">{errors.image.message}</span>} */}
+                 {/* {errors.image && errors.image.message && (
+                  <span className="text-danger">{errors.image.message}</span>
+                )} */}
               </Form.Group>
               <hr />
               {/* Other Details */}
@@ -382,9 +402,7 @@ const Auth = () => {
                 className="mb-5 col-sm-12 col-md-5 position-relative "
               >
                 <Form.Label>Payment Receipt</Form.Label>
-                {/* <Form.Control type="file" size="lg" placeholder="hh" /> */}
                 <Image src={browseFileImg} className="img-fluid" />
-
                 {/* below for bootstrap */}
                 <Form.Control
                   accept="image/*"
@@ -392,59 +410,38 @@ const Auth = () => {
                   className="position-absolute top-50 opacity-0"
                   size="lg"
                   placeholder="hh"
-                  {...register("receipt")}
+                  {...register("receipt",{required:true})}
                   onChange={handleReceiptChange}
                 />
-                {errors.receipt && errors.receipt.message && (
-                  <span className="text-danger">
-                    {" "}
-                    {errors.receipt.message}{" "}
+                 {errors?.receipt?.type  && !selectedReceipt ? (
+                  <span className="small text-danger">
+                    Receipt is required
                   </span>
+                ) : null}
+                {selectedReceipt && (
+                  <>
+                    <p className="text-success">
+                      {selectedReceipt.name}
+                    </p>
+                  </>
                 )}
               </Form.Group>
               <hr />
-              {/* <section className="row  justify-content-between  my-5">
-              <div className="col-sm-12 col-md-5">
-                <button className="btn btn-payment btn-primary">Upload</button>
+              <div className="d-flex my-5 flex-column flex-md-row gap-3 gap-md-4 justify-content-center justify-content-md-start ">
+                <MyButton
+                  variant="primary"
+                  text={btnContent}
+                  className={`${styles.btnSize} fw-bold`}
+                  type="submit"
+                  disabled={isSubmitting}
+                />
+                <MyButton
+                  variant="outline-danger"
+                  text="Cancel"
+                  onClick={() => reset()}
+                  className={`${styles.btnSize} fw-bold`}
+                />
               </div>
-              <div className="col-md-5">
-                <button className="btn btn-payment btn-outline-danger">CANCEL</button>
-              </div>
-            </section> */}
-             <div className="d-flex my-5 flex-column flex-md-row gap-3 gap-md-4 justify-content-center justify-content-md-start ">
-            <MyButton
-              variant="primary"
-              text=                    {btnContent}
-
-              className={`${styles.btnSize} fw-bold`}
-              type="submit"
-              disabled={isSubmitting}
-            />
-            <MyButton
-              variant="outline-danger"
-              text="Cancel"
-              className={`${styles.btnSize} fw-bold`}
-            />
-          </div>
-              {/* <section className=" my-4 container row gap-2 ">
-                <div className="col-sm-12 col-md-3">
-                  <button
-                    className="btn btn-primary w-100"
-                    type="submit"
-                    disabled={isClicked}
-                  >
-                    {btnContent}
-                  </button>
-                </div>
-                <div className="col-sm-12 col-md-3">
-                  <button
-                    className="btn btn-outline-danger w-100"
-                    onClick={() => reset()}
-                  >
-                    CANCEL
-                  </button>
-                </div>
-              </section> */}
             </div>
           </Form>
         </Container>
