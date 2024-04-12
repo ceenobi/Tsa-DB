@@ -121,7 +121,7 @@ const Auth = () => {
         {reveal && (
           <section
             className=" text-center bg-white shadow  mx-auto position-absolute top-0 end-0 mt-3 rounded-top"
-            style={{ minHeight: "14rem", maxWidth: "24rem" }}
+            style={{ minHeight: "14rem", maxWidth: "26rem" }}
           >
             <p
               className="text-end me-3 mt-2"
