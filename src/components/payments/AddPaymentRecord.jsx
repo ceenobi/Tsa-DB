@@ -225,7 +225,7 @@ export default function AddPaymentRecord({
         <div className="my-4 d-md-flex justify-content-end align-items-center gap-3">
           <MyButton
             variant="primary"
-            text={isSubmitting ? <BeatLoader color="#0266f4" /> : "Save Record"}
+            text={isSubmitting ? <BeatLoader color="#ffffff" /> : "Save Record"}
             className={`${styles.btnSize} fw-bold mb-3 mb-md-0`}
             type="submit"
             disabled={isSubmitting}

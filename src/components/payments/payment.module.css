@@ -25,26 +25,18 @@
   min-width: 100%;
 }
 
-.paymentTagBg {
-  background-image: url(../../assets/tsbackdrop.png);
-  background-repeat: no-repeat;
-  background-position: right;
-  width: 250px;
-  height: 250px;
-}
-
 .imgPosition {
   position: absolute;
-  top: -15%;
+  top: -13%;
   right: 0;
-  width: 250px;
-  height: 250px;
-  /* z-index: 99999; */
 }
 
 @media (min-width: 767px) {
   .btnSize {
     min-width: 125px;
+  }
+  .imgPosition {
+    top: -15%;
   }
 }
 

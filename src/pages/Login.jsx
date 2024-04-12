@@ -12,7 +12,7 @@ import { NavLink } from "react-router-dom";
 export default function Login() {
   const [reveal, setReveal] = useState(false);
   useTitle("Add a new student");
-  
+
   const {
     handleSubmit,
     register,
@@ -46,7 +46,7 @@ export default function Login() {
         >
           Welcome Back
         </h2>
-        <p className="mb-5">Let&apos;s continue from were you stopped</p>
+        <p className="mb-5">Let&apos;s continue from where you stopped</p>
         <Form>
           {/* email address */}
           <Form.Group

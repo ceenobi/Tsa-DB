@@ -1,4 +1,4 @@
-import { useCurrent, useCurrentPage, useHandleShow } from "./getCurrent";
+import { useCurrent, useCurrentPage, useHandleShow } from "./getState";
 import {
   useGetStudentsData,
   useGetAStudentData,

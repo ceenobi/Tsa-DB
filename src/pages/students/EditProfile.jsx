@@ -154,8 +154,8 @@ export default function EditProfile() {
               <Col md={4} className="mt-3 mt-md-4">
                 <FormSelect
                   register={register}
-                  errors={errors?.classCohort}
-                  registerOptions={registerOptions?.classCohort}
+                  errors={errors?.classType}
+                  registerOptions={registerOptions?.classType}
                   className="my-1 text-black"
                   id="courseCohort"
                   label="Course Cohort"
@@ -284,7 +284,7 @@ export default function EditProfile() {
               <MyButton
                 variant="primary"
                 text={
-                  isSubmitting ? <BeatLoader color="#0266f4" /> : "Save Changes"
+                  isSubmitting ? <BeatLoader color="#ffffff" /> : "Save Changes"
                 }
                 className={`${styles.btnSize} fw-bold`}
                 type="submit"

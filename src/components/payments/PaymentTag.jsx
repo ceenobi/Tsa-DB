@@ -2,7 +2,12 @@ import { useState } from "react";
 import { MyModal, Headings, MyButton, PaymentTagDownload } from "@components";
 import styles from "./payment.module.css";
 
-export default function PaymentTag({ showPaymentTag, setShowPaymentTag, getStudentId }) {
+export default function PaymentTag({
+  showPaymentTag,
+  setShowPaymentTag,
+  getStudentId,
+  handleClosePayment,
+}) {
   const [showDownloadPaymentTag, setShowDownloadPaymentTag] = useState(false);
 
   //modal controls
@@ -35,6 +40,7 @@ export default function PaymentTag({ showPaymentTag, setShowPaymentTag, getStude
               showDownloadPaymentTag={showDownloadPaymentTag}
               setShowDownloadPaymentTag={setShowDownloadPaymentTag}
               getStudentId={getStudentId}
+              handleClosePayment={handleClosePayment}
             />
             <p
               className={`${styles.pStyle} cursor text-decoration-underline text-primary fw-bold`}

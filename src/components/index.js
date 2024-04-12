@@ -16,6 +16,7 @@ import PaymentReminderForm from "./payments/PaymentReminderForm";
 import PaymentReminderSuccess from "./payments/PaymentReminderSuccess";
 import PaymentTag from "./payments/PaymentTag";
 import PaymentTagDownload from "./payments/PaymentTagDownload";
+import DowloadPayTagSuccess from "./payments/DowloadPayTagSuccess";
 
 export {
   Dashboard,
@@ -37,4 +38,5 @@ export {
   PaymentReminderSuccess,
   PaymentTag,
   PaymentTagDownload,
+  DowloadPayTagSuccess,
 };

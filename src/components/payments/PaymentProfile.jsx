@@ -11,6 +11,7 @@ import { formatCurrency } from "@utils";
 import { useQuery } from "@tanstack/react-query";
 import { useGetAStudentPaymentRecord } from "@store";
 import { studentsService } from "@services";
+import { useTitle } from "@hooks";
 import { Spinner } from "@utils";
 import { MdEdit } from "react-icons/md";
 import styles from "./payment.module.css";
@@ -29,6 +30,7 @@ export default function PaymentProfile({
   const filterStudentId = data?.filter((student, index) => index === current);
   const getStudentId = filterStudentId.map((student) => student._id);
   const { student, setStudent } = useGetAStudentPaymentRecord();
+  useTitle(`Payment details for ${student?.fullName}`);
 
   //fetch student payment data
   const {
@@ -139,6 +141,7 @@ export default function PaymentProfile({
                         showPaymentTag={showPaymentTag}
                         setShowPaymentTag={setShowPaymentTag}
                         getStudentId={getStudentId}
+                        handleClosePayment={handleClose}
                       />
                     ) : (
                       <PaymentReminder

@@ -350,7 +350,7 @@ export default function EnrollStudent() {
             <MyButton
               variant="primary"
               text={
-                isSubmitting ? <BeatLoader color="#0266f4" /> : "Save Changes"
+                isSubmitting ? <BeatLoader color="#ffffff" /> : "Save Changes"
               }
               className={`${styles.btnSize} fw-bold`}
               type="submit"

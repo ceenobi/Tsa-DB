@@ -11,7 +11,7 @@ export default function MyModal({
   ...props
 }) {
   return (
-    <Modal show={show} onHide={handleClose} centered {...props} size={size}>
+    <Modal show={show} onHide={handleClose} centered size={size} {...props}>
       <div className="position-relative">
         <div className="d-flex justify-content-between align-items-center py-3 px-4">
           <Modal.Title
@@ -20,7 +20,7 @@ export default function MyModal({
           >
             {title}
           </Modal.Title>
-          <Stack direction="horizontal">
+          <Stack direction="horizontal" className="position-relative z-3">
             {backIcon}
             {menu}
           </Stack>
