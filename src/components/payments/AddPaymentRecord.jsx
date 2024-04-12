@@ -17,7 +17,10 @@ import { handleAuthError } from "@config";
 import { BeatLoader } from "react-spinners";
 import toast from "react-hot-toast";
 
-export default function AddPaymentRecord({ showModal, setShowModal }) {
+export default function AddPaymentRecord({
+  showAddPayment,
+  setShowAddPayment,
+}) {
   const [preview, setPreview] = useState();
   const { student } = useGetAStudentData();
   const {
@@ -30,7 +33,7 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
     },
   });
 
-  const handleCloseModal = () => setShowModal(false);
+  const handleCloseAddPayment = () => setShowAddPayment(false);
 
   const onPreviewFileName = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -60,8 +63,8 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
 
   return (
     <MyModal
-      show={showModal}
-      handleClose={handleCloseModal}
+      show={showAddPayment}
+      handleClose={handleCloseAddPayment}
       backdrop="static"
       size="lg"
     >
@@ -232,7 +235,7 @@ export default function AddPaymentRecord({ showModal, setShowModal }) {
             variant="outline-danger"
             text="Cancel"
             className={`${styles.btnSize} fw-bold`}
-            onClick={handleCloseModal}
+            onClick={handleCloseAddPayment}
           />
         </div>
       </div>

@@ -10,8 +10,10 @@ import tsLogo from "./tslogoLg.png";
 import divider from "./divider.png";
 import divider2 from "./divider2.png";
 import focusedStudent from "./portrait-focused-student.png";
-import footerArrow from './footer-arrow.svg';
-import browseFileImg from './Browse file (1).svg'
+import footerArrow from "./footer-arrow.svg";
+import browseFileImg from "./Browse file (1).svg";
+import tsbackdrop from "./tsbackdrop.png";
+import paymenttag from "./paymenttag.png"
 
 export {
   logo,
@@ -27,5 +29,7 @@ export {
   divider2,
   focusedStudent,
   footerArrow,
-  browseFileImg
+  browseFileImg,
+  tsbackdrop,
+  paymenttag,
 };

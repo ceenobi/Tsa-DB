@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { MyButton, MyModal, Headings, PaymentReminderForm } from "@components";
 import { useQuery } from "@tanstack/react-query";
 import { studentsService } from "@services";
@@ -6,12 +6,16 @@ import { useGetAStudentData } from "@store";
 import { Spinner } from "@utils";
 import styles from "./payment.module.css";
 
-export default function PaymentReminder({ getStudentId, handleClosePayment }) {
-  const [showModal, setShowModal] = useState(false);
+export default function PaymentReminder({
+  getStudentId,
+  handleClosePayment,
+  showReminder,
+  setShowReminder,
+}) {
   const { student, setStudent } = useGetAStudentData();
   //modal controls
-  const handleClose = () => setShowModal(false);
-  const handleOpen = () => setShowModal(true);
+  const handleClose = () => setShowReminder(false);
+  const handleOpen = () => setShowReminder(true);
 
   //fetch full student data
   const { data } = useQuery({
@@ -39,10 +43,9 @@ export default function PaymentReminder({ getStudentId, handleClosePayment }) {
         text="Send Reminder"
         className="fw-bold"
         onClick={handleOpen}
-        disabled={student.balance === 0}
       />
       <MyModal
-        show={showModal}
+        show={showReminder}
         handleClose={handleClose}
         backdrop="static"
         size="md"
@@ -60,8 +63,9 @@ export default function PaymentReminder({ getStudentId, handleClosePayment }) {
               handleClosePayment={handleClosePayment}
             />
             <p
-              className={`${styles.pStyle} cursor text-underline text-primary fw-bold`}
+              className={`${styles.pStyle} cursor text-decoration-underline text-primary fw-bold`}
               onClick={handleClose}
+              role="button"
             >
               Go Back
             </p>

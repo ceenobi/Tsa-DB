@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { MyModal, AddPaymentRecord } from "@components";
+import {
+  MyModal,
+  AddPaymentRecord,
+  PaymentTag,
+  PaymentReminder,
+} from "@components";
 import { Row, Col, Table, Image } from "react-bootstrap";
 import { IoMdClose } from "react-icons/io";
 import { formatCurrency } from "@utils";
@@ -9,7 +14,6 @@ import { studentsService } from "@services";
 import { Spinner } from "@utils";
 import { MdEdit } from "react-icons/md";
 import styles from "./payment.module.css";
-import PaymentReminder from "./PaymentReminder";
 
 export default function PaymentProfile({
   setShowStudentModal,
@@ -17,7 +21,9 @@ export default function PaymentProfile({
   current,
   data,
 }) {
-  const [showModal, setShowModal] = useState(false);
+  const [showAddPayment, setShowAddPayment] = useState(false);
+  const [showReminder, setShowReminder] = useState(false);
+  const [showPaymentTag, setShowPaymentTag] = useState(false);
 
   //filter students based on index to match and get student id
   const filterStudentId = data?.filter((student, index) => index === current);
@@ -50,7 +56,7 @@ export default function PaymentProfile({
 
   //modal controls
   const handleClose = () => setShowStudentModal(false);
-  const handleOpenModal = () => setShowModal(true);
+  const handleOpenAddPayment = () => setShowAddPayment(true);
 
   return (
     <>
@@ -64,6 +70,7 @@ export default function PaymentProfile({
             <IoMdClose size="30px" className="cursor" onClick={handleClose} />
           }
           size="lg"
+          className={showReminder || showPaymentTag ? "d-none" : ""}
         >
           {isError && (
             <span className="text-danger">
@@ -127,10 +134,20 @@ export default function PaymentProfile({
                     </p>
                   </Col>
                   <Col xs={12} lg={3}>
-                    <PaymentReminder
-                      getStudentId={getStudentId}
-                      handleClosePayment={handleClose}
-                    />
+                    {student.balance === 0 ? (
+                      <PaymentTag
+                        showPaymentTag={showPaymentTag}
+                        setShowPaymentTag={setShowPaymentTag}
+                        getStudentId={getStudentId}
+                      />
+                    ) : (
+                      <PaymentReminder
+                        getStudentId={getStudentId}
+                        handleClosePayment={handleClose}
+                        showReminder={showReminder}
+                        setShowReminder={setShowReminder}
+                      />
+                    )}
                   </Col>
                 </Row>
                 <hr />
@@ -143,7 +160,7 @@ export default function PaymentProfile({
                       <th>Comments</th>
                       <th
                         className="text-primary cursor"
-                        onClick={handleOpenModal}
+                        onClick={handleOpenAddPayment}
                       >
                         <MdEdit />
                         Add Payment Record
@@ -214,7 +231,10 @@ export default function PaymentProfile({
           )}
         </MyModal>
       </>
-      <AddPaymentRecord showModal={showModal} setShowModal={setShowModal} />
+      <AddPaymentRecord
+        showAddPayment={showAddPayment}
+        setShowAddPayment={setShowAddPayment}
+      />
     </>
   );
 }

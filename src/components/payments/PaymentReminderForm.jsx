@@ -11,7 +11,6 @@ import { useForm } from "react-hook-form";
 import { registerOptions, formatCurrency } from "@utils";
 import { studentsService } from "@services";
 import { BeatLoader } from "react-spinners";
-import toast from "react-hot-toast";
 import { handleAuthError } from "@config";
 import styles from "./payment.module.css";
 
@@ -55,7 +54,6 @@ export default function PaymentReminderForm({
     try {
       const res = await studentsService.sendStudentPaymentReminder(params);
       if (res.status === 200) {
-        toast.success(res.data.message);
         setShowSuccess(true);
       }
     } catch (error) {
