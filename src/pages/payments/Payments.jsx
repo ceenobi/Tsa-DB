@@ -13,21 +13,6 @@ export default function Payments() {
   const { filterData } = useFilteredData();
   const navigate = useNavigate();
   useTitle("Student payments");
-  // const { students } = useGetStudentsData();
-
-  // const activeCourse = useMemo(() => {
-  //   return students
-  //     ? students.map((course) => course.courseCohort.toLowerCase())
-  //     : [];
-  // }, [students]);
-
-  // const removeCourseDuplicates = useMemo(() => {
-  //   return [
-  //     ...activeCourse.filter((course, i) => {
-  //       return activeCourse.indexOf(course) === i && course?.length > 0;
-  //     }),
-  //   ];
-  // }, [activeCourse]);
 
   const isPath = ["/dashboard/payments/search"];
   const matchPaths = isPath.map((path) => path);

@@ -32,11 +32,12 @@ export default function ConfirmDeposit({
       className="rounded-4 position-relative"
     >
       <div className="text-center">
-        <Image src={vector4} className={`img-fluid ${styles.bg}`} />
+        <Image src={vector4} className={`img-fluid ${styles.bg}`} alt="vectorpic"/>
         <Image
           src={success}
           className="img-fluid position-relative"
           style={{ width: "400px", height: "400px", zIndex: 3 }}
+          alt="success"
         />
         <div>
           <Headings

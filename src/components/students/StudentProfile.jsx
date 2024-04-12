@@ -340,6 +340,7 @@ export default function StudentProfile({
                             <Image
                               src={info.receipt}
                               style={{ height: "40px", width: "40px" }}
+                              alt="receipt"
                             />
                           </div>
                         </div>

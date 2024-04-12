@@ -19,7 +19,7 @@ export default function PaymentReminderSuccess({
     handleClose();
     handleCloseReminder();
     handleCloseReminderForm();
-    handleClosePayment()
+    handleClosePayment();
     navigate("/dashboard/payments");
   };
 
@@ -41,7 +41,7 @@ export default function PaymentReminderSuccess({
             className={`${styles.pstyle} my-3`}
             style={{ color: "var(--mainBlack)" }}
           >
-            {student} - Payment reminder has been sent successfully.
+            <b>{student}</b> - Payment reminder has been sent successfully.
           </p>
           <MyButton
             variant="primary"

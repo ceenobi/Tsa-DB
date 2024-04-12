@@ -45,7 +45,7 @@ export default function DownloadDocket({ targetRef }) {
             </div>
           </div>
         </div>
-        <Image src={tsLogo} fluid />
+        <Image src={tsLogo} fluid alt="logo"/>
       </div>
       <div className="py-5">
         <Headings

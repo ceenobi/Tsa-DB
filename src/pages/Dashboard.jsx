@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import { DropdownButton, Dropdown, Row, Col, Image } from "react-bootstrap";
 import {
   useLocation,
@@ -9,7 +9,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { Headings, TableData, Paginate } from "@components";
-import { formatCurrency, tableLinks, Spinner } from "@utils";
+import { formatCurrency, tableLinks, Spinner, classCohortValues } from "@utils";
 import { useTitle } from "@hooks";
 import { PageLayout } from "@layouts";
 import { useGetStudentsData, useCurrent, useFilteredData } from "@store";
@@ -65,21 +65,24 @@ export default function Dashboard() {
   ];
   const noPaginate = hidePagination.map((path) => path);
 
-  const activeCourse = useMemo(() => {
-    return students
-      ? students.map((course) => course.courseCohort.toLowerCase())
-      : [];
-  }, [students]);
+  // const activeCourse = useMemo(() => {
+  //   return students
+  //     ? students.map((course) => course.courseCohort.toLowerCase())
+  //     : [];
+  // }, [students]);
 
-  const removeCourseDuplicates = useMemo(() => {
-    return [
-      ...activeCourse.filter((course, i) => {
-        return activeCourse.indexOf(course) === i && course?.length > 0;
-      }),
-    ];
-  }, [activeCourse]);
+  // const removeCourseDuplicates = useMemo(() => {
+  //   return [
+  //     ...activeCourse.filter((course, i) => {
+  //       return activeCourse.indexOf(course) === i && course?.length > 0;
+  //     }),
+  //   ];
+  // }, [activeCourse]);
 
-  const allCourses = [...removeCourseDuplicates];
+   const filterCourseCohorts = classCohortValues.filter((item, i) => i !== 0);
+   const getCourseCohorts = filterCourseCohorts.map((item) => item.name);
+
+   const allCourses = ["All Students", ...getCourseCohorts];
 
   const searchStudentByCourse = useCallback(
     (item) => {

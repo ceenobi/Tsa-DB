@@ -60,6 +60,8 @@ export default function PaymentProfile({
   const handleClose = () => setShowStudentModal(false);
   const handleOpenAddPayment = () => setShowAddPayment(true);
 
+  console.log(student);
+
   return (
     <>
       <>
@@ -219,10 +221,10 @@ export default function PaymentProfile({
                           </p>
                         </div>
                       </td>
-                      <td className={`text-capitalize ${styles.tstyle}`}>
+                      <td className={`${styles.tstyle}`}>
                         <div className="mt-2">
-                          <p className="mb-0 small">
-                            <i>modified by:{student.modifiedBy?.name}</i>
+                          <p className="mb-0 small text-primary">
+                            <i>Last modified by:{student.modifiedBy?.name}</i>
                           </p>
                         </div>
                       </td>

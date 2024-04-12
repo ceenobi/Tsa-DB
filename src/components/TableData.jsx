@@ -64,6 +64,7 @@ export default function TableData({ header, extra, data, current }) {
                     className="object-fit-cover"
                     roundedCircle
                     alt={item.fullName}
+                    loading="lazy"
                   />
                   {item.fullName}
                 </Stack>
