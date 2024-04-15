@@ -7,7 +7,7 @@ import {
   FormInputs,
   FormSelect,
 } from "@components";
-import { registerOptions, paymentMethods } from "@utils";
+import { paymentMethods } from "@utils";
 import { Row, Col, Form, Stack } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { TiAttachment } from "react-icons/ti";
@@ -17,12 +17,17 @@ import { handleAuthError } from "@config";
 import { BeatLoader } from "react-spinners";
 import toast from "react-hot-toast";
 
-export default function AddPaymentRecord({
-  showAddPayment,
-  setShowAddPayment,
-}) {
+export default function EditPaymentRecord({ editPayment, setEditPayment }) {
   const [preview, setPreview] = useState();
   const { student } = useGetAStudentData();
+  const getAmount = student?.payments?.map((item) => item.amount);
+  const getReceipt = student?.payments?.map((item) => item.receipt);
+  const getDatePaid = student?.payments?.map((item) => item.datePaid);
+  const formatDate = new Date(getDatePaid).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
   const {
     handleSubmit,
     register,
@@ -30,10 +35,12 @@ export default function AddPaymentRecord({
   } = useForm({
     defaultValues: {
       balance: student.balance,
+      amount: getAmount,
+      receipt: getReceipt,
+      datePaid: formatDate,
     },
   });
-
-  const handleCloseAddPayment = () => setShowAddPayment(false);
+  const handleCloseEditPayment = () => setEditPayment(false);
 
   const onPreviewFileName = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -47,35 +54,23 @@ export default function AddPaymentRecord({
 
   const onSubmitHandler = async (formData) => {
     console.log(formData);
-    try {
-      const res = await studentsService.addStudentPaymentRecord(
-        student._id,
-        formData
-      );
-      console.log(res);
-      if (res.status === 201) {
-        toast.success(`succeded`);
-      }
-    } catch (error) {
-      handleAuthError(error);
-    }
   };
 
   return (
     <MyModal
-      show={showAddPayment}
-      handleClose={handleCloseAddPayment}
+      show={editPayment}
+      handleClose={handleCloseEditPayment}
       backdrop="static"
       size="lg"
     >
       <div className="px-4">
         <Headings
-          title="Add Payment Record"
+          title="Edit Payment Record"
           className="text-center"
           color="var(--mainBlue)"
           size="22.5px"
         />
-        <Form onSubmit={handleSubmit(onSubmitHandler)} id="addPayment">
+        <Form onSubmit={handleSubmit(onSubmitHandler)} id="editPayment">
           <Row className="align-items-center">
             <Col md={4}>
               <Headings
@@ -88,8 +83,8 @@ export default function AddPaymentRecord({
             <Col md={8}>
               <FormSelect
                 register={register}
-                errors={errors?.classType}
-                registerOptions={registerOptions?.classType}
+                // errors={errors?.classType}
+                // registerOptions={registerOptions?.classType}
                 className="text-black"
                 id="paymentMethod"
                 name="paymentMethod"
@@ -123,7 +118,7 @@ export default function AddPaymentRecord({
                   />
                 </div>
                 <Form.Control
-                  {...register("receipt", { required: true })}
+                  {...register("receipt")}
                   type="file"
                   className="w-100 h-100 position-absolute bottom-0 end-0 opacity-0"
                   accept="image/*"
@@ -132,11 +127,11 @@ export default function AddPaymentRecord({
                   name="receipt"
                   onChange={onPreviewFileName}
                 />
-                {errors?.receipt?.type === "required" && !preview ? (
+                {/* {errors?.receipt?.type === "required" && !preview ? (
                   <span className="small text-danger">
                     This field is required!
                   </span>
-                ) : null}
+                ) : null} */}
                 {preview && (
                   <>
                     <span className="small">
@@ -157,14 +152,14 @@ export default function AddPaymentRecord({
             <Col md={8}>
               <FormInputs
                 register={register}
-                errors={errors?.amount}
-                registerOptions={registerOptions?.amount}
+                // errors={errors?.amount}
+                // registerOptions={registerOptions?.amount}
                 className="text-black"
                 id="amount"
                 name="amount"
                 type="number"
                 size="lg"
-                placeholder="Enter your initial deposit"
+                placeholder={getAmount}
               />
             </Col>
             <Col md={4}>
@@ -193,19 +188,14 @@ export default function AddPaymentRecord({
               </p>
             </Col>
             <Col md={8}>
-              <Form.Control
-                {...register("datePaid", { required: true })}
-                className="text-black mt-4"
+              <FormInputs
+                register={register}
+                className="text-black"
                 id="datePaid"
                 name="datePaid"
                 type="date"
                 size="lg"
               />
-              {errors?.datePaid?.type === "required" ? (
-                <span className="small text-danger">
-                  This field is required!
-                </span>
-              ) : null}
             </Col>
             <Col md={4}>
               <p style={{ color: "var(--mainBlue)" }} className="fw-bold mt-4">
@@ -214,7 +204,7 @@ export default function AddPaymentRecord({
             </Col>
             <Col md={8}>
               <Form.Control
-                {...register("comment", { required: true })}
+                {...register("comment")}
                 className="text-black mt-4"
                 id="comment"
                 name="comment"
@@ -222,11 +212,6 @@ export default function AddPaymentRecord({
                 placeholder="Place remarks"
                 rows={4}
               />
-              {errors?.comment?.type === "required" ? (
-                <span className="small text-danger">
-                  This field is required!
-                </span>
-              ) : null}
             </Col>
           </Row>
         </Form>
@@ -237,13 +222,13 @@ export default function AddPaymentRecord({
             className={`${styles.btnSize} fw-bold mb-3 mb-md-0`}
             type="submit"
             disabled={isSubmitting}
-            form="addPayment"
+            form="editPayment"
           />
           <MyButton
             variant="outline-danger"
             text="Cancel"
             className={`${styles.btnSize} fw-bold`}
-            onClick={handleCloseAddPayment}
+            onClick={handleCloseEditPayment}
           />
         </div>
       </div>

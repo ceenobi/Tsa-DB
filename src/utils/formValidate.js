@@ -1,4 +1,3 @@
-
 const registerOptions = {
   email: {
     required: "Email is required",
@@ -50,6 +49,9 @@ const registerOptions = {
     required: "This field is required",
   },
   comments: {
+    required: "This field is required",
+  },
+  datePaid: {
     required: "This field is required",
   },
   paymentReceipt: {

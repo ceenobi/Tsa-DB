@@ -64,13 +64,17 @@ const classTypeValues = [
 const paymentMethods = [
   {
     id: 1,
-    name: "bank deposit",
+    name: "Select Payment Method",
   },
   {
     id: 2,
+    name: "bank deposit",
+  },
+  {
+    id: 3,
     name: "bank transfer",
   },
-  { id: 3, name: "cash" },
+  { id: 4, name: "cash" },
 ];
 
 const tableLinks = {

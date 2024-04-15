@@ -4,6 +4,7 @@ import {
   AddPaymentRecord,
   PaymentTag,
   PaymentReminder,
+  EditPaymentRecord,
 } from "@components";
 import { Row, Col, Table, Image } from "react-bootstrap";
 import { IoMdClose } from "react-icons/io";
@@ -23,6 +24,7 @@ export default function PaymentProfile({
   data,
 }) {
   const [showAddPayment, setShowAddPayment] = useState(false);
+  const [editPayment, setEditPayment] = useState(false);
   const [showReminder, setShowReminder] = useState(false);
   const [showPaymentTag, setShowPaymentTag] = useState(false);
 
@@ -60,7 +62,9 @@ export default function PaymentProfile({
   const handleClose = () => setShowStudentModal(false);
   const handleOpenAddPayment = () => setShowAddPayment(true);
 
-  console.log(student);
+  const openEditPaymentModal = () => {
+    setEditPayment(true);
+  };
 
   return (
     <>
@@ -74,7 +78,9 @@ export default function PaymentProfile({
             <IoMdClose size="30px" className="cursor" onClick={handleClose} />
           }
           size="lg"
-          className={showReminder || showPaymentTag ? "d-none" : ""}
+          className={
+            showReminder || showPaymentTag || editPayment ? "d-none" : ""
+          }
         >
           {isError && (
             <span className="text-danger">
@@ -173,7 +179,7 @@ export default function PaymentProfile({
                     </tr>
                   </thead>
                   <tbody className="border cursor">
-                    <tr>
+                    <tr onClick={openEditPaymentModal}>
                       {student?.payments?.map((info, i) => (
                         <React.Fragment key={i}>
                           <td className={`text-capitalize ${styles.tstyle}`}>
@@ -239,6 +245,10 @@ export default function PaymentProfile({
       <AddPaymentRecord
         showAddPayment={showAddPayment}
         setShowAddPayment={setShowAddPayment}
+      />
+      <EditPaymentRecord
+        setEditPayment={setEditPayment}
+        editPayment={editPayment}
       />
     </>
   );
