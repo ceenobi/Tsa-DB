@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import { browseFileImg } from "@assets";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema, SuccessModal } from "@utils";
+import { IoCloseSharp } from "react-icons/io5";
+
 import { Headings, FormInputs, FormSelect, MyButton } from "@components";
 // import SuccessModal from "@utils/SuccessModal";
 import toast from "react-hot-toast";
@@ -70,6 +72,9 @@ const Auth = () => {
       if (selectedImage) {
         formData.append("image", selectedImage);
       }
+      if (selectedReceipt) {
+        formData.append("receipt", selectedReceipt);
+      }
 
       const response = await axios.post(
         "https://tsa-database-server.onrender.com/api/v1/student",
@@ -89,11 +94,10 @@ const Auth = () => {
       }
     } catch (error) {
       console.error("Error:", error);
-      if(error.message === "Network Error"){
+      if (error.message === "Network Error") {
         toast.error(error.message);
-        alert(error.message)
+        alert(error.message);
       }
-      
     } finally {
       setIsClicked(false);
     }
@@ -103,11 +107,13 @@ const Auth = () => {
     const file = event.target.files[0];
     console.log("Selected Image:", file);
     setSelectedImage(file);
-    
   };
 
   const handleReceiptChange = (event) => {
-    setSelectedReceipt(event.target.files[0]);
+    const file = event.target.files[0];
+    console.log("Selected Receipt:", file);
+    setSelectedReceipt(file);
+    // setSelectedReceipt(event.target.files[0]);
   };
   if (show) {
     return <SuccessModal />;
@@ -128,13 +134,14 @@ const Auth = () => {
               role="button"
               onClick={() => setReveal(false)}
             >
-              close
+              <IoCloseSharp />
+
             </p>
             <div className="mt-3 p-5 mt-5">
-              <h2 className="text-primary mt-5">
+              <h2 className="text-primary fs-5 fw-bold mt-5">
                 Details Uploaded Successfully!!!
               </h2>
-              <p className="fw-bold">
+              <p className="fw-bold  text-secondary">
                 Your details have been successfully uploaded to the Tech Studio
                 Academy’s database.
               </p>
@@ -207,9 +214,9 @@ const Auth = () => {
                   <option value="Data Analysis">Data Analysis</option>
                   <option value="Product Design">Product Design</option>
                 </Form.Select>
-                {errors.classCohort && errors.classCohort.message && (
+                {errors.courseCohort && errors.courseCohort.message && (
                   <span className="text-danger">
-                    {errors.classCohort.message}
+                    {errors.courseCohort.message}
                   </span>
                 )}
               </Form.Group>
@@ -262,6 +269,12 @@ const Auth = () => {
                   <option value="weekend">weekend</option>
                   <option value="weekend">online</option>
                 </Form.Select>
+                {errors.classType && errors.classType.message && (
+                  <span className="text-danger">
+                    {" "}
+                    {errors.classType.message}{" "}
+                  </span>
+                )}
               </Form.Group>
               {/* img upload */}
               <Form.Group
@@ -279,10 +292,10 @@ const Auth = () => {
                   className="position-absolute top-50 opacity-0"
                   size="lg"
                   placeholder="hh"
-                  {...register("image",{ required: true})}
+                  {...register("image", { required: true })}
                   onChange={handleImageChange}
                 />
-                 {errors?.image?.type  && !selectedImage ? (
+                {errors?.image  && !selectedImage ? (
                   <span className="small text-danger">
                     Image is required
                   </span>
@@ -297,8 +310,8 @@ const Auth = () => {
                 {/* {selectedImage && (
                   <p className="text-success">File: {selectedImage.name}</p>
                 )} */}
-                {/* {errors.image && <span className="text-danger">{errors.image.message}</span>} */}
-                 {/* {errors.image && errors.image.message && (
+                {/* {errors.image && <span className="text-danger">{errors.image.message}</span>}
+                {errors.image && errors.image.message && (
                   <span className="text-danger">{errors.image.message}</span>
                 )} */}
               </Form.Group>
@@ -316,6 +329,12 @@ const Auth = () => {
                   placeholder="Enter your whatsapp number"
                   {...register("whatsappNumber")}
                 />
+                 {errors.whatsappNumber && errors.whatsappNumber.message && (
+                  <span className="text-danger">
+                    {" "}
+                    {errors.whatsappNumber.message}{" "}
+                  </span>
+                )}
               </Form.Group>
               {/* Referral Student ID */}
               <Form.Group
@@ -353,6 +372,12 @@ const Auth = () => {
                   placeholder="Enter ICE  contact's name"
                   {...register("emergencyContactName")}
                 />
+                {errors.emergencyContactName && errors.emergencyContactName.message && (
+                  <span className="text-danger">
+                    {" "}
+                    {errors.emergencyContactName.message}{" "}
+                  </span>
+                )}
               </Form.Group>
               {/* Emergency Contact's Number*/}
               <Form.Group
@@ -365,6 +390,12 @@ const Auth = () => {
                   placeholder="Enter ICE  contact's number"
                   {...register("emergencyContactNumber")}
                 />
+                {errors.emergencyContactNumber && errors.emergencyContactNumber.message && (
+                  <span className="text-danger">
+                    {" "}
+                    {errors.emergencyContactNumber.message}{" "}
+                  </span>
+                )}
               </Form.Group>
               {/* Emergency Contact's Location */}
               <Form.Group
@@ -377,6 +408,12 @@ const Auth = () => {
                   placeholder="Enter ICE  contact's location"
                   {...register("emergencyContactLocation")}
                 />
+                 {errors.emergencyContactLocation && errors.emergencyContactLocation.message && (
+                  <span className="text-danger">
+                    {" "}
+                    {errors.emergencyContactLocation.message}{" "}
+                  </span>
+                )}
               </Form.Group>
               <hr />
               {/* Payment Details */}
@@ -410,10 +447,10 @@ const Auth = () => {
                   className="position-absolute top-50 opacity-0"
                   size="lg"
                   placeholder="hh"
-                  {...register("receipt",{required:true})}
+                  {...register("receipt", { required: true })}
                   onChange={handleReceiptChange}
                 />
-                 {errors?.receipt?.type  && !selectedReceipt ? (
+                {errors?.receipt?.type  && !selectedReceipt ? (
                   <span className="small text-danger">
                     Receipt is required
                   </span>
@@ -425,6 +462,10 @@ const Auth = () => {
                     </p>
                   </>
                 )}
+
+                {/* {errors.receipt && errors.receipt.message && (
+                  <span className="text-danger">{errors.receipt.message}</span>
+                )} */}
               </Form.Group>
               <hr />
               <div className="d-flex my-5 flex-column flex-md-row gap-3 gap-md-4 justify-content-center justify-content-md-start ">
