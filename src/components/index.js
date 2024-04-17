@@ -18,6 +18,7 @@ import PaymentTag from "./payments/PaymentTag";
 import PaymentTagDownload from "./payments/PaymentTagDownload";
 import DowloadPayTagSuccess from "./payments/DowloadPayTagSuccess";
 import EditPaymentRecord from "./payments/EditPaymentRecord";
+import EditPaymentRecordSuccess from "./payments/EditPaymentRecordSuccess";
 
 export {
   Dashboard,
@@ -41,4 +42,5 @@ export {
   PaymentTagDownload,
   DowloadPayTagSuccess,
   EditPaymentRecord,
+  EditPaymentRecordSuccess,
 };
