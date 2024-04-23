@@ -7,7 +7,7 @@ import { useTitle } from "@hooks";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { logo } from "@assets";
-import { NavLink } from "react-router-dom";
+import { NavLink,useNavigate } from "react-router-dom";
 import { validationSchema } from "@utils";
 import { yupResolver } from "@hookform/resolvers/yup";
 import toast from "react-hot-toast";
@@ -30,6 +30,7 @@ export default function Login() {
   const [serverError, setServerError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [isClicked, setIsClicked] = useState(false);
+  const navigate = useNavigate()
 
   useTitle("Add a new student");
   const {
@@ -72,6 +73,10 @@ export default function Login() {
         // setSuccessMsg("Logged in successfully")
         setSuccessMsg("welcome " + responseData.admin.name);
         setIsClicked(true);
+        localStorage.setItem("adminToken", responseData.token);
+        navigate('/dashboard')
+
+
       }
       if (!responseData.ok) {
         const errorData = await responseData;
