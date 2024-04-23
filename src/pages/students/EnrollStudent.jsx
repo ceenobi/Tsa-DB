@@ -17,6 +17,8 @@ export default function EnrollStudent() {
   useTitle("Add a new student");
   const [preview, setPreview] = useState();
   const [preview1, setPreview1] = useState();
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedReceipt, setSelectedReceipt] = useState(null);
 
   const navigate = useNavigate();
   const {
@@ -25,27 +27,44 @@ export default function EnrollStudent() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onPreviewFileName = (e) => {
+  const handleReceiptChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       if (e.target.files[0].size > 5 * 1000 * 1000) {
         toast.error("File with maximum size of 5MB is allowed");
         return false;
       }
+      setSelectedReceipt(e.target.files[0]);
       setPreview(e.target.files[0].name);
     }
   };
 
-  const onPreviewFileName1 = (e) => {
+  const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       if (e.target.files[0].size > 5 * 1000 * 1000) {
         toast.error("File with maximum size of 5MB is allowed");
         return false;
       }
+      setSelectedImage(e.target.files[0]);
       setPreview1(e.target.files[0].name);
     }
   };
 
-  const onSubmitHandler = async (formData) => {
+  const onSubmitHandler = async (data) => {
+    const formData = new FormData();
+    formData.append("image", selectedImage);
+    formData.append("receipt", selectedReceipt);
+    formData.append("fullName", data.fullName);
+    formData.append("pka", data.pka);
+    formData.append("courseCohort", data.courseCohort);
+    formData.append("email", data.email);
+    formData.append("phoneNumber", data.phoneNumber);
+    formData.append("classType", data.classType);
+    formData.append("whatsappNumber", data.whatsappNumber);
+    formData.append("referralStudentId", data.referralStudentId);
+    formData.append("emergencyContactName", data.emergencyContactName);
+    formData.append("emergencyContactNumber", data.emergencyContactNumber);
+    formData.append("emergencyContactLocation", data.emergencyContactLocation);
+    formData.append("amount", data.amount);
     console.log(formData);
     try {
       const res = await studentsService.addAStudent(formData);
@@ -283,7 +302,7 @@ export default function EnrollStudent() {
                   id="receipt"
                   label="Payment Receipt"
                   name="receipt"
-                  onChange={onPreviewFileName}
+                  onChange={handleReceiptChange}
                 />
                 {errors?.receipt?.type === "required" && !preview ? (
                   <span className="small text-danger">
@@ -327,7 +346,7 @@ export default function EnrollStudent() {
                   name="image"
                   id="image"
                   label="image"
-                  onChange={onPreviewFileName1}
+                  onChange={handleImageChange}
                 />
                 {errors?.image?.type === "required" && !preview1 ? (
                   <span className="small text-danger">

@@ -19,7 +19,11 @@ const updateAStudent = async (studentId, formData) => {
 };
 
 const addAStudent = async (formData) => {
-  return await axiosInstance.post("/student", formData);
+  return await axiosInstance.post("/student", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 };
 
 const searchStudentsViaCourse = async (searchQuery) => {
