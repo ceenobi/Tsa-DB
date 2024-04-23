@@ -25,7 +25,24 @@ export default function EnrollStudent() {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      fullName: "",
+      pka: "",
+      courseCohort: "",
+      email: "",
+      phoneNumber: "",
+      classType: "",
+      image: null,
+      whatsappNumber: "",
+      referralStudentId: "",
+      emergencyContactName: "",
+      emergencyContactNumber: "",
+      emergencyContactLocation: "",
+      amount: "",
+      receipt: "",
+    },
+  });
 
   const handleReceiptChange = (e) => {
     if (e.target.files && e.target.files[0]) {

@@ -27,6 +27,16 @@
   width: 100%;
   height: 400px;
   filter: grayscale(100%);
+  
+}
+
+form{
+  /* min-height: 23rem; */
+  /* display: flex;
+  flex-direction: column; */
+  /* align-items: center; */
+  /* justify-content: center; */
+
 }
 
 .btnSize {
@@ -49,8 +59,16 @@
   .btnSize {
     min-width: 260px;
   }
+  .xx{
+    /* width: 100%; */
+    /* padding: 2rem; */
+  }
+  
 }
-@media (min-width: 992px) {
+
+
+
+@media (min-width: 1024px) {
   .imgStudent {
     width: 50%;
     height: 100vh;
