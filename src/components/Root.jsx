@@ -1,15 +1,15 @@
-import { useOutlet } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import { Outlet } from "react-router-dom";
+import { Sidebar } from "@components";
 
 export default function Root() {
-  const currentOutlet = useOutlet();
-
   return (
-    <>
-      <div className="d-flex min-vh-100">
+    <main>
+      <div className="d-flex">
         <Sidebar />
-        <main className="outlet">{currentOutlet}</main>
+        <div className="outlet">
+          <Outlet />
+        </div>
       </div>
-    </>
+    </main>
   );
 }

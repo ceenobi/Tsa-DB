@@ -1,8 +1,11 @@
-import { create } from "zustand";
+import { createWithEqualityFn } from "zustand/traditional";
 
-const useCurrent = create((set) => ({
-  current: 0,
-  addCurrent: (name) => set(() => ({ current: name })),
-}));
+const useCurrent = createWithEqualityFn(
+  (set) => ({
+    current: 0,
+    addCurrent: (number) => set(() => ({ current: number })),
+  }),
+  (state, newState) => state.current === newState.current
+);
 
-export default useCurrent;
+export { useCurrent };

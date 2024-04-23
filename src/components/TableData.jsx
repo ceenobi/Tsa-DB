@@ -1,14 +1,13 @@
 import { Table, Image, Stack } from "react-bootstrap";
-import PropTypes from "prop-types";
-import useCurrent from "../store/getCurrent";
 import { useState } from "react";
-import MyModal from "./MyModal";
+import { StudentProfile } from "@components";
+import { useCurrent } from "@store";
 
-export default function TableData({ header, extra, data }) {
-  const [showPicModal, setShowPicModal] = useState(false);
-  const currentIndex = useCurrent();
-  console.log(currentIndex);
-  
+
+export default function TableData({ header, extra, data, current }) {
+  const [showStudentModal, setShowStudentModal] = useState(false);
+  const getCurrent = useCurrent((state) => state.addCurrent);
+
   const tNamestyle = {
     color: "var(--mainBlue)",
     fontWeight: 700,
@@ -23,6 +22,11 @@ export default function TableData({ header, extra, data }) {
     color: "var(--lightBlue)",
     fontWeight: 600,
     fontSize: "0.884rem",
+  };
+
+  const openModal = (index) => {
+    getCurrent(index);
+    setShowStudentModal(true);
   };
 
   return (
@@ -43,55 +47,55 @@ export default function TableData({ header, extra, data }) {
           ))}
         </tr>
       </thead>
-      {data.map(
-        ({ id, img, title, pka, courseCohort, email, phone, classType }, i) => (
-          <tbody
-            key={id}
-            className="border"
-            onClick={() => {
-              currentIndex.addCurrent(i);
-              setShowPicModal(true);
-            }}
-          >
-            <tr>
-              <td style={tNamestyle}>
-                <Stack direction="horizontal" gap={2}>
-                  <Image src={img} roundedCircle />
-                  {title}
-                </Stack>
-              </td>
-              <td style={tstyle} className="text-capitalize">
-                {pka}
-              </td>
-              <td style={tstyle}>{courseCohort}</td>
-              <td style={tFstyle}>{email}</td>
-              <td style={tFstyle}>{phone}</td>
-              <td
-                style={{
-                  color: "var(--mainRed)",
-                }}
-              >
-                {classType}
-              </td>
-            </tr>
-          </tbody>
-        )
-      )}
-      {showPicModal && (
+      {data?.students?.map((item, i) => (
+        <tbody key={item._id} className="border cursor">
+          <tr onClick={() => openModal(i)}>
+            <td style={tNamestyle}>
+              <Stack direction="horizontal" gap={2}>
+                <Image
+                  src={item.image}
+                  style={{ height: "40px", width: "40px" }}
+                  className="object-fit-cover"
+                  roundedCircle
+                />
+                {item.fullName}
+              </Stack>
+            </td>
+            <td style={tstyle} className="text-capitalize">
+              <div className="mt-2">{item.pka}</div>
+            </td>
+            <td style={tstyle}>
+              {" "}
+              <div className="mt-2">{item.courseCohort}</div>
+            </td>
+            <td style={tFstyle}>
+              {" "}
+              <div className="mt-2">{item.email}</div>
+            </td>
+            <td style={tFstyle}>
+              {" "}
+              <div className="mt-2">{item.phoneNumber}</div>
+            </td>
+            <td
+              style={{
+                color: "var(--mainRed)",
+              }}
+            >
+              <div className="mt-2">{item.classType}</div>
+            </td>
+          </tr>
+        </tbody>
+      ))}
+      {showStudentModal && (
         <>
-          <MyModal>
-            <h1>hthtthdc</h1>
-          </MyModal>
+          <StudentProfile
+            showStudentModal={showStudentModal}
+            setShowStudentModal={setShowStudentModal}
+            current={current}
+            data={data.students}
+          />
         </>
       )}
     </Table>
   );
 }
-
-TableData.propTypes = {
-  header: PropTypes.arrayOf(PropTypes.string),
-  data: PropTypes.any,
-  extra: PropTypes.string,
-  current: PropTypes.number,
-  setCurrent: PropTypes.any,
-};

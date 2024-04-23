@@ -5,14 +5,14 @@ import { navlinks } from "@utils";
 
 export default function Sidebar() {
   return (
-    <div className="sidebar d-flex flex-column justify-content-start align-items-center py-4">
+    <div className="sidebar d-none d-lg-flex flex-column justify-content-start align-items-center py-4">
       <NavLink to="/">
         <Image src={logo} />
       </NavLink>
       <div className="mt-5 text-center">
         {navlinks.map(({ id, Icon, name, path }) => (
           <NavLink
-            to={path}
+            to={`/${path}`}
             key={id}
             className={({ isActive }) =>
               isActive ? "activeLink" : "no_activeLink"

@@ -1,0 +1,92 @@
+.h1 {
+  font-size: clamp(1.1rem, 4vw, 1.375rem) !important;
+}
+
+.h1Mini {
+  font-size: clamp(1rem, 4vw, 1.1rem) !important;
+}
+
+.bg {
+  background-color: var(--lightGrey);
+}
+
+.pStyle,
+.pStyleMini {
+  font-weight: 600;
+  color: var(--offBlack);
+}
+
+.pStyle,
+.pStyle2 {
+  font-size: clamp(0.8rem, 4vw, 1.1rem) !important;
+}
+.pStyleMini {
+  font-size: 0.884rem;
+}
+
+.pStyle2 {
+  color: var(--mainBlue);
+  font-weight: 600;
+}
+
+.boxSize,
+.pSize {
+  width: 100%;
+}
+
+.headers {
+  background-color: var(--mainBlue);
+  width: 100%;
+}
+
+.divider {
+  width: 65%;
+}
+
+.btnSize {
+  min-width: 202px;
+}
+
+.fileUpload {
+  border: 1px dotted !important;
+  background-color: var(--paleBlue);
+}
+
+@media (min-width: 768px) {
+  .boxSize {
+    width: 50%;
+  }
+  .headers {
+    width: 70%;
+  }
+  .divider {
+    width: auto;
+  }
+  .btnSize {
+    min-width: 232px;
+  }
+  .border {
+    border-bottom: 1px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .headers {
+    width: 50%;
+  }
+  .pSize {
+    width: 50%;
+  }
+  .divider {
+    width: 40%;
+  }
+}
+
+@media (max-width: 280px) {
+  .btnWidth {
+    width: 100%;
+  }
+  .h1 {
+    font-size: 1rem !important;
+  }
+}
