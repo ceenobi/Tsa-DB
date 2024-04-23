@@ -47,7 +47,7 @@ const Auth = () => {
       receipt: "",
     },
   });
-  console.log("errors", errors);
+  // console.log("errors", errors);
 
   const onSubmit = async (data) => {
     setIsClicked(true);

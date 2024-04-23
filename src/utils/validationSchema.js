@@ -14,6 +14,8 @@ const validationSchema = yup
     emergencyContactLocation: yup.string().required("This field is required"),
     amount: yup.string().required("amount is required"),
     image: yup.string().required("Image is required"),
+    password:yup.string().required("Password is required"),
+    adminEmail:yup.string().required("Admin account not found")
   })
   .required();
 
