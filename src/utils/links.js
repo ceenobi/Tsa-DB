@@ -41,7 +41,7 @@ const classCohortValues = [
   },
   {
     id: 6,
-    name: "Cyber Security",
+    name: "Cybersecurity",
   },
 ];
 
