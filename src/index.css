@@ -31,6 +31,8 @@
 body {
   max-width: 1536px !important;
   margin: 0 auto !important;
+  overflow-x: hidden;
+    /* overflow-y: hidden; */
 }
 
 /* Nav styles */

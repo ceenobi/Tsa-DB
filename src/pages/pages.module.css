@@ -23,26 +23,57 @@
   font-size: clamp(1.4rem, 4vw, 1.625rem) !important;
 }
 
+
+
 .imgStudent {
   width: 100%;
   height: 600px;
   filter: grayscale(100%);
-  
 }
 
-form{
-  /* min-height: 23rem; */
-  /* display: flex;
-  flex-direction: column; */
-  /* align-items: center; */
-  /* justify-content: center; */
+.loginDiv{
+  position: relative;
+  width: 100%;
+  height: 400px;
+}
+.bgImgTop {
+  background-image: url("../assets/logo.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top right;
+  background-size: 268px;
+  opacity: 10%;
+  position: absolute;
+  top: -11rem;
+  right: -8rem;
+  bottom: 0;
+  left: 0;
+}
 
+.formDiv{
+  width: 569px;
+}
+
+
+.bgImgBttom{
+  background-image: url("../assets/logo.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom right;
+  background-size: 20%;
+  filter: brightness(150%);  
+  position: absolute;
+  top: 0;
+  right: 42rem;
+  bottom: -6rem;
+  left: 0;
+  z-index: -1;
+  opacity: 18%;
 }
 
 .btnSize {
   min-width: 202px;
 }
-
 
 @media (max-width: 280px) {
   .btnWidth {
@@ -56,14 +87,8 @@ form{
   .btnSize {
     min-width: 260px;
   }
-  .xx{
-    /* width: 100%; */
-    /* padding: 2rem; */
-  }
-  
+ 
 }
-
-
 
 @media (min-width: 1024px) {
   .imgStudent {

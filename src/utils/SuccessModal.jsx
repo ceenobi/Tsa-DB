@@ -1,27 +1,36 @@
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import Modal from "react-bootstrap/Modal";
+import { vector4 } from "@assets";
+import { success } from "@assets";
+import { Image } from "react-bootstrap";
 
-function SuccessModal() {
+function SuccessModal(props) {
   return (
-    <div
-      className="modal show"
-      style={{ display: 'block', position: 'initial' }}
+    <Modal
+      {...props}
+      size="md"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      backdrop="static"
     >
-      <Modal.Dialog>
-        <Modal.Header closeButton>
-          <Modal.Title> <h2>Details Uploaded Successfully!!! </h2></Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          <p>Your details have been successfully uploaded to the Tech Studio Academy’s database. </p>
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button variant="secondary">Close</Button>
-          <Button variant="primary">Save changes</Button>
-        </Modal.Footer>
-      </Modal.Dialog>
-    </div>
+      <Modal.Header closeButton></Modal.Header>
+      <div className="text-center ">
+        {/* <Image src={vector4} className={`img-fluid`} style={{position:"absolute",top:"",left:"0",zIndex:"-2",height:"100%",width:"100%"}} /> */}
+        <Image
+          src={success}
+          className="img-fluid position-relative"
+          style={{ width: "200px", height: "100px", zIndex: 3 }}
+        />
+      </div>
+      <div className=" p-1">
+        <h2 className="text-center text-primary fs-5 fw-bold mt-5">
+          Details Uploaded Successfully!!!
+        </h2>
+        <p className="fw-bold text-center text-secondary mb-5">
+          Your details have been successfully uploaded to the Tech Studio
+          Academy’s database.
+        </p>
+      </div>
+    </Modal>
   );
 }
 
