@@ -99,15 +99,13 @@ export default function TableData({ header, extra, data, current }) {
                   <td style={tstyle} className="text-capitalize">
                     <div className="mt-2">{formatCurrency(item.courseFee)}</div>
                   </td>
-                  {item.payments.map((info, i) => (
-                    <td
-                      style={tstyle}
-                      className="text-capitalize text-success"
-                      key={i}
-                    >
-                      <div className="mt-2">{formatCurrency(info.amount)}</div>
-                    </td>
-                  ))}
+
+                  <td style={tstyle} className="text-capitalize text-success">
+                    <div className="mt-2">
+                      {formatCurrency(item.totalAmountPaid)}
+                    </div>
+                  </td>
+
                   <td style={tstyle} className="text-capitalize text-primary">
                     <div className="mt-2">
                       {item.balance ? formatCurrency(item.balance) : "-"}

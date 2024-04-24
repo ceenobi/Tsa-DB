@@ -7,16 +7,14 @@ import { browseFileImg } from "@assets";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema, SuccessModal } from "@utils";
 import { IoCloseSharp } from "react-icons/io5";
-
 import { MyButton } from "@components";
-// import SuccessModal from "@utils/SuccessModal";
 import Spinner from "react-bootstrap/Spinner";
 import styles from "./pages.module.css";
 import { studentsService } from "@services";
 import { handleAuthError } from "@config";
 
 const Auth = () => {
-  const [show, setShow] = useState(false);
+  const [show] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -47,7 +45,6 @@ const Auth = () => {
       receipt: "",
     },
   });
-  // console.log("errors", errors);
 
   const onSubmit = async (data) => {
     setIsClicked(true);
@@ -76,11 +73,7 @@ const Auth = () => {
         formData.append("receipt", selectedReceipt);
       }
 
-      const response = await studentsService.addAStudent(formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await studentsService.addAStudent(formData);
       if (response.data.success) {
         setReveal(true);
         setIsClicked(true);
@@ -292,13 +285,6 @@ const Auth = () => {
                     <p className="text-success">{selectedImage.name}</p>
                   </>
                 )}
-                {/* {selectedImage && (
-                  <p className="text-success">File: {selectedImage.name}</p>
-                )} */}
-                {/* {errors.image && <span className="text-danger">{errors.image.message}</span>}
-                {errors.image && errors.image.message && (
-                  <span className="text-danger">{errors.image.message}</span>
-                )} */}
               </Form.Group>
               <hr />
               {/* Other Details */}
@@ -447,9 +433,6 @@ const Auth = () => {
                   </>
                 )}
 
-                {/* {errors.receipt && errors.receipt.message && (
-                  <span className="text-danger">{errors.receipt.message}</span>
-                )} */}
               </Form.Group>
               <hr />
               <div className="d-flex my-5 flex-column flex-md-row gap-3 gap-md-4 justify-content-center justify-content-md-start ">

@@ -12,6 +12,7 @@ import validationSchema from "./validationSchema";
 import options from "./docketOptions";
 import timeStamp from "./formatDate";
 import SuccessModal from "./SuccessModal";
+import { formatDatee } from "./formatDatee";
 
 export {
   navlinks,
@@ -26,4 +27,5 @@ export {
   options,
   timeStamp,
   SuccessModal,
+  formatDatee,
 };

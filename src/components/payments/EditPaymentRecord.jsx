@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./payment.module.css";
 import {
   MyModal,
@@ -8,56 +8,101 @@ import {
   FormSelect,
   EditPaymentRecordSuccess,
 } from "@components";
-import { paymentMethods } from "@utils";
+import { paymentMethods, formatDatee } from "@utils";
 import { Row, Col, Form, Stack } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { TiAttachment } from "react-icons/ti";
-import { useGetAStudentData } from "@store";
-// import { studentsService } from "@services";
-// import { handleAuthError } from "@config";
+import { studentsService } from "@services";
+import { handleAuthError } from "@config";
 import { BeatLoader } from "react-spinners";
 import toast from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
+import { Spinner } from "@utils";
+import { useGetStudentPaymentId } from "@store";
 
-export default function EditPaymentRecord({ editPayment, setEditPayment }) {
+export default function EditPaymentRecord({
+  editPayment,
+  setEditPayment,
+  active,
+  student,
+  getStudentId,
+  balance,
+}) {
   const [preview, setPreview] = useState();
+  const [selectedReceipt, setSelectedReceipt] = useState(null);
   const [editPaymentSuccess, setEditPaymentSuccess] = useState(false);
-  const { student } = useGetAStudentData();
-  const getAmount = student?.payments?.map((item) => item.amount);
-  const getReceipt = student?.payments?.map((item) => item.receipt);
-  const getDatePaid = student?.payments?.map((item) => item.datePaid);
-  const formatDate = new Date(getDatePaid).toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
+  const activeFilterStudent = student?.payments?.filter(
+    (item, index) => index === active
+  );
+  console.log("lop", activeFilterStudent);
+  const activePaymentId = activeFilterStudent?.map((item) => item._id);
+  const activePaymentStudent = activeFilterStudent?.map((item) => item);
+  console.log("pop", activePaymentStudent);
+  const { studentPayment, setStudentPayment } = useGetStudentPaymentId();
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["studentPayment", getStudentId, activePaymentId],
+    queryFn: () =>
+      studentsService.getAStudentPaymentRecord(getStudentId, activePaymentId),
+    onError: (error) => {
+      console.error("Error fetching student data:", error);
+    },
+    onLoading: () => {
+      <Spinner />;
+    },
   });
+  console.log("ddd", data);
+
+  //store api data to zustand state
+  useEffect(() => {
+    if (data) {
+      setStudentPayment(data?.data?.payment);
+    }
+  }, [data, setStudentPayment]);
+
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
-      balance: student.balance,
-      amount: getAmount,
-      receipt: getReceipt,
-      datePaid: formatDate,
+      balance: balance,
+      amount: studentPayment?.amount,
+      receipt: studentPayment?.receipt,
+      datePaid: studentPayment?.datePaid,
     },
   });
   const handleCloseEditPayment = () => setEditPayment(false);
 
-  const onPreviewFileName = (e) => {
+  const handleReceiptChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       if (e.target.files[0].size > 5 * 1000 * 1000) {
         toast.error("File with maximum size of 5MB is allowed");
         return false;
       }
+      setSelectedReceipt(e.target.files[0]);
       setPreview(e.target.files[0].name);
     }
   };
 
-  const onSubmitHandler = async (formData) => {
-    console.log(formData);
-    setEditPaymentSuccess(true);
-  };
+  // const onSubmitHandler = async (data) => {
+  //   const formData = new FormData();
+  //   formData.append("receipt", selectedReceipt);
+  //   formData.append("paymentType", data.paymentType);
+  //   formData.append("amount", data.amount);
+  //   formData.append("datePaid", data.datePaid);
+  //   formData.append("comment", data.comment);
+  //   try {
+  //     const res = await studentsService.updateAStudentPaymentRecord(
+  //       student._id,
+  //       formData
+  //     );
+  //     if (res.data.success) {
+  //       setEditPaymentSuccess(true);
+  //     }
+  //   } catch (error) {
+  //     handleAuthError(error);
+  //   }
+  // };
 
   return (
     <>
@@ -75,7 +120,7 @@ export default function EditPaymentRecord({ editPayment, setEditPayment }) {
             color="var(--mainBlue)"
             size="22.5px"
           />
-          <Form onSubmit={handleSubmit(onSubmitHandler)} id="editPayment">
+          <Form id="editPayment">
             <Row className="align-items-center">
               <Col md={4}>
                 <Headings
@@ -94,7 +139,7 @@ export default function EditPaymentRecord({ editPayment, setEditPayment }) {
                   id="paymentMethod"
                   name="paymentMethod"
                   size="lg"
-                  data={paymentMethods}
+                  // data={paymentMethods}
                 />
               </Col>
               <Col md={4}>
@@ -130,7 +175,7 @@ export default function EditPaymentRecord({ editPayment, setEditPayment }) {
                     id="receipt"
                     label="Payment Receipt"
                     name="receipt"
-                    onChange={onPreviewFileName}
+                    onChange={handleReceiptChange}
                   />
                   {/* {errors?.receipt?.type === "required" && !preview ? (
                   <span className="small text-danger">
@@ -165,7 +210,7 @@ export default function EditPaymentRecord({ editPayment, setEditPayment }) {
                   name="amount"
                   type="number"
                   size="lg"
-                  placeholder={getAmount}
+                  placeholder={studentPayment?.amount}
                 />
               </Col>
               <Col md={4}>
@@ -184,7 +229,7 @@ export default function EditPaymentRecord({ editPayment, setEditPayment }) {
                   name="balance"
                   type="number"
                   size="lg"
-                  placeholder={student.balance}
+                  // placeholder={student.balance}
                   disabled
                 />
               </Col>

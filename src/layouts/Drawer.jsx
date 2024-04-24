@@ -2,14 +2,26 @@ import { useState } from "react";
 import { CiMenuBurger } from "react-icons/ci";
 import { Offcanvas, Image, Stack } from "react-bootstrap";
 import { logo } from "@assets";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { navlinks } from "@utils";
+import { IoMdLogOut } from "react-icons/io";
+import { studentsService } from "@services";
+import toast from "react-hot-toast";
 
 export default function Drawer() {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    studentsService.logout();
+    toast.success("You are logged out");
+    navigate("/login");
+  };
+
   return (
     <>
       <CiMenuBurger onClick={handleShow} size="24px" className="d-lg-none" />
@@ -53,6 +65,13 @@ export default function Drawer() {
                 </div>
               </NavLink>
             ))}
+            <div
+              className="d-flex flex-column align-items-center no_activeLink logout cursor"
+              onClick={logOut}
+            >
+              <IoMdLogOut size="30px" />
+              <span style={{ fontSize: "1.7rem" }}>Logout</span>
+            </div>
           </div>
         </Offcanvas.Body>
       </Offcanvas>

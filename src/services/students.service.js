@@ -35,15 +35,28 @@ const getStudentPaymentRecord = async (id) => {
 };
 
 const addStudentPaymentRecord = async (id, formData) => {
-  return await axiosInstance.post(`/student/${id}/payment`, formData, {
-    headers: authHeader(),
-  });
+  return await axiosInstance.post(
+    `/student/${id}/payment`,
+    formData,
+    {
+      headers: authHeader(),
+    }
+  );
 };
 
 const loginAdmin = async (formData) => {
   return await axiosInstance.post("/login", formData);
 };
 
+const getAStudentPaymentRecord = async (studentId, paymentId, formData) => {
+  return await axiosInstance.get(
+    `/student/${studentId}/payment/${paymentId}`,
+    formData,
+    {
+      headers: authHeader(),
+    }
+  );
+};
 const updateAStudentPaymentRecord = async (studentId, paymentId, formData) => {
   return await axiosInstance.patch(
     `/student/${studentId}/payment/${paymentId}`,
@@ -58,6 +71,10 @@ const sendStudentPaymentReminder = async (formData) => {
   return await axiosInstance.post("/student/send", formData);
 };
 
+const logout = () => {
+  return localStorage.removeItem("adminToken");
+};
+
 export default {
   getAllStudents,
   getAStudent,
@@ -70,4 +87,6 @@ export default {
   loginAdmin,
   updateAStudentPaymentRecord,
   sendStudentPaymentReminder,
+  logout,
+  getAStudentPaymentRecord,
 };

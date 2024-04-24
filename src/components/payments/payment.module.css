@@ -12,7 +12,7 @@
 }
 
 .pStyle {
-  font-size: clamp(0.8rem, 4vw, 1.1rem) !important;
+  font-size: clamp(1rem, 4vw, 1.2rem) !important;
 }
 
 .tstyle {

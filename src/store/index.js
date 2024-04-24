@@ -4,6 +4,7 @@ import {
   useGetAStudentData,
   useFilteredData,
   useGetAStudentPaymentRecord,
+  useGetStudentPaymentId,
 } from "./getData";
 
 export {
@@ -14,4 +15,5 @@ export {
   useFilteredData,
   useGetAStudentPaymentRecord,
   useHandleShow,
+  useGetStudentPaymentId,
 };

@@ -7,24 +7,19 @@ import { useTitle } from "@hooks";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { logo } from "@assets";
-import { NavLink,useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import toast from "react-hot-toast";
 import * as yup from "yup";
-import Spinner from "react-bootstrap/Spinner";
-
-
-
+import { BeatLoader } from "react-spinners";
+import { studentsService } from "@services";
 
 const schema = yup.object().shape({
   email: yup
     .string()
     .email("Invalid email address")
     .required("Email is required"),
-  password: yup
-    .string()
-    .required("Password is required")
-    .min(6, "Password must be at least 6 characters"),
+  password: yup.string().required("Password is required"),
 });
 
 export default function Login() {
@@ -32,7 +27,7 @@ export default function Login() {
   const [serverError, setServerError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [isClicked, setIsClicked] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useTitle("Add a new student");
 
@@ -48,69 +43,52 @@ export default function Login() {
     },
   });
 
-  // console.log("errors", errors);
-
   const handleLogin = async (data) => {
-    // console.log(data);
     setIsClicked(true);
-
     try {
       setServerError("");
       setSuccessMsg("");
-
-      const response = await fetch(
-        "https://tsa-database-server.onrender.com/api/v1/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
-
-      const responseData = await response.json();
-      // console.log("Server response:", responseData);
-      if (responseData.success) {
-        toast.success("Logged in " + responseData.admin.name);
-        // setSuccessMsg("Logged in successfully")
-        setSuccessMsg("Welcome " + responseData.admin.name);
+      const responseData = await studentsService.loginAdmin(data);
+      if (responseData.data.success) {
+        toast.success("Logged in " + responseData.data.admin.name);
+        setSuccessMsg("Welcome " + responseData.data.admin.name);
         setIsClicked(true);
-        localStorage.setItem("adminToken", responseData.token);
-        navigate('/dashboard')
-
-
+        localStorage.setItem(
+          "adminToken",
+          JSON.stringify(responseData.data.token)
+        );
+        navigate("/dashboard");
       }
       if (!responseData.ok) {
         const errorData = await responseData;
         setServerError(errorData.error);
-      } else {
-        // console.log('Login successful!');
-      }
+      } 
     } catch (error) {
       console.log(error.message);
-      setServerError("An unexpected error occurred");
+      setServerError(error.response.data.error);
     } finally {
       setIsClicked(false);
     }
   };
+
   function handleHide() {
-    // !reveal ? setReveal(true) : setReveal(false);
     setReveal((prevReveal) => !prevReveal);
   }
-  const btnContent = isClicked ? <Spinner animation="border" /> : "Log in";
+  const btnContent = isClicked ? <BeatLoader color="#ffffff" /> : "Log in";
 
   return (
     <div className="d-lg-flex align-items-center position-relative ">
-      <div className={`${styles.imgStudent} `}>
+      <div className={`${styles.imgStudent} d-none d-lg-block `}>
         <Image src={focusedStudent} className="w-100 h-100" />
       </div>
-      <div className="position-absolute top-0 mt-5 ms-md-5">
+      <div className="d-none d-lg-block position-absolute top-0 mt-5 ms-md-5">
         <NavLink to="/">
           <Image src={logo} className="w-50 ms-4 mt-4" />
         </NavLink>
       </div>
-      <div className={`p-5 rounded shadow-lg mx-lg-5 ${styles.formBox}`}>
+      <div
+        className={`p-5 rounded shadow-lg mx-lg-5 min-vh-100 d-flex flex-column justify-content-center ${styles.formBox}`}
+      >
         <h2
           style={{
             color: "rgba(31, 38, 102, 1)",
@@ -120,7 +98,7 @@ export default function Login() {
         >
           Welcome Back
         </h2>
-        <p className="mb-5">Let's continue from were you stopped</p>
+        <p className="mb-5">Let&apos; s continue from were you stopped</p>
         <Form onSubmit={handleSubmit(handleLogin)}>
           {/* email address */}
           <Form.Group
@@ -133,14 +111,11 @@ export default function Login() {
               placeholder="name@example.com"
               {...register("email")}
             />
-            <Form.Text className="text-muted">
-              {/* We'll never share your email with anyone else. */}
-            </Form.Text>
             {errors.email && (
               <p className="text-danger">{errors.email.message}</p>
             )}
           </Form.Group>
-          {/* password */}
+  
 
           <Form.Group
             className="mb-3 position-relative text-secondary small"

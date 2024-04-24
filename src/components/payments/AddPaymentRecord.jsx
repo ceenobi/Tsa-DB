@@ -7,7 +7,7 @@ import {
   FormInputs,
   FormSelect,
 } from "@components";
-import { registerOptions, paymentMethods } from "@utils";
+import { registerOptions, paymentMethods, formatDatee } from "@utils";
 import { Row, Col, Form, Stack } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { TiAttachment } from "react-icons/ti";
@@ -22,6 +22,7 @@ export default function AddPaymentRecord({
   setShowAddPayment,
 }) {
   const [preview, setPreview] = useState();
+  const [selectedReceipt, setSelectedReceipt] = useState(null);
   const { student } = useGetAStudentData();
   const {
     handleSubmit,
@@ -29,32 +30,42 @@ export default function AddPaymentRecord({
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
-      balance: student.balance,
+      balance: student?.balance,
+      amount: "",
+      receipt: "",
+      datePaid: "",
+      comment: "",
+      paymentType: "",
     },
   });
-
   const handleCloseAddPayment = () => setShowAddPayment(false);
 
-  const onPreviewFileName = (e) => {
+  const handleReceiptChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       if (e.target.files[0].size > 5 * 1000 * 1000) {
         toast.error("File with maximum size of 5MB is allowed");
         return false;
       }
+      setSelectedReceipt(e.target.files[0]);
       setPreview(e.target.files[0].name);
     }
   };
 
-  const onSubmitHandler = async (formData) => {
-    console.log(formData);
+  const onSubmitHandler = async (data) => {
+    const formData = new FormData();
+    formData.append("receipt", selectedReceipt);
+    formData.append("paymentType", data.paymentType);
+    formData.append("amount", data.amount);
+    formData.append("datePaid", formatDatee(data.datePaid));
+    formData.append("comment", data.comment);
     try {
       const res = await studentsService.addStudentPaymentRecord(
         student._id,
         formData
       );
-      console.log(res);
-      if (res.status === 201) {
-        toast.success(`succeded`);
+      if (res.data.success) {
+        toast.success("New payment record added");
+        handleCloseAddPayment();
       }
     } catch (error) {
       handleAuthError(error);
@@ -91,8 +102,8 @@ export default function AddPaymentRecord({
                 errors={errors?.classType}
                 registerOptions={registerOptions?.classType}
                 className="text-black"
-                id="paymentMethod"
-                name="paymentMethod"
+                id="paymentType"
+                name="paymentType"
                 size="lg"
                 data={paymentMethods}
               />
@@ -130,7 +141,7 @@ export default function AddPaymentRecord({
                   id="receipt"
                   label="Payment Receipt"
                   name="receipt"
-                  onChange={onPreviewFileName}
+                  onChange={handleReceiptChange}
                 />
                 {errors?.receipt?.type === "required" && !preview ? (
                   <span className="small text-danger">

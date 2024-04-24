@@ -27,17 +27,13 @@
   width: 100%;
   height: 400px;
   filter: grayscale(100%);
-  
 }
 
-form{
-  /* min-height: 23rem; */
-  /* display: flex;
+/* min-height: 23rem; */
+/* display: flex;
   flex-direction: column; */
-  /* align-items: center; */
-  /* justify-content: center; */
-
-}
+/* align-items: center; */
+/* justify-content: center; */
 
 .btnSize {
   min-width: 202px;
@@ -59,14 +55,11 @@ form{
   .btnSize {
     min-width: 260px;
   }
-  .xx{
-    /* width: 100%; */
-    /* padding: 2rem; */
-  }
-  
+  /* .xx{
+    width: 100%;
+    padding: 2rem;
+  } */
 }
-
-
 
 @media (min-width: 1024px) {
   .imgStudent {

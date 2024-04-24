@@ -100,9 +100,11 @@ button:focus-visible {
 
 .activeLink {
   color: var(--mainWhite);
+  transition: 0.2s ease-in;
 }
 .no_activeLink {
   color: var(--offWhite);
+  transition: 0.2s ease-in;
 }
 
 ::placeholder {
@@ -185,5 +187,9 @@ footer {
   }
   .searchBox {
     width: 400px;
+  }
+  .logout:hover {
+    color: var(--mainWhite);
+    transition: 0.2s ease-in;
   }
 }

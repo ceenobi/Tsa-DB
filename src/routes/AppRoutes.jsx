@@ -12,6 +12,7 @@ import {
 } from "@pages";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Spinner } from "@utils";
+import Protected from "./Protected";
 const Root = lazy(() => import("@layouts/Root"));
 
 export default function AppRoutes() {
@@ -28,12 +29,20 @@ export default function AppRoutes() {
         {
           path: "/dashboard",
           name: "Dashboard",
-          element: <Dashboard />,
+          element: (
+            <Protected>
+              <Dashboard />
+            </Protected>
+          ),
           children: [
             {
               path: "students",
               name: "Students",
-              element: <Students />,
+              element: (
+                <Protected>
+                  <Students />
+                </Protected>
+              ),
               children: [
                 {
                   path: "generate-docket/:studentId",
@@ -60,7 +69,11 @@ export default function AppRoutes() {
             {
               path: "payments",
               name: "Payments",
-              element: <Payments />,
+              element: (
+                <Protected>
+                  <Payments />
+                </Protected>
+              ),
               children: [
                 {
                   path: "search",

@@ -121,7 +121,7 @@ export default function StudentProfile({
                         src={item.image}
                         alt={item.fullName}
                         fluid
-                        className="rounded-4 object-fit-cover w-100 h-100"
+                        className="rounded-4 w-100 h-100"
                         loading="lazy"
                       />
                     </div>

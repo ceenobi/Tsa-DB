@@ -23,9 +23,15 @@ const useGetAStudentPaymentRecord = create((set) => ({
   setStudent: (user) => set(() => ({ student: user })),
 }));
 
+const useGetStudentPaymentId = create((set) => ({
+  studentPayment: [],
+  setStudentPayment: (user) => set(() => ({ student: user })),
+}));
+
 export {
   useGetStudentsData,
   useGetAStudentData,
   useFilteredData,
   useGetAStudentPaymentRecord,
+  useGetStudentPaymentId,
 };

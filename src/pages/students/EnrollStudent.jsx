@@ -82,12 +82,11 @@ export default function EnrollStudent() {
     formData.append("emergencyContactNumber", data.emergencyContactNumber);
     formData.append("emergencyContactLocation", data.emergencyContactLocation);
     formData.append("amount", data.amount);
-    console.log(formData);
     try {
       const res = await studentsService.addAStudent(formData);
-      if (res.status === 201) {
-        toast.success("File upload success");
-        document.documentElement.scrollTop = 0;
+      if (res.success) {
+        toast.success("Document upload success");
+        navigate("/dashboard/students");
       }
     } catch (error) {
       handleAuthError(error);

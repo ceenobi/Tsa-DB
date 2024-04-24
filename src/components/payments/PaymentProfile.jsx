@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   MyModal,
   AddPaymentRecord,
@@ -27,13 +27,13 @@ export default function PaymentProfile({
   const [editPayment, setEditPayment] = useState(false);
   const [showReminder, setShowReminder] = useState(false);
   const [showPaymentTag, setShowPaymentTag] = useState(false);
+  const [active, setActive] = useState(0);
 
   //filter students based on index to match and get student id
   const filterStudentId = data?.filter((student, index) => index === current);
   const getStudentId = filterStudentId.map((student) => student._id);
   const { student, setStudent } = useGetAStudentPaymentRecord();
   useTitle(`Payment details for ${student?.fullName}`);
-
   //fetch student payment data
   const {
     isLoading,
@@ -50,7 +50,7 @@ export default function PaymentProfile({
       <Spinner />;
     },
   });
-
+  console.log("cc", active);
   //store api data to zustand state
   useEffect(() => {
     if (paymentData) {
@@ -62,9 +62,12 @@ export default function PaymentProfile({
   const handleClose = () => setShowStudentModal(false);
   const handleOpenAddPayment = () => setShowAddPayment(true);
 
-  const openEditPaymentModal = () => {
+  const openEditPaymentModal = (index) => {
     setEditPayment(true);
+    setActive(index);
   };
+
+  console.log("pyd", paymentData);
 
   return (
     <>
@@ -179,62 +182,65 @@ export default function PaymentProfile({
                     </tr>
                   </thead>
                   <tbody className="border cursor">
-                    <tr onClick={openEditPaymentModal}>
-                      {student?.payments?.map((info, i) => (
-                        <React.Fragment key={i}>
-                          <td className={`text-capitalize ${styles.tstyle}`}>
-                            <div className="mt-2">
-                              <p className="mb-0">Bank Transfer</p>
-                              <Image
-                                src={info.receipt}
-                                style={{ width: "20px", height: "20px" }}
-                              />
-                            </div>
-                          </td>
-                          <td className={`text-capitalize ${styles.tstyle}`}>
-                            <div className="mt-2">
-                              <p className="mb-0 text-success">
-                                {formatCurrency(info.amount)}
-                              </p>
-                              <span>
-                                Date:{" "}
-                                {info?.datePaid
-                                  ? new Date(info.datePaid).toLocaleDateString(
-                                      "en-GB",
-                                      {
-                                        day: "2-digit",
-                                        month: "2-digit",
-                                        year: "numeric",
-                                      }
-                                    )
-                                  : null}
-                              </span>
-                            </div>
-                          </td>
-                        </React.Fragment>
-                      ))}
-                      <td className={`text-capitalize ${styles.tstyle}`}>
-                        <div className="mt-2">
-                          <p className="mb-0 text-danger">
-                            {formatCurrency(student.balance)}
-                          </p>
-                        </div>
-                      </td>
-                      <td className={`text-capitalize ${styles.tstyle}`}>
-                        <div className="mt-2">
-                          <p className="mb-0 small">
-                            <i>modified by:{student.modifiedBy?.name}</i>
-                          </p>
-                        </div>
-                      </td>
-                      <td className={`${styles.tstyle}`}>
-                        <div className="mt-2">
-                          <p className="mb-0 small text-primary">
-                            <i>Last modified by:{student.modifiedBy?.name}</i>
-                          </p>
-                        </div>
-                      </td>
-                    </tr>
+                    {student?.payments?.map((info, i) => (
+                      <tr onClick={() => openEditPaymentModal(i)} key={i}>
+                        <td className={`text-capitalize ${styles.tstyle}`}>
+                          <div className="mt-2">
+                            <p className="mb-0 text-primary">
+                              {info.paymentType}
+                            </p>
+                            <Image
+                              src={info.receipt}
+                              style={{ width: "20px", height: "20px" }}
+                            />
+                          </div>
+                        </td>
+                        <td className={`text-capitalize ${styles.tstyle}`}>
+                          <div className="mt-2">
+                            <p className="mb-0 text-success">
+                              {formatCurrency(info.amount)}
+                            </p>
+                            <span className="text-secondary small">
+                              Date:{" "}
+                              {info?.datePaid
+                                ? new Date(info.datePaid).toLocaleDateString(
+                                    "en-GB",
+                                    {
+                                      day: "2-digit",
+                                      month: "2-digit",
+                                      year: "numeric",
+                                    }
+                                  )
+                                : null}
+                            </span>
+                          </div>
+                        </td>
+
+                        <td className={`text-capitalize ${styles.tstyle}`}>
+                          <div className="mt-2">
+                            <p className="mb-0 text-danger">
+                              {formatCurrency(student.balance)}
+                            </p>
+                          </div>
+                        </td>
+                        <td className={`text-capitalize ${styles.tstyle}`}>
+                          <div className="mt-2">
+                            <p className="mb-0 small text-secondary">
+                              <i>
+                                {info?.comment ? info?.comment : "No comment"}
+                              </i>
+                            </p>
+                          </div>
+                        </td>
+                        <td className={`${styles.tstyle}`}>
+                          <div className="mt-2">
+                            <p className="mb-0 small text-primary">
+                              <i>Last modified by:{student.modifiedBy?.name}</i>
+                            </p>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </Table>
               </>
@@ -245,10 +251,15 @@ export default function PaymentProfile({
       <AddPaymentRecord
         showAddPayment={showAddPayment}
         setShowAddPayment={setShowAddPayment}
+        current={current}
       />
       <EditPaymentRecord
         setEditPayment={setEditPayment}
         editPayment={editPayment}
+        active={active}
+        student={student}
+        getStudentId={getStudentId}
+        balance={student.balance}
       />
     </>
   );
