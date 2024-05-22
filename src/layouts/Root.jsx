@@ -1,14 +1,17 @@
 import { Outlet } from "react-router-dom";
-import { Sidebar } from "@layouts";
+import { Sidebar } from "@components";
+import { Container } from "react-bootstrap";
 
 export default function Root() {
   return (
     <main>
       <div className="d-flex">
         <Sidebar />
-        <div className="outlet">
-          <Outlet />
-        </div>
+        <Container fluid className="outlet p-0">
+          <div style={{ minHeight: "90dvh" }}>
+            <Outlet />
+          </div>
+        </Container>
       </div>
     </main>
   );

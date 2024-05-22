@@ -8,6 +8,7 @@ import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { logo } from "@assets";
 import { NavLink, useNavigate } from "react-router-dom";
+import { validationSchema } from "@utils";
 import { yupResolver } from "@hookform/resolvers/yup";
 import toast from "react-hot-toast";
 import * as yup from "yup";
@@ -19,7 +20,9 @@ const schema = yup.object().shape({
     .string()
     .email("Invalid email address")
     .required("Email is required"),
-  password: yup.string().required("Password is required"),
+  password: yup
+    .string()
+    .required("Password is required")
 });
 
 export default function Login() {
@@ -53,10 +56,7 @@ export default function Login() {
         toast.success("Logged in " + responseData.data.admin.name);
         setSuccessMsg("Welcome " + responseData.data.admin.name);
         setIsClicked(true);
-        localStorage.setItem(
-          "adminToken",
-          JSON.stringify(responseData.data.token)
-        );
+        localStorage.setItem("adminToken", responseData.data.token);
         navigate("/dashboard");
       }
       if (!responseData.ok) {
@@ -77,89 +77,99 @@ export default function Login() {
   const btnContent = isClicked ? <BeatLoader color="#ffffff" /> : "Log in";
 
   return (
-    <div className="d-lg-flex align-items-center position-relative ">
-      <div className={`${styles.imgStudent} d-none d-lg-block `}>
-        <Image src={focusedStudent} className="w-100 h-100" />
-      </div>
-      <div className="d-none d-lg-block position-absolute top-0 mt-5 ms-md-5">
-        <NavLink to="/">
-          <Image src={logo} className="w-50 ms-4 mt-4" />
-        </NavLink>
-      </div>
-      <div
-        className={`p-5 rounded shadow-lg mx-lg-5 min-vh-100 d-flex flex-column justify-content-center ${styles.formBox}`}
-      >
-        <h2
-          style={{
-            color: "rgba(31, 38, 102, 1)",
-            fontSize: "24px",
-            fontWeight: "700",
-          }}
-        >
-          Welcome Back
-        </h2>
-        <p className="mb-5">Let&apos; s continue from were you stopped</p>
-        <Form onSubmit={handleSubmit(handleLogin)}>
-          {/* email address */}
-          <Form.Group
-            className="mb-4 text-secondary small"
-            controlId="formBasicEmail"
-          >
-            <Form.Label>Email Address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="name@example.com"
-              {...register("email")}
-            />
-            {errors.email && (
-              <p className="text-danger">{errors.email.message}</p>
-            )}
-          </Form.Group>
-  
+    <main className={`${styles.loginDiv}`}>
+      <div className={`${styles.bgImgTop} d-none d-lg-block`}></div>
 
-          <Form.Group
-            className="mb-3 position-relative text-secondary small"
-            controlId="formBasicPassword"
+      <div className={`d-lg-flex align-items-center position-relative`}>
+        <div className={`${styles.imgStudent} d-none d-lg-block`}>
+          <Image
+            src={focusedStudent}
+            className="w-100 h-100"
+          />
+        </div>
+        <div className="position-absolute top-0 mt-5 ms-5 ">
+          <NavLink to="/">
+            <Image src={logo} className="w-50 ms-4 mt-4" />
+          </NavLink>
+          {/* <Image src={logo} className="w-75 ms-4 mt-3"/> */}
+        </div>
+        <div className={`p-5  rounded shadow-lg mx-5  ${styles.formDiv}`}>
+          <h2
+            style={{
+              color: "rgba(31, 38, 102, 1)",
+              fontSize: "24px",
+              fontWeight: "700",
+            }}
           >
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type={reveal ? "text" : "password"}
-              placeholder="Password"
-              {...register("password")}
-            />
-            <p
-              className="position-absolute end-0 top-50  me-2"
-              role="button"
-              onClick={handleHide}
+            Welcome Back
+          </h2>
+          <p className="mb-5">Let's continue from were you stopped</p>
+          <Form onSubmit={handleSubmit(handleLogin)}>
+            {/* email address */}
+            <Form.Group
+              className="mb-4 text-secondary small"
+              controlId="formBasicEmail"
             >
-              {reveal ? <FaRegEyeSlash /> : <FaRegEye />}
-            </p>
-            {errors.password && (
-              <p className="text-danger">{errors.password.message}</p>
-            )}
-          </Form.Group>
-          <Form.Group
-            className="mb-3"
-            controlId="formBasicCheckbox"
-          ></Form.Group>
-          <div className="my-4">
-            <a href="#" className="fw-bold small">
-              Forgot password?
-            </a>
-          </div>
-          {serverError && <p className="text-danger">{serverError}</p>}
-          {successMsg && <p className="text-success">{successMsg}</p>}
+              <Form.Label>Email Address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="name@example.com"
+                {...register("email")}
+              />
+              <Form.Text className="text-muted">
+                {/* We'll never share your email with anyone else. */}
+              </Form.Text>
+              {errors.email && (
+                <p className="text-danger">{errors.email.message}</p>
+              )}
+            </Form.Group>
+            {/* password */}
 
-          <Button
-            variant="primary"
-            type="submit"
-            className="w-100 my-4"
-            disabled={isSubmitting}
-          >
-            {btnContent}
-          </Button>
-        </Form>
+            <Form.Group
+              className="mb-3 position-relative text-secondary small"
+              controlId="formBasicPassword"
+            >
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type={reveal ? "text" : "password"}
+                placeholder="Password"
+                {...register("password")}
+              />
+              <p
+                className="position-absolute end-0 top-50  me-2"
+                role="button"
+                onClick={handleHide}
+              >
+                {reveal ? <FaRegEye />   :   <FaRegEyeSlash />}
+              </p>
+              {errors.password && (
+                <p className="text-danger">{errors.password.message}</p>
+              )}
+            </Form.Group>
+            <Form.Group
+              className="mb-3"
+              controlId="formBasicCheckbox"
+            ></Form.Group>
+            <div className="my-4">
+              <a href="#" className="fw-bold small">
+                Forgot password?
+              </a>
+            </div>
+            {serverError && <p className="text-danger">{serverError}</p>}
+            {successMsg && <p className="text-success">{successMsg}</p>}
+
+            <Button
+              variant="primary"
+              type="submit"
+              className="w-100 my-4"
+              disabled={isSubmitting}
+            >
+              {btnContent}
+            </Button>
+          </Form>
+          {/* <div className={`${styles.bgImgBttom}`}></div> */}
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

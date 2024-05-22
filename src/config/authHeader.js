@@ -1,5 +1,5 @@
 const authHeader = () => {
-  const token = JSON.parse(localStorage.getItem("adminToken"));
+  const token = localStorage.getItem("adminToken");
   if (token) {
     return { Authorization: `Bearer ${token}` };
   } else {

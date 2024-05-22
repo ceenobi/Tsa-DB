@@ -10,7 +10,6 @@ const Footer = () => {
           <div className="d-flex gap-2">
 
           <div className="d-flex gap-1 border-bottom border-secondary mb-4">
-          {/* <h6 className="mb-3">See the main website</h6> */}
           <a className="text-white " target="_blank" href="https://techstudio-site-c133stqiv-techstudioconsults.vercel.app/">See the main website </a>
           </div>
           <div className="h-50">

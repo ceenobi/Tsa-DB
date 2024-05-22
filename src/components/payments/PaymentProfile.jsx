@@ -50,7 +50,7 @@ export default function PaymentProfile({
       <Spinner />;
     },
   });
-  console.log("cc", active);
+ 
   //store api data to zustand state
   useEffect(() => {
     if (paymentData) {
@@ -66,8 +66,6 @@ export default function PaymentProfile({
     setEditPayment(true);
     setActive(index);
   };
-
-  console.log("pyd", paymentData);
 
   return (
     <>
@@ -259,7 +257,6 @@ export default function PaymentProfile({
         active={active}
         student={student}
         getStudentId={getStudentId}
-        balance={student.balance}
       />
     </>
   );

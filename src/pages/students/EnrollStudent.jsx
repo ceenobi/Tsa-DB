@@ -24,6 +24,7 @@ export default function EnrollStudent() {
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -84,8 +85,9 @@ export default function EnrollStudent() {
     formData.append("amount", data.amount);
     try {
       const res = await studentsService.addAStudent(formData);
-      if (res.success) {
+      if (res.status === 200) {
         toast.success("Document upload success");
+        reset();
         navigate("/dashboard/students");
       }
     } catch (error) {

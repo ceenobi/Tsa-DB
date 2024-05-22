@@ -6,19 +6,18 @@ import { useForm } from "react-hook-form";
 import { browseFileImg } from "@assets";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { validationSchema, SuccessModal } from "@utils";
-import { IoCloseSharp } from "react-icons/io5";
 import { MyButton } from "@components";
+import toast from "react-hot-toast";
 import Spinner from "react-bootstrap/Spinner";
 import styles from "./pages.module.css";
 import { studentsService } from "@services";
-import { handleAuthError } from "@config";
 
 const Auth = () => {
-  const [show] = useState(false);
-  const [reveal, setReveal] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedReceipt, setSelectedReceipt] = useState(null);
+  const [modalShow, setModalShow] = useState(false);
+
   useTitle("Welcome to Techstudio");
 
   const {
@@ -48,6 +47,7 @@ const Auth = () => {
 
   const onSubmit = async (data) => {
     setIsClicked(true);
+    // console.log(data);
 
     try {
       const formData = new FormData();
@@ -75,13 +75,17 @@ const Auth = () => {
 
       const response = await studentsService.addAStudent(formData);
       if (response.data.success) {
-        setReveal(true);
         setIsClicked(true);
-        document.documentElement.scrollTop = 0;
+        reset();
+        setSelectedImage(null);
+        setSelectedReceipt(null);
+        setModalShow(true);
       }
     } catch (error) {
       console.error("Error:", error);
-      handleAuthError(error);
+      if (error.message === "Network Error") {
+        toast.error(error.message);
+      }
     } finally {
       setIsClicked(false);
     }
@@ -95,41 +99,15 @@ const Auth = () => {
     const file = event.target.files[0];
     console.log("Selected Receipt:", file);
     setSelectedReceipt(file);
-    // setSelectedReceipt(event.target.files[0]);
   };
 
-  if (show) {
-    return <SuccessModal />;
-  }
   const btnContent = isClicked ? <Spinner animation="border" /> : "Upload";
 
   return (
     <>
-      <main className="position-relative">
+      <main className={`position-relative main-container ${styles.authMain}`}>
         <Navbar />
-        {reveal && (
-          <section
-            className=" text-center bg-white shadow  mx-auto position-absolute top-0 end-0 mt-3 rounded-top"
-            style={{ minHeight: "14rem", maxWidth: "26rem" }}
-          >
-            <p
-              className="text-end me-3 mt-2"
-              role="button"
-              onClick={() => setReveal(false)}
-            >
-              <IoCloseSharp />
-            </p>
-            <div className="mt-3 p-5 mt-5">
-              <h2 className="text-primary fs-5 fw-bold mt-5">
-                Details Uploaded Successfully!!!
-              </h2>
-              <p className="fw-bold  text-secondary">
-                Your details have been successfully uploaded to the Tech Studio
-                Academy’s database.
-              </p>
-            </div>
-          </section>
-        )}
+        <SuccessModal show={modalShow} onHide={() => setModalShow(false)} />
 
         <Container className="mt-5 p-3">
           <Form encType="multipart/form-data" onSubmit={handleSubmit(onSubmit)}>
@@ -189,7 +167,9 @@ const Auth = () => {
                   aria-label="Default select example"
                   {...register("courseCohort")}
                 >
-                  {/* <option>Select cohort </option> */}
+                  <option value="" disabled selected hidden>
+                    Select cohort
+                  </option>
                   <option value="Fullstack">Fullstack</option>
                   <option value="Cybersecurity">Cybersecurity</option>
                   <option value="Frontend">Frontend</option>
@@ -230,8 +210,7 @@ const Auth = () => {
                 />
                 {errors.phoneNumber && errors.phoneNumber.message && (
                   <span className="text-danger">
-                    {" "}
-                    {errors.phoneNumber.message}{" "}
+                    {errors.phoneNumber.message}
                   </span>
                 )}
               </Form.Group>
@@ -246,15 +225,17 @@ const Auth = () => {
                   aria-label="Default select example"
                   {...register("classType")}
                 >
-                  {/* <option>Select Class Type</option> */}
+                  <option value="" disabled selected >
+                    Select Class Type
+                  </option>
+
                   <option value="weekday">weekday</option>
                   <option value="weekend">weekend</option>
                   <option value="weekend">online</option>
                 </Form.Select>
                 {errors.classType && errors.classType.message && (
                   <span className="text-danger">
-                    {" "}
-                    {errors.classType.message}{" "}
+                    {errors.classType.message}
                   </span>
                 )}
               </Form.Group>
@@ -264,7 +245,6 @@ const Auth = () => {
                 className="mb-5 col-sm-12 col-md-5 position-relative"
               >
                 <Form.Label>Upload profile picture</Form.Label>
-                {/* <Form.Control type="file" size="lg" placeholder="hh" /> */}
                 <Image src={browseFileImg} className="img-fluid" />
 
                 {/* below for bootstrap */}
@@ -432,7 +412,6 @@ const Auth = () => {
                     <p className="text-success">{selectedReceipt.name}</p>
                   </>
                 )}
-
               </Form.Group>
               <hr />
               <div className="d-flex my-5 flex-column flex-md-row gap-3 gap-md-4 justify-content-center justify-content-md-start ">
@@ -446,7 +425,9 @@ const Auth = () => {
                 <MyButton
                   variant="outline-danger"
                   text="Cancel"
-                  onClick={() => reset()}
+                  onClick={() => {
+                    reset(), setSelectedImage(null), setSelectedReceipt(null);
+                  }}
                   className={`${styles.btnSize} fw-bold`}
                 />
               </div>

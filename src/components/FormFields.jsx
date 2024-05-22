@@ -42,6 +42,7 @@ export function FormSelect({
   registerOptions,
   name,
   data,
+  defaultValue,
   ...props
 }) {
   return (
@@ -51,7 +52,7 @@ export function FormSelect({
         <Form.Select
           name={name}
           {...register(name, registerOptions)}
-          defaultValue=""
+          defaultValue={defaultValue ? defaultValue : ""}
           isInvalid={!!errors}
           {...props}
         >
