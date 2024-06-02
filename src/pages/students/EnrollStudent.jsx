@@ -85,7 +85,7 @@ export default function EnrollStudent() {
     formData.append("amount", data.amount);
     try {
       const res = await studentsService.addAStudent(formData);
-      if (res.status === 200) {
+      if (res.status === 201) {
         toast.success("Document upload success");
         reset();
         navigate("/dashboard/students");

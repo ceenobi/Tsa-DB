@@ -40,35 +40,40 @@ export default function EditProfile() {
     }
   }, [data, setStudent]);
 
+  console.log(student);
+
   const {
     handleSubmit,
     register,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
-  } = useForm({
-    defaultValues: {
-      fullName: student.fullName,
-      email: student.email,
-      pka: student.pka,
-      studentId: student.studentId,
-      classCohort: student.classCohort,
-      phoneNumber: student.phoneNumber,
-      classType: student.classType,
-      whatsappNumber: student.whatsappNumber,
-      emergencyContactName: student.emergencyContactName,
-      emergencyContactNumber: student.emergencyContactNumber,
-      emergencyContactLocation: student.emergencyContactLocation,
-    },
-  });
+  } = useForm();
 
   useTitle(`Edit Profile "${student.fullName}"`);
+
+  useEffect(() => {
+    if (student) {
+      setValue("fullName", student.fullName);
+      setValue("email", student.email);
+      setValue("pka", student.pka);
+      setValue("studentId", student.studentId);
+      setValue("classCohort", student.classCohort);
+      setValue("phoneNumber", student.phoneNumber);
+      setValue("classType", student.classType);
+      setValue("whatsappNumber", student.whatsappNumber);
+      setValue("emergencyContactName", student.emergencyContactName);
+      setValue("emergencyContactNumber", student.emergencyContactNumber);
+      setValue("emergencyContactLocation", student.emergencyContactLocation);
+    }
+  }, [student, setValue]);
 
   const onSubmitHandler = async (formData) => {
     console.log(formData);
     try {
-      const res = await studentsService.updateAStudent(formData);
+      const res = await studentsService.updateAStudent(student._id, formData);
       if (res.status === 200) {
-        toast.success(`tt`);
+        toast.success(res.data.message);
       }
     } catch (error) {
       handleAuthError(error);
@@ -154,13 +159,14 @@ export default function EditProfile() {
               <Col md={4} className="mt-3 mt-md-4">
                 <FormSelect
                   register={register}
-                  errors={errors?.classType}
-                  registerOptions={registerOptions?.classType}
+                  errors={errors?.classCohort}
+                  registerOptions={registerOptions?.classCohort}
                   className="my-1 text-black"
                   id="courseCohort"
                   label="Course Cohort"
                   name="courseCohort"
                   data={classCohortValues}
+                  defaultValue={student.classCohort}
                 />
               </Col>
               <Col md={4} className="mt-3 mt-md-4">
@@ -199,6 +205,7 @@ export default function EditProfile() {
                   label="Class Type"
                   name="classType"
                   data={classTypeValues}
+                  defaultValue={student.classType}
                 />
               </Col>
             </Row>

@@ -8,8 +8,7 @@ import { vector4 } from "@assets";
 export default function ConfirmDeposit({
   setOpenModal,
   openModal,
-  data,
-  current,
+  item,
 }) {
   const navigate = useNavigate();
   const handleClose = () => setOpenModal(false);
@@ -32,7 +31,11 @@ export default function ConfirmDeposit({
       className="rounded-4 position-relative"
     >
       <div className="text-center">
-        <Image src={vector4} className={`img-fluid ${styles.bg}`} alt="vectorpic"/>
+        <Image
+          src={vector4}
+          className={`img-fluid ${styles.bg}`}
+          alt="vectorpic"
+        />
         <Image
           src={success}
           className="img-fluid position-relative"
@@ -45,41 +48,32 @@ export default function ConfirmDeposit({
             color="var(--mainBlue)"
             size="1.438rem"
           />
-          {data.map((item, i) => (
-            <div key={item._id}>
-              {i === current && (
-                <>
-                  <p
-                    style={{
-                      color: "var(--offBlack)",
-                      fontSize: "1.063rem",
-                      fontWeight: "600",
-                    }}
-                  >
-                    Initial Deposit for{" "}
-                    <span className="text-danger">{item.fullName}</span> was
-                    confirmed successfully. Kindly click the button below to
-                    generate docket{" "}
-                  </p>
-                  <div className="mt-2">
-                    <MyButton
-                      variant="primary"
-                      text="Generate Docket"
-                      className="fw-bold mb-3"
-                      onClick={() =>
-                        navigate(
-                          `/dashboard/students/generate-docket/${item._id}`
-                        )
-                      }
-                    />
-                  </div>
-                  <p style={pStyle} className="cursor" onClick={closeModal}>
-                    Go Back
-                  </p>
-                </>
-              )}
+          <div>
+            <p
+              style={{
+                color: "var(--offBlack)",
+                fontSize: "1.063rem",
+                fontWeight: "600",
+              }}
+            >
+              Initial Deposit for{" "}
+              <span className="text-danger">{item.fullName}</span> was confirmed
+              successfully. Kindly click the button below to generate docket{" "}
+            </p>
+            <div className="mt-2">
+              <MyButton
+                variant="primary"
+                text="Generate Docket"
+                className="fw-bold mb-3"
+                onClick={() =>
+                  navigate(`/dashboard/students/generate-docket/${item._id}`)
+                }
+              />
             </div>
-          ))}
+            <p style={pStyle} className="cursor" onClick={closeModal}>
+              Go Back
+            </p>
+          </div>
         </div>
       </div>
     </MyModal>

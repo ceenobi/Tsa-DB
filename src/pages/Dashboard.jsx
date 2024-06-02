@@ -65,20 +65,6 @@ export default function Dashboard() {
   ];
   const noPaginate = hidePagination.map((path) => path);
 
-  // const activeCourse = useMemo(() => {
-  //   return students
-  //     ? students.map((course) => course.courseCohort.toLowerCase())
-  //     : [];
-  // }, [students]);
-
-  // const removeCourseDuplicates = useMemo(() => {
-  //   return [
-  //     ...activeCourse.filter((course, i) => {
-  //       return activeCourse.indexOf(course) === i && course?.length > 0;
-  //     }),
-  //   ];
-  // }, [activeCourse]);
-
    const filterCourseCohorts = classCohortValues.filter((item, i) => i !== 0);
    const getCourseCohorts = filterCourseCohorts.map((item) => item.name);
 

@@ -8,59 +8,78 @@ import {
   FormSelect,
   EditPaymentRecordSuccess,
 } from "@components";
-import { paymentMethods, registerOptions, formatDatee } from "@utils";
-import { Row, Col, Form, Stack } from "react-bootstrap";
+import { paymentMethods, registerOptions } from "@utils";
+import { Row, Col, Form, Stack, Spinner } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { TiAttachment } from "react-icons/ti";
 import { studentsService } from "@services";
 import { handleAuthError } from "@config";
 import { BeatLoader } from "react-spinners";
 import toast from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
+import { useGetStudentPaymentId } from "@store";
+
+const formatEditDate = (date) => {
+  if (date) {
+    const formattedDate = new Date(date);
+    if (!isNaN(formattedDate)) {
+      return formattedDate.toISOString().split("T")[0];
+    }
+  }
+  return null;
+};
 
 export default function EditPaymentRecord({
   editPayment,
   setEditPayment,
-  active,
+  studentId,
   student,
-  getStudentId,
+  payment,
 }) {
   const [preview, setPreview] = useState();
   const [selectedReceipt, setSelectedReceipt] = useState(null);
   const [editPaymentSuccess, setEditPaymentSuccess] = useState(false);
-
-  const activeFilterStudent = student?.payments?.filter(
-    (item, index) => index === active
-  );
-  const activePaymentStudent = activeFilterStudent?.map((item) => item);
-  console.log("pop", activePaymentStudent);
-  const studentPaymentId = activeFilterStudent?.map((item) => item._id);
-  const studentPaymentAmount = activeFilterStudent?.map((item) => item.amount);
-  const studentPaymentComment = activeFilterStudent?.map(
-    (item) => item.comment
-  );
-  const studentPaymentDate = activeFilterStudent?.map((item) => item.datePaid);
-  const studentPaymentReceipt = activeFilterStudent?.map(
-    (item) => item.receipt
-  );
-  const studentPaymentType = activeFilterStudent?.map(
-    (item) => item.paymentType
-  );
-  console.log("amt", studentPaymentDate);
+  const { studentPayment, setStudentPayment } = useGetStudentPaymentId();
+  const {
+    isLoading,
+    isError,
+    data: paymentData,
+    error,
+  } = useQuery({
+    queryKey: ["singleStudentPayment", studentId, payment._id],
+    queryFn: () =>
+      studentsService.getASingleStudentPaymentRecord(studentId, payment._id),
+    onError: (error) => {
+      console.error("Error fetching student payment data:", error);
+    },
+    onLoading: () => {
+      <Spinner />;
+    },
+  });
 
   const {
     handleSubmit,
     register,
+    setValue,
     formState: { errors, isSubmitting },
-  } = useForm({
-    defaultValues: {
-      balance: student?.balance,
-      amount: studentPaymentAmount,
-      receipt: studentPaymentReceipt,
-      datePaid: studentPaymentDate,
-      comment: studentPaymentComment,
-      paymentType: studentPaymentType,
-    },
-  });
+  } = useForm();
+
+  //store api data to zustand state
+  useEffect(() => {
+    if (paymentData) {
+      setStudentPayment(paymentData?.data?.payment);
+    }
+  }, [paymentData, setStudentPayment]);
+
+  useEffect(() => {
+    if (studentPayment) {
+      setValue("balance", student?.balance);
+      setValue("amount", studentPayment?.amount);
+      setValue("receipt", student?.totalAmountpaid);
+      setValue("datePaid", formatEditDate(studentPayment?.datePaid));
+    }
+  }, [setValue, student, studentPayment]);
+
   const handleCloseEditPayment = () => setEditPayment(false);
 
   const handleReceiptChange = (e) => {
@@ -75,24 +94,24 @@ export default function EditPaymentRecord({
   };
 
   const onSubmitHandler = async (data) => {
-    console.log(data);
-    // const formData = new FormData();
-    // formData.append("receipt", selectedReceipt);
-    // formData.append("paymentType", data.paymentType);
-    // formData.append("amount", data.amount);
-    // formData.append("datePaid", data.datePaid);
-    // formData.append("comment", data.comment);
-    // try {
-    //   const res = await studentsService.updateAStudentPaymentRecord(
-    //     student._id,
-    //     formData
-    //   );
-    //   if (res.data.success) {
-    //     setEditPaymentSuccess(true);
-    //   }
-    // } catch (error) {
-    //   handleAuthError(error);
-    // }
+    const formData = new FormData();
+    formData.append("receipt", selectedReceipt);
+    formData.append("paymentType", data.paymentType);
+    formData.append("amount", data.amount);
+    formData.append("datePaid", data.datePaid);
+    formData.append("comment", data.comment);
+    try {
+      const res = await studentsService.updateAStudentPaymentRecord(
+        studentId,
+        payment._id,
+        formData
+      );
+      if (res.data.success) {
+        setEditPaymentSuccess(true);
+      }
+    } catch (error) {
+      handleAuthError(error);
+    }
   };
 
   return (
@@ -104,19 +123,28 @@ export default function EditPaymentRecord({
         size="lg"
         className={editPaymentSuccess ? "d-none" : ""}
       >
-        <div className="px-4">
-          <Headings
-            title="Edit Payment Record"
-            className="text-center"
-            color="var(--mainBlue)"
-            size="22.5px"
-          />
-          {activePaymentStudent?.map((item) => (
-            <Form
-              id="editPayment"
-              key={item._id}
-              onSubmit={handleSubmit(onSubmitHandler)}
-            >
+        {isError && (
+          <span className="text-danger">
+            {error.message ? error.message : error}
+          </span>
+        )}
+
+        {!isLoading && !isError && !student && (
+          <span className="text-red-400">
+            You have no student payment data to display
+          </span>
+        )}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div className="px-4">
+            <Headings
+              title="Edit Payment Record"
+              className="text-center"
+              color="var(--mainBlue)"
+              size="22.5px"
+            />
+            <Form id="editPayment" onSubmit={handleSubmit(onSubmitHandler)}>
               <Row className="align-items-center">
                 <Col md={4}>
                   <Headings
@@ -136,7 +164,7 @@ export default function EditPaymentRecord({
                     name="paymentType"
                     size="lg"
                     data={paymentMethods}
-                    defaultValue={item.paymentType}
+                    defaultValue={student.paymentType}
                   />
                 </Col>
                 <Col md={4}>
@@ -207,7 +235,7 @@ export default function EditPaymentRecord({
                     name="amount"
                     type="number"
                     size="lg"
-                    placeholder={item?.amount}
+                    placeholder={studentPayment?.amount}
                   />
                 </Col>
                 <Col md={4}>
@@ -263,32 +291,37 @@ export default function EditPaymentRecord({
                     id="comment"
                     name="comment"
                     as="textarea"
-                    placeholder={item.comment ? item.comment : "Place remarks"}
+                    placeholder={
+                      studentPayment.comment
+                        ? studentPayment.comment
+                        : "Place remarks"
+                    }
                     rows={4}
                   />
                 </Col>
               </Row>
             </Form>
-          ))}
-          <div className="my-4 d-md-flex justify-content-end align-items-center gap-3">
-            <MyButton
-              variant="primary"
-              text={
-                isSubmitting ? <BeatLoader color="#ffffff" /> : "Save Record"
-              }
-              className={`${styles.btnSize} fw-bold mb-3 mb-md-0`}
-              type="submit"
-              disabled={isSubmitting}
-              form="editPayment"
-            />
-            <MyButton
-              variant="outline-danger"
-              text="Cancel"
-              className={`${styles.btnSize} fw-bold`}
-              onClick={handleCloseEditPayment}
-            />
+
+            <div className="my-4 d-md-flex justify-content-end align-items-center gap-3">
+              <MyButton
+                variant="primary"
+                text={
+                  isSubmitting ? <BeatLoader color="#ffffff" /> : "Save Record"
+                }
+                className={`${styles.btnSize} fw-bold mb-3 mb-md-0`}
+                type="submit"
+                disabled={isSubmitting}
+                form="editPayment"
+              />
+              <MyButton
+                variant="outline-danger"
+                text="Cancel"
+                className={`${styles.btnSize} fw-bold`}
+                onClick={handleCloseEditPayment}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </MyModal>
       <EditPaymentRecordSuccess
         editPaymentSuccess={editPaymentSuccess}

@@ -17,7 +17,7 @@ export default function Sidebar() {
 
   return (
     <div className="sidebar d-none d-lg-block py-4 px-2">
-      <div className="innerSidebar py-4">
+      <div className="innerSidebar p-4">
         <div className="text-center">
           <NavLink to="/">
             <Image src={logo} alt="logo" />

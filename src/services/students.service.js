@@ -48,7 +48,7 @@ const loginAdmin = async (formData) => {
   return await axiosInstance.post("/login", formData);
 };
 
-const getAStudentPaymentRecord = async (studentId, paymentId, formData) => {
+const getASingleStudentPaymentRecord = async (studentId, paymentId, formData) => {
   return await axiosInstance.get(
     `/student/${studentId}/payment/${paymentId}`,
     formData,
@@ -88,5 +88,5 @@ export default {
   updateAStudentPaymentRecord,
   sendStudentPaymentReminder,
   logout,
-  getAStudentPaymentRecord,
+  getASingleStudentPaymentRecord,
 };

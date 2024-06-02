@@ -101,6 +101,7 @@ button:focus-visible {
 .sidebar {
   flex: 100px 0 0;
   background-color: var(--mainBlue);
+  min-height: 100vh;
 }
 
 .innerSidebar {

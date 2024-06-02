@@ -38,6 +38,9 @@ const registerOptions = {
   classType: {
     required: "Please select an option",
   },
+  classCohort: {
+    required: "Please select an option",
+  },
   whatsappNumber: {
     required: "You missed this",
     validate: {

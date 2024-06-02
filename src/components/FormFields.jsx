@@ -52,17 +52,17 @@ export function FormSelect({
         <Form.Select
           name={name}
           {...register(name, registerOptions)}
-          defaultValue={defaultValue ? defaultValue : ""}
+          defaultValue={defaultValue}
           isInvalid={!!errors}
           {...props}
         >
           {data?.map((item, i) => (
             <option
-              value={i === 0 ? "" : item.name.toLowerCase()}
+              value={item.name.toLowerCase()}
               key={item.id}
               disabled={i === 0}
             >
-              {item.name}
+              {item.name.toLowerCase()}
             </option>
           ))}
         </Form.Select>

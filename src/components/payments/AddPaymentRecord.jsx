@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./payment.module.css";
 import {
   MyModal,
@@ -11,7 +11,6 @@ import { registerOptions, paymentMethods, formatDatee } from "@utils";
 import { Row, Col, Form, Stack } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { TiAttachment } from "react-icons/ti";
-import { useGetAStudentData } from "@store";
 import { studentsService } from "@services";
 import { handleAuthError } from "@config";
 import { BeatLoader } from "react-spinners";
@@ -20,24 +19,23 @@ import toast from "react-hot-toast";
 export default function AddPaymentRecord({
   showAddPayment,
   setShowAddPayment,
+  student,
 }) {
   const [preview, setPreview] = useState();
   const [selectedReceipt, setSelectedReceipt] = useState(null);
-  const { student } = useGetAStudentData();
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm({
-    defaultValues: {
-      balance: student?.balance,
-      amount: "",
-      receipt: "",
-      datePaid: "",
-      comment: "",
-      paymentType: "",
-    },
-  });
+    setValue,
+  } = useForm();
+
+  useEffect(() => {
+    if (student) {
+      setValue("balance", student?.balance);
+    }
+  }, [setValue, student]);
+
   const handleCloseAddPayment = () => setShowAddPayment(false);
 
   const handleReceiptChange = (e) => {

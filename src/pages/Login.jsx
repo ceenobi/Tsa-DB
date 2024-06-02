@@ -8,7 +8,6 @@ import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { logo } from "@assets";
 import { NavLink, useNavigate } from "react-router-dom";
-import { validationSchema } from "@utils";
 import { yupResolver } from "@hookform/resolvers/yup";
 import toast from "react-hot-toast";
 import * as yup from "yup";
@@ -20,9 +19,7 @@ const schema = yup.object().shape({
     .string()
     .email("Invalid email address")
     .required("Email is required"),
-  password: yup
-    .string()
-    .required("Password is required")
+  password: yup.string().required("Password is required"),
 });
 
 export default function Login() {
@@ -56,16 +53,19 @@ export default function Login() {
         toast.success("Logged in " + responseData.data.admin.name);
         setSuccessMsg("Welcome " + responseData.data.admin.name);
         setIsClicked(true);
-        localStorage.setItem("adminToken", responseData.data.token);
+        localStorage.setItem(
+          "adminToken",
+          JSON.stringify(responseData.data.token)
+        );
         navigate("/dashboard");
       }
       if (!responseData.ok) {
         const errorData = await responseData;
         setServerError(errorData.error);
-      } 
+      }
     } catch (error) {
       console.log(error.message);
-      setServerError(error.response.data.error);
+      setServerError(error.response?.data?.error);
     } finally {
       setIsClicked(false);
     }
@@ -82,10 +82,7 @@ export default function Login() {
 
       <div className={`d-lg-flex align-items-center position-relative`}>
         <div className={`${styles.imgStudent} d-none d-lg-block`}>
-          <Image
-            src={focusedStudent}
-            className="w-100 h-100"
-          />
+          <Image src={focusedStudent} className="w-100 h-100" />
         </div>
         <div className="position-absolute top-0 mt-5 ms-5 ">
           <NavLink to="/">
@@ -103,7 +100,7 @@ export default function Login() {
           >
             Welcome Back
           </h2>
-          <p className="mb-5">Let's continue from were you stopped</p>
+          <p className="mb-5">Let&apos;s continue from were you stopped</p>
           <Form onSubmit={handleSubmit(handleLogin)}>
             {/* email address */}
             <Form.Group
@@ -140,7 +137,7 @@ export default function Login() {
                 role="button"
                 onClick={handleHide}
               >
-                {reveal ? <FaRegEye />   :   <FaRegEyeSlash />}
+                {reveal ? <FaRegEye /> : <FaRegEyeSlash />}
               </p>
               {errors.password && (
                 <p className="text-danger">{errors.password.message}</p>
