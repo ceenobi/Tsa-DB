@@ -99,19 +99,19 @@ export default function Login() {
       <div className={`${styles.bgImgTop}`}></div>
 
       <div className={`d-lg-flex align-items-center position-relative`}>
-        <div className={`${styles.imgStudent} `}>
+        <div className={`${styles.imgStudent} d-none d-lg-block`}>
           <Image
             src={focusedStudent}
-            className="w-100 h-100 object-fit-cove "
+            className="w-100 h-100 object-fit-cove  "
           />
         </div>
-        <div className="position-absolute top-0 mt-5 ms-5 ">
+        <div className="position-absolute top-0 mt-5 ms-5">
           <NavLink to="/">
-            <Image src={logo} className="w-50 ms-4 mt-4" />
+            <Image src={logo} className="w-50 ms-4 mt-4 d-none d-lg-block" />
           </NavLink>
           {/* <Image src={logo} className="w-75 ms-4 mt-3"/> */}
         </div>
-        <div className={`p-5  rounded shadow-lg mx-5  ${styles.formDiv}`}>
+        <div className={`p-5  rounded shadow-lg   ${styles.formDiv}`}>
           <h2
             style={{
               color: "rgba(31, 38, 102, 1)",
