@@ -261,6 +261,7 @@ export default function PaymentProfile({
         showAddPayment={showAddPayment}
         setShowAddPayment={setShowAddPayment}
         student={student}
+        id={item._id}
       />
     </>
   );

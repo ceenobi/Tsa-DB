@@ -5,16 +5,16 @@ import { useNavigate } from "react-router-dom";
 import styles from "./student.module.css";
 import { vector4 } from "@assets";
 
-export default function ConfirmDeposit({
-  setOpenModal,
-  openModal,
-  item,
-}) {
+export default function ConfirmDeposit({ setOpenModal, openModal, item }) {
   const navigate = useNavigate();
   const handleClose = () => setOpenModal(false);
 
+  const redirect = () => {
+    navigate(`/dashboard/students/generate-docket/${item._id}`);
+  };
   const closeModal = () => {
     handleClose();
+    navigate(0);
   };
 
   const pStyle = {
@@ -65,9 +65,7 @@ export default function ConfirmDeposit({
                 variant="primary"
                 text="Generate Docket"
                 className="fw-bold mb-3"
-                onClick={() =>
-                  navigate(`/dashboard/students/generate-docket/${item._id}`)
-                }
+                onClick={redirect}
               />
             </div>
             <p style={pStyle} className="cursor" onClick={closeModal}>

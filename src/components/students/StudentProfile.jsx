@@ -10,6 +10,7 @@ import { divider2 } from "@assets";
 import { handleAuthError } from "@config";
 import { BeatLoader } from "react-spinners";
 import styles from "./student.module.css";
+import { useFilteredData } from "@store";
 
 export default function StudentProfile({
   setShowStudentModal,
@@ -19,6 +20,7 @@ export default function StudentProfile({
   const [openModal, setOpenModal] = useState(false);
   const [discount, setDiscount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const { setFilterData, filterData } = useFilteredData();
   const handleClose = () => setShowStudentModal(false);
 
   const pStyle = {
@@ -41,6 +43,7 @@ export default function StudentProfile({
       );
       if (res.status === 200) {
         setOpenModal(true);
+        setFilterData(filterData.filter((student) => student._id === item))
       }
     } catch (error) {
       handleAuthError(error);
@@ -104,7 +107,7 @@ export default function StudentProfile({
                 <Image
                   src={item.image}
                   alt={item.fullName}
-                  className="w-100 h-100 rounded-4"
+                  className="rounded-4 w-100 h-100"
                   loading="lazy"
                 />
               </div>
@@ -243,87 +246,93 @@ export default function StudentProfile({
                   </p>
                 </div>
               </div>
-              <Stack
-                direction="horizontal"
-                className="justify-content-center my-4 position-relative"
-              >
-                <Image
-                  src={divider2}
-                  className="position-absolute top-50 start-50 translate-middle"
-                />
-                <Headings
-                  title="Payment Details"
-                  color="var(--mainBlue)"
-                  size="1.25rem"
-                  className="position-absolute top-50 start-50 translate-middle"
-                />
-              </Stack>
-              {item.payments.map((info) => (
-                <div key={info._id}>
-                  <div className="d-flex flex-wrap justify-content-around align-items-center gap-2 w-100 my-3 text-center">
-                    <div>
-                      <p style={pStyle} className="small mb-1">
-                        Deposit Paid Upon Enrollment
-                      </p>
-                      <h1
-                        style={{
-                          color:
-                            item.courseFee === info.amount
-                              ? "var(--mainGreen)"
-                              : "var(--mainRed)",
-                          fontSize: "1.75rem",
-                        }}
-                      >
-                        {formatCurrency(info.amount)}
-                      </h1>
-                    </div>
-                    <div>
-                      <p style={pStyle} className="small mb-1">
-                        Payment Receipt
-                      </p>
-                      <Image
-                        src={info.receipt}
-                        style={{ height: "40px", width: "40px" }}
-                        alt="receipt"
-                      />
-                    </div>
-                  </div>
-                  <Form.Group>
-                    <Form.Label
-                      style={{
-                        color: "var(--deepBlack)",
-                        fontWeight: "600",
-                        fontSize: "1.2rem",
-                      }}
-                    >
-                      Discount
-                    </Form.Label>
-                    <Form.Select
-                      className="mb-4 text-secondary"
-                      onChange={(e) => setDiscount(e.target.value)}
-                    >
-                      <option value={0}>Select Discount</option>
-                      <option value={5}>5% Discount</option>
-                      <option value={10}>10% Discount</option>
-                      <option value={15}>15% Discount</option>
-                    </Form.Select>
-                  </Form.Group>
-                  <div className="text-center my-2">
-                    <MyButton
-                      variant="primary"
-                      text={
-                        isLoading ? (
-                          <BeatLoader color="#ffffff" />
-                        ) : (
-                          "Confirm Deposit Payment"
-                        )
-                      }
-                      className="fw-bold"
-                      onClick={() => confirmPayment(item._id, info._id)}
+              {item.discount === 0 && (
+                <>
+                  <Stack
+                    direction="horizontal"
+                    className="justify-content-center my-4 position-relative"
+                  >
+                    <Image
+                      src={divider2}
+                      className="position-absolute top-50 start-50 translate-middle"
                     />
-                  </div>
-                </div>
-              ))}
+                    <Headings
+                      title="Payment Details"
+                      color="var(--mainBlue)"
+                      size="1.25rem"
+                      className="position-absolute top-50 start-50 translate-middle"
+                    />
+                  </Stack>
+                  <>
+                    {item.payments.map((info) => (
+                      <div key={info._id}>
+                        <div className="d-flex flex-wrap justify-content-around align-items-center gap-2 w-100 my-3 text-center">
+                          <div>
+                            <p style={pStyle} className="small mb-1">
+                              Deposit Paid Upon Enrollment
+                            </p>
+                            <h1
+                              style={{
+                                color:
+                                  item.courseFee === info.amount
+                                    ? "var(--mainGreen)"
+                                    : "var(--mainRed)",
+                                fontSize: "1.75rem",
+                              }}
+                            >
+                              {formatCurrency(info.amount)}
+                            </h1>
+                          </div>
+                          <div>
+                            <p style={pStyle} className="small mb-1">
+                              Payment Receipt
+                            </p>
+                            <Image
+                              src={info.receipt}
+                              style={{ height: "40px", width: "40px" }}
+                              alt="receipt"
+                            />
+                          </div>
+                        </div>
+                        <Form.Group>
+                          <Form.Label
+                            style={{
+                              color: "var(--deepBlack)",
+                              fontWeight: "600",
+                              fontSize: "1.2rem",
+                            }}
+                          >
+                            Discount
+                          </Form.Label>
+                          <Form.Select
+                            className="mb-4 text-secondary"
+                            onChange={(e) => setDiscount(e.target.value)}
+                          >
+                            <option value={0}>Select Discount</option>
+                            <option value={5}>5% Discount</option>
+                            <option value={10}>10% Discount</option>
+                            <option value={15}>15% Discount</option>
+                          </Form.Select>
+                        </Form.Group>
+                        <div className="text-center my-2">
+                          <MyButton
+                            variant="primary"
+                            text={
+                              isLoading ? (
+                                <BeatLoader color="#ffffff" />
+                              ) : (
+                                "Confirm Deposit Payment"
+                              )
+                            }
+                            className="fw-bold"
+                            onClick={() => confirmPayment(item._id, info._id)}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                </>
+              )}
             </div>
           </div>
         </MyModal>

@@ -20,6 +20,7 @@ export default function AddPaymentRecord({
   showAddPayment,
   setShowAddPayment,
   student,
+  id
 }) {
   const [preview, setPreview] = useState();
   const [selectedReceipt, setSelectedReceipt] = useState(null);
@@ -29,7 +30,7 @@ export default function AddPaymentRecord({
     formState: { errors, isSubmitting },
     setValue,
   } = useForm();
-
+console.log(student);
   useEffect(() => {
     if (student) {
       setValue("balance", student?.balance);
@@ -58,7 +59,7 @@ export default function AddPaymentRecord({
     formData.append("comment", data.comment);
     try {
       const res = await studentsService.addStudentPaymentRecord(
-        student._id,
+        id,
         formData
       );
       if (res.data.success) {
@@ -173,7 +174,7 @@ export default function AddPaymentRecord({
                 name="amount"
                 type="number"
                 size="lg"
-                placeholder="Enter your initial deposit"
+                placeholder="Enter amount"
               />
             </Col>
             <Col md={4}>
