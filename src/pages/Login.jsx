@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 import * as yup from "yup";
 import Spinner from "react-bootstrap/Spinner";
 
-const schema = yup.object().shape({
+const schema = yup.object().shape({ 
   email: yup
     .string()
     .email("Invalid email address")
